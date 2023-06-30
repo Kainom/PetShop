@@ -8,7 +8,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
@@ -25,6 +24,7 @@ public class Produtos extends Usuario {
     private JScrollPane jsPane;
     private List<JCheckBox> produtos;
     private List<JLabel> lblProdutos;
+    private List<Float> carrinho;
 
     public Produtos() {
         configurarJanela();
@@ -115,7 +115,14 @@ public class Produtos extends Usuario {
 
     @Override
     public void actionPerformed(ActionEvent check) {
-        for (int i = 0; i < 12; i++) {
+        carrinho = new ArrayList<>();
+        if (this.produtos.get(0).isSelected()) {
+            this.carrinho.add(20.32f);
+            System.out.println(this.carrinho.get(0));
+
+        } else if(!this.produtos.get(0).isSelected()){
+                        System.out.println(this.carrinho.get(0));
+
         }
     }
 
