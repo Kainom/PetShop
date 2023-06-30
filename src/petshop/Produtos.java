@@ -43,7 +43,7 @@ public class Produtos extends Usuario {
         jsPane = new JScrollPane(this.jpShop);
         this.jsPane.setOpaque(false);
         this.jsPane.getViewport().setOpaque(false);
-       
+
         this.painel.setLayout(new FlowLayout());
         this.painel.add(this.jsPane);
         configurarDados();
@@ -54,8 +54,6 @@ public class Produtos extends Usuario {
             this.jpShop.add(this.produtos.get(i));
             this.produtos.get(i).addActionListener(this);
         }
-        
-        
 
     }
 
@@ -80,7 +78,7 @@ public class Produtos extends Usuario {
             JLabel lblP = new JLabel();
             JCheckBox check = new JCheckBox();
             check.setPreferredSize(new Dimension(147, 20));
-            check.setForeground(new Color(75,0,30));
+            check.setForeground(new Color(75, 0, 30));
             check.setOpaque(false);
             this.produtos.add(check);
             this.lblProdutos.add(lblP);
@@ -114,10 +112,11 @@ public class Produtos extends Usuario {
         this.lblProdutos.get(11).setIcon(extrusada);
 
     }
-    
+
     @Override
-    public void actionPerformed(ActionEvent check){
-        
+    public void actionPerformed(ActionEvent check) {
+        for (int i = 0; i < 12; i++) {
+        }
     }
 
 }
