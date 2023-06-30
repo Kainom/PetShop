@@ -116,12 +116,15 @@ public class Produtos extends Usuario {
     @Override
     public void actionPerformed(ActionEvent check) {
         carrinho = new ArrayList<>();
-        if (this.produtos.get(0).isSelected()) {
+        if (this.produtos.get(0).isSelected() && check.getSource() == this.produtos.get(0)) {
             this.carrinho.add(20.32f);
             System.out.println(this.carrinho.get(0));
 
-        } else if(!this.produtos.get(0).isSelected()){
-                        System.out.println(this.carrinho.get(0));
+        } else if(!(this.produtos.get(0).isSelected()) && check.getSource() == this.produtos.get(0)) {
+            this.carrinho.remove(20.32f);
+            if (this.carrinho.isEmpty()) {
+                System.out.println("REMOVEU");
+            }
 
         }
     }
