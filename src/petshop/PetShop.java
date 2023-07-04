@@ -16,7 +16,6 @@ public class PetShop {
     public static void main(String[] args) {
         //new Usuario().setVisible(true);
         new Produtos().setVisible(true);
-        //new Vendas();
     }
     
 }

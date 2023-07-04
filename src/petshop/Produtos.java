@@ -4,10 +4,12 @@
  */
 package petshop;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
@@ -23,29 +25,58 @@ public class Produtos extends Usuario {
 
     private JScrollPane jsPane;
     private List<JCheckBox> produtos;
-    private List<JLabel> lblProdutos;
-    private List<Float> carrinho;
+    protected  List<JLabel> lblProdutos;
+    private List<Float> carrinho = new ArrayList<>();
+    protected List<Float> valores = new ArrayList<>();
+    protected float ampicilina, coleira, dontral, granplus, prediderm, //
+            racaoExtrusada, cheval, max, nutrilus, queranon, sacaMilho, whiskas;
+
+    {
+        valores.add(nutrilus = 100.55f);
+        valores.add(whiskas = 30.54f);
+        valores.add(cheval = 50.3f);
+        valores.add(sacaMilho = 120.88f);
+        valores.add(max = 10.32f);
+        valores.add(queranon = 95.4f);
+        valores.add(ampicilina = 32.54f);
+        valores.add(coleira = 20.32f);
+        valores.add(dontral = 60.12f);
+        valores.add(prediderm = 15.3f);
+        valores.add(granplus = 40.3f);
+        valores.add(racaoExtrusada = 56.65f);
+
+    }
 
     public Produtos() {
-        configurarJanela();
+        super.configurarJanela();
         this.setTitle("PRODUTOS");
         configurarPanel();
     }
 
     @Override
-    public void configurarPanel() {
+    protected void configurarPanel() {
         jpShop = new javax.swing.JPanel();
+        jpConfirma = new javax.swing.JPanel();
+
         this.jpShop.setPreferredSize(new Dimension(800, 800));
         this.jpShop.setBackground(Color.darkGray);
         this.jpShop.setLayout(new FlowLayout(FlowLayout.LEFT, 30, 50));
         this.jpShop.setOpaque(false);
 
+        this.jpConfirma.setPreferredSize(new Dimension(50, 120));
+        this.jpConfirma.setBackground(Color.darkGray);
+        this.jpConfirma.setLayout(new BorderLayout());
+        this.jpConfirma.setOpaque(false);
+
         jsPane = new JScrollPane(this.jpShop);
         this.jsPane.setOpaque(false);
         this.jsPane.getViewport().setOpaque(false);
 
-        this.painel.setLayout(new FlowLayout());
+        this.painel.setLayout(new FlowLayout(FlowLayout.RIGHT, 15, 0));
         this.painel.add(this.jsPane);
+        this.painel.add(this.jpConfirma);
+
+        super.configurarDados(); // chama da classe pai com alguns elementos ja prontos para reutilização 
         configurarDados();
 
         for (int i = 0; i < 12; i++) {
@@ -54,6 +85,16 @@ public class Produtos extends Usuario {
             this.jpShop.add(this.produtos.get(i));
             this.produtos.get(i).addActionListener(this);
         }
+        this.jpConfirma.add(this.bntConfirm, BorderLayout.SOUTH); // bnt confirm reutilizado da classe Pai
+        this.bntConfirm.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent confirma) {
+                if (!(Produtos.this.carrinho.isEmpty())) {
+                    Produtos.this.dispose();
+                    new Vendas(Produtos.this.carrinho).setVisible(true);
+                }
+            }
+        });
 
     }
 
@@ -115,18 +156,26 @@ public class Produtos extends Usuario {
 
     @Override
     public void actionPerformed(ActionEvent check) {
-        carrinho = new ArrayList<>();
-        if (this.produtos.get(0).isSelected() && check.getSource() == this.produtos.get(0)) {
-            this.carrinho.add(20.32f);
-            System.out.println(this.carrinho.get(0));
+        for (int i = 0; i < 12; i++) {
+            if (this.produtos.get(i).isSelected() && check.getSource() == this.produtos.get(i)) {
 
-        } else if(!(this.produtos.get(0).isSelected()) && check.getSource() == this.produtos.get(0)) {
-            this.carrinho.remove(20.32f);
-            if (this.carrinho.isEmpty()) {
-                System.out.println("REMOVEU");
+                this.carrinho.add(this.valores.get(i));
+                break;
+
+            } else if (!(this.produtos.get(i).isSelected()) && check.getSource() == this.produtos.get(i)) {
+                this.carrinho.remove(this.valores.get(i));
+                if (this.carrinho.isEmpty()) {
+                    System.out.println("vazio");
+                    break;
+                }
             }
-
         }
+
+        for (Float f : carrinho) {
+            System.out.print(" " + f);
+        }
+        System.out.println("");
+
     }
 
 }

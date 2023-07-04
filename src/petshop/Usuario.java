@@ -33,14 +33,14 @@ public class Usuario extends JFrame implements ActionListener {
     ImageIcon iconPet;
     protected ImageIcon iconDog;
     private JLabel lblNome, lblCnpj, lblCpf, lblEscolha;
-    protected  JPanel jpShop, jpVolta;
+    protected  JPanel jpShop, jpConfirma;
     protected Fundo painel;
     private JTextField txtNome;
     private JFormattedTextField txtfCnpj, txtfCpf;
     private MaskFormatter cnpj, cpf;
     private JRadioButton bntCnpj, bntCpf;
     private ButtonGroup grupo;
-    private JButton bntConfirm;
+    protected JButton bntConfirm;
 
     public Usuario() {
         configurarJanela();
@@ -63,17 +63,17 @@ public class Usuario extends JFrame implements ActionListener {
 
     protected  void configurarPanel() {
         jpShop = new JPanel();
-        jpVolta = new JPanel();
+        jpConfirma = new JPanel();
 
         this.jpShop.setLayout(new FlowLayout(FlowLayout.LEFT, 50, 10));
         this.jpShop.setPreferredSize(new Dimension(490, 400));
         this.jpShop.setBackground(Color.darkGray);
         this.jpShop.setOpaque(false);
 
-        this.jpVolta.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 93));
-        this.jpVolta.setPreferredSize(new Dimension(440, 300));
-        this.jpVolta.setBackground(Color.red);
-        this.jpVolta.setOpaque(false);
+        this.jpConfirma.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 93));
+        this.jpConfirma.setPreferredSize(new Dimension(440, 300));
+        this.jpConfirma.setBackground(Color.red);
+        this.jpConfirma.setOpaque(false);
 
         this.painel.add(this.jpShop);
 
@@ -88,16 +88,16 @@ public class Usuario extends JFrame implements ActionListener {
         this.jpShop.add(this.txtfCnpj);
         this.jpShop.add(this.lblCpf);
         this.jpShop.add(this.txtfCpf);
-        this.jpShop.add(this.jpVolta);
+        this.jpShop.add(this.jpConfirma);
         
-        this.jpVolta.add(this.bntConfirm);
+        this.jpConfirma.add(this.bntConfirm);
 
         this.txtfCnpj.setVisible(false);
         this.txtfCpf.setVisible(false);
         this.lblCnpj.setVisible(false);
         this.lblCpf.setVisible(false);
         this.bntConfirm.setVisible(false);
-        this.jpVolta.setVisible(false);
+        this.jpConfirma.setVisible(false);
 
         this.bntCnpj.addActionListener(this);
         this.bntCpf.addActionListener(this);
@@ -186,7 +186,7 @@ public class Usuario extends JFrame implements ActionListener {
             
             this.lblCpf.setVisible(false);
             this.txtfCpf.setVisible(false);
-            this.jpVolta.setVisible(true);
+            this.jpConfirma.setVisible(true);
         } else if (this.bntCpf.isSelected()) {
             this.lblCpf.setVisible(true);
             this.txtfCpf.setVisible(true);
@@ -194,7 +194,7 @@ public class Usuario extends JFrame implements ActionListener {
 
             this.lblCnpj.setVisible(false);
             this.txtfCnpj.setVisible(false);
-            this.jpVolta.setVisible(true);
+            this.jpConfirma.setVisible(true);
         }
     }
 
