@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JLabel;
 
 /**
  *
@@ -16,13 +17,19 @@ import java.util.List;
 public class Vendas extends Produtos {
 
     private List<Float> compras;
+    private List<JLabel> compras1 = new ArrayList<>();
+
     private List<Float> precos;
 
-    public Vendas(List<Float> carrinho) {
+    public Vendas(List<Float> carrinho, List<Float> prec) {
         this.compras = carrinho;
-        this.precos = valores;
+        this.precos = prec;
+        for (Float des : precos) {
+            System.out.println(des);
+        }
         super.configurarJanela();
         this.setTitle("VENDAS");
+        configurarDads(carrinho, prec);
         configurarPanel();
 
     }
@@ -38,6 +45,21 @@ public class Vendas extends Produtos {
         this.painel.add(this.jpShop);
     }
 
-    
+    protected void configurarDads(List<Float> carrinho, List<Float> prec) {
+        super.configurarDados();
+        for (Float compara : carrinho) {
+            for (int k = 0; k < 12; k++) {
+                if (compara.equals(prec.get(k))) {
+                    if (this.lblProdutos.isEmpty()) {
+                        System.out.println("fde");
+                    }
+                    this.compras1.add(this.lblProdutos.get(k));
+                }
+            }
+        }
+        if (this.compras1.isEmpty()) {
+            System.out.println("false");
+        }
+    }
 
 }

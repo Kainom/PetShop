@@ -91,7 +91,7 @@ public class Produtos extends Usuario {
             public void actionPerformed(ActionEvent confirma) {
                 if (!(Produtos.this.carrinho.isEmpty())) {
                     Produtos.this.dispose();
-                    new Vendas(Produtos.this.carrinho).setVisible(true);
+                    new Vendas(Produtos.this.carrinho,Produtos.this.valores).setVisible(true);
                 }
             }
         });
