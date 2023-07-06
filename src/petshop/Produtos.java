@@ -23,7 +23,7 @@ import javax.swing.JScrollPane;
  */
 public class Produtos extends Usuario {
 
-    private JScrollPane jsPane;
+    protected JScrollPane jsPane;
     private List<JCheckBox> produtos;
     protected  List<JLabel> lblProdutos;
     private List<Float> carrinho = new ArrayList<>();
