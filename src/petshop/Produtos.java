@@ -15,7 +15,9 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 /**
  *
@@ -25,7 +27,7 @@ public class Produtos extends Usuario {
 
     protected JScrollPane jsPane;
     private List<JCheckBox> produtos;
-    protected  List<JLabel> lblProdutos;
+    protected List<JLabel> lblProdutos;
     private List<Float> carrinho = new ArrayList<>();
     protected List<Float> valores = new ArrayList<>();
     protected float ampicilina, coleira, dontral, granplus, prediderm, //
@@ -58,9 +60,8 @@ public class Produtos extends Usuario {
         jpShop = new javax.swing.JPanel();
         jpConfirma = new javax.swing.JPanel();
 
-        this.jpShop.setPreferredSize(new Dimension(800, 800));
         this.jpShop.setBackground(Color.darkGray);
-        this.jpShop.setLayout(new FlowLayout(FlowLayout.LEFT, 30, 50));
+        this.jpShop.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
         this.jpShop.setOpaque(false);
 
         this.jpConfirma.setPreferredSize(new Dimension(50, 120));
@@ -68,10 +69,15 @@ public class Produtos extends Usuario {
         this.jpConfirma.setLayout(new BorderLayout());
         this.jpConfirma.setOpaque(false);
 
-        jsPane = new JScrollPane(this.jpShop);
+        jsPane = new JScrollPane();
+        jsPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jsPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        this.jsPane.setPreferredSize(new Dimension(800, 100));
+
         this.jsPane.setOpaque(false);
         this.jsPane.getViewport().setOpaque(false);
-
+        this.jsPane.setViewportView(this.jpShop);
+        
         this.painel.setLayout(new FlowLayout(FlowLayout.RIGHT, 15, 0));
         this.painel.add(this.jsPane);
         this.painel.add(this.jpConfirma);
@@ -91,7 +97,7 @@ public class Produtos extends Usuario {
             public void actionPerformed(ActionEvent confirma) {
                 if (!(Produtos.this.carrinho.isEmpty())) {
                     Produtos.this.dispose();
-                    new Vendas(Produtos.this.carrinho,Produtos.this.valores).setVisible(true);
+                    new Vendas(Produtos.this.carrinho, Produtos.this.valores).setVisible(true);
                 }
             }
         });
