@@ -49,9 +49,7 @@ public class Vendas extends Produtos {
         this.jpShop.removeAll();
         
         this.jsPane = new JScrollPane(this.jpShop);
-        this.jsPane.setOpaque(false);
-        this.jsPane.getViewport().setOpaque(false);
-        this.jsPane.setPreferredSize(new Dimension(800, 200));
+        this.jsPane.setPreferredSize(new Dimension(800, 100));
         this.painel.add(jsPane);
         
         for (JLabel adiciona : this.compras1) {
