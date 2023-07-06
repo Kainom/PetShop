@@ -4,7 +4,6 @@
  */
 package petshop;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
@@ -44,7 +43,7 @@ public class Vendas extends Produtos {
         int k = 0;
         super.configurarPanel();
         this.painel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        this.jpShop.setLayout(new BorderLayout());
+        this.jpShop.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         //this.jpShop.setOpaque(true);
         this.painel.removeAll();
         this.jpShop.removeAll();
