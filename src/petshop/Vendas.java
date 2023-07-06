@@ -43,15 +43,17 @@ public class Vendas extends Produtos {
         int k = 0;
         super.configurarPanel();
         this.painel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        this.jpShop.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        this.jpShop.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
         //this.jpShop.setOpaque(true);
         this.painel.removeAll();
         this.jpShop.removeAll();
-        
+
         this.jsPane = new JScrollPane(this.jpShop);
-        this.jsPane.setPreferredSize(new Dimension(800, 100));
+        this.jsPane.setPreferredSize(new Dimension(800, 150));
+        this.jsPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        this.jsPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         this.painel.add(jsPane);
-        
+
         for (JLabel adiciona : this.compras1) {
             this.jpShop.add(adiciona);
             this.jpShop.add(this.spinner.get(k));
