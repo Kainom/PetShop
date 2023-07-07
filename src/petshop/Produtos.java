@@ -177,11 +177,7 @@ public class Produtos extends Usuario {
             }
         }
 
-        for (Float f : carrinho) {
-            System.out.print(" " + f);
-        }
-        System.out.println("");
-
+        
     }
 
 }

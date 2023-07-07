@@ -7,13 +7,9 @@ package petshop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
@@ -26,20 +22,17 @@ import javax.swing.event.ChangeListener;
 public class Vendas extends Produtos {
 
     private List<Float> valores = new ArrayList<>();
-    private Float teste = 0f;
+    private Float total = 0f;
     private List<Float> compras;
     private List<JLabel> lblCompras = new ArrayList<>();
     private List<JSpinner> spinner = new ArrayList<>();
     private List<Float> precos;
     private JPanel jpValor;
-         int l = 0;
 
     public Vendas(List<Float> carrinho, List<Float> prec) {
         this.compras = carrinho;
         this.precos = prec;
-        for (Float des : precos) {
-            System.out.println(des);
-        }
+
         super.configurarJanela();
         this.setTitle("VENDAS");
         configurarDads(carrinho, prec);
@@ -64,29 +57,23 @@ public class Vendas extends Produtos {
             this.jpShop.add(this.spinner.get(k));
             k++;
         }
-        
+
         for (JSpinner spin : this.spinner) {
             spin.addChangeListener(new ChangeListener() {
                 @Override
                 public void stateChanged(ChangeEvent carrinho) {
-                    //Set<Float> set = new HashSet();
                     Float cont = new Float(0);
-                    cont = 20 * Float.parseFloat(spin.getValue().toString());
-                    //set.add(teste);
-                    valores.add(cont);
-                    System.out.println(valores);
-                    Float resultado = new Float(0);
-                    for (Float soma : valores) {
-                        teste += soma;
+                    int i = 0;
+                    for (JSpinner soma : spinner) {
+                        cont = compras.get(i) * Float.parseFloat(soma.getValue().toString());
+                        total += cont;
+                        i++;
                     }
-                      valores.removeAll(valores);
-
-                    System.out.println(teste);
-                    l++;
+                    System.out.println(total);
+                    total = 0f;
                 }
 
             });
-            ;
         }
 
     }
@@ -96,9 +83,7 @@ public class Vendas extends Produtos {
         for (Float compara : carrinho) {
             for (int k = 0; k < 12; k++) {
                 if (compara.equals(prec.get(k))) {
-                    if (this.lblProdutos.isEmpty()) {
-                        System.out.println("fde");
-                    }
+
                     this.lblCompras.add(this.lblProdutos.get(k));
 
                 }
@@ -112,9 +97,6 @@ public class Vendas extends Produtos {
 
         }
 
-        if (this.lblCompras.isEmpty()) {
-            System.out.println("false");
-        }
     }
 
 }
