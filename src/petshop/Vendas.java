@@ -7,7 +7,9 @@ package petshop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -23,13 +25,14 @@ import javax.swing.event.ChangeListener;
  */
 public class Vendas extends Produtos {
 
-    private float valores;
-    private Float teste;
+    private List<Float> valores = new ArrayList<>();
+    private Float teste = 0f;
     private List<Float> compras;
     private List<JLabel> lblCompras = new ArrayList<>();
     private List<JSpinner> spinner = new ArrayList<>();
     private List<Float> precos;
     private JPanel jpValor;
+         int l = 0;
 
     public Vendas(List<Float> carrinho, List<Float> prec) {
         this.compras = carrinho;
@@ -61,29 +64,29 @@ public class Vendas extends Produtos {
             this.jpShop.add(this.spinner.get(k));
             k++;
         }
-        System.out.println("");
-        System.out.println("");
+        
         for (JSpinner spin : this.spinner) {
-            this.teste = Float.parseFloat(spin.getValue().toString());
-            System.out.println(teste);
             spin.addChangeListener(new ChangeListener() {
                 @Override
                 public void stateChanged(ChangeEvent carrinho) {
-                    if (Float.parseFloat(spin.getValue().toString()) < teste) {
-                        valores -= 20f;
-
-                    } else if (Float.parseFloat(spin.getValue().toString()) >= teste) {
-                        valores += 20f;
-                        System.out.println("entrei");
-                    }
-                    teste = Float.parseFloat(spin.getValue().toString());
-                    System.out.print(teste + " ");
-
+                    //Set<Float> set = new HashSet();
+                    Float cont = new Float(0);
+                    cont = 20 * Float.parseFloat(spin.getValue().toString());
+                    //set.add(teste);
+                    valores.add(cont);
                     System.out.println(valores);
+                    Float resultado = new Float(0);
+                    for (Float soma : valores) {
+                        teste += soma;
+                    }
+                      valores.removeAll(valores);
+
+                    System.out.println(teste);
+                    l++;
                 }
 
             });
-
+            ;
         }
 
     }
