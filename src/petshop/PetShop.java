@@ -14,7 +14,7 @@ public class PetShop {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //new Usuario().setVisible(true);
+        new Usuario().setVisible(true);
         new Produtos().setVisible(true);
     }
     

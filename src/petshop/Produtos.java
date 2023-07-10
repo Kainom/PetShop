@@ -64,7 +64,7 @@ public class Produtos extends Usuario {
         this.jpShop.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
         this.jpShop.setOpaque(false);
 
-        this.jpConfirma.setPreferredSize(new Dimension(50, 120));
+        this.jpConfirma.setPreferredSize(new Dimension(50, 97));
         this.jpConfirma.setBackground(Color.darkGray);
         this.jpConfirma.setLayout(new BorderLayout());
         this.jpConfirma.setOpaque(false);

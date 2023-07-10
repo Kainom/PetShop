@@ -4,16 +4,20 @@
  */
 package petshop;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.JPanel;
 
 /**
  *
@@ -21,13 +25,14 @@ import javax.swing.event.ChangeListener;
  */
 public class Vendas extends Produtos {
 
-    private List<Float> valores = new ArrayList<>();
+    private ImageIcon iconCarrinho;
+    private JLabel lblCarrinho, lblValor, lblRegistro;
     private Float total = 0f;
     private List<Float> compras;
     private List<JLabel> lblCompras = new ArrayList<>();
     private List<JSpinner> spinner = new ArrayList<>();
     private List<Float> precos;
-    private JPanel jpValor;
+    private JPanel jpCarrinho, jpDados;
 
     public Vendas(List<Float> carrinho, List<Float> prec) {
         this.compras = carrinho;
@@ -42,15 +47,32 @@ public class Vendas extends Produtos {
 
     protected void configurarPane() {
         int k = 0;
-        jpValor = new JPanel();
+        jpCarrinho = new JPanel();
+        jpDados = new JPanel();
 
         super.configurarPanel();
         this.painel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         this.painel.removeAll();
-        this.jpShop.removeAll();
 
+        this.jpShop.removeAll();
         this.jsPane.setPreferredSize(new Dimension(800, 100));
+
+        this.jpCarrinho.setPreferredSize(new Dimension(800, 100));
+        this.jpCarrinho.setBackground(Color.white);
+        this.jpCarrinho.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        this.jpCarrinho.setOpaque(false);
+        this.jpCarrinho.add(this.lblCarrinho);
+        this.jpCarrinho.add(this.lblValor);
+
+        this.jpDados.setPreferredSize(new Dimension(800, 262));
+        this.jpDados.setBackground(Color.darkGray);
+        this.jpDados.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        this.jpDados.add(this.lblRegistro);
+        //this.jpDados.setOpaque(false);
+
         this.painel.add(jsPane);
+        this.painel.add(this.jpCarrinho);
+        this.painel.add(this.jpDados);
 
         for (JLabel adiciona : this.lblCompras) {
             this.jpShop.add(adiciona);
@@ -70,6 +92,7 @@ public class Vendas extends Produtos {
                         i++;
                     }
                     System.out.println(total);
+                    lblValor.setText(total.toString());
                     total = 0f;
                 }
 
@@ -80,6 +103,28 @@ public class Vendas extends Produtos {
 
     protected void configurarDads(List<Float> carrinho, List<Float> prec) {
         super.configurarDados();
+        iconCarrinho = new ImageIcon(getClass().getResource("/imagens/carrinho.png"));
+        lblCarrinho = new JLabel(iconCarrinho);
+        lblValor = new JLabel();
+        lblRegistro = new JLabel();
+
+        this.lblValor.setForeground(new Color(234, 61, 39));
+        this.lblValor.setFont(new Font("Arial Black", Font.BOLD, 16));
+
+        this.lblRegistro.setForeground(new Color(234, 61, 39));
+        this.lblRegistro.setFont(new Font("Arial Black", Font.BOLD, 16));
+
+        if (!(this.txtfCnpj.getText().isEmpty() || this.txtfCpf.getText().isEmpty())) {
+            if (this.txtfCnpj.getText().isEmpty()) {
+                this.lblRegistro.setText(this.txtfCpf.getText());
+            } else {
+                this.lblRegistro.setText(this.txtfCnpj.getText());
+            }
+        } else {
+            this.lblRegistro.setVisible(false);
+        }
+        
+
         for (Float compara : carrinho) {
             for (int k = 0; k < 12; k++) {
                 if (compara.equals(prec.get(k))) {
@@ -92,7 +137,7 @@ public class Vendas extends Produtos {
         for (JLabel adiciona : this.lblCompras) {
             SpinnerModel value = new SpinnerNumberModel(1, 1, 200, 1);
             JSpinner spinn = new JSpinner(value);
-            spinn.setPreferredSize(new Dimension(30, 20));
+            spinn.setPreferredSize(new Dimension(50, 20));
             this.spinner.add(spinn);
 
         }

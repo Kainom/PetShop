@@ -36,7 +36,7 @@ public class Usuario extends JFrame implements ActionListener {
     protected  JPanel jpShop, jpConfirma;
     protected Fundo painel;
     private JTextField txtNome;
-    private JFormattedTextField txtfCnpj, txtfCpf;
+    protected JFormattedTextField txtfCnpj, txtfCpf;
     private MaskFormatter cnpj, cpf;
     private JRadioButton bntCnpj, bntCpf;
     private ButtonGroup grupo;
@@ -183,6 +183,7 @@ public class Usuario extends JFrame implements ActionListener {
             this.lblCnpj.setVisible(true);
             this.txtfCnpj.setVisible(true);
             this.bntConfirm.setVisible(true);
+            this.txtfCpf.setText(""); // se o cnpj foi selecionado apagamos  cpf
             
             this.lblCpf.setVisible(false);
             this.txtfCpf.setVisible(false);
@@ -191,6 +192,7 @@ public class Usuario extends JFrame implements ActionListener {
             this.lblCpf.setVisible(true);
             this.txtfCpf.setVisible(true);
             this.bntConfirm.setVisible(true);
+            this.txtfCnpj.setText(""); // apagamos o cnpj
 
             this.lblCnpj.setVisible(false);
             this.txtfCnpj.setVisible(false);
