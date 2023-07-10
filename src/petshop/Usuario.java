@@ -31,23 +31,26 @@ import javax.swing.text.MaskFormatter;
 public class Usuario extends JFrame implements ActionListener {
 
     ImageIcon iconPet;
+    private String registro;
     protected ImageIcon iconDog;
     private JLabel lblNome, lblCnpj, lblCpf, lblEscolha;
-    protected  JPanel jpShop, jpConfirma;
+    protected JPanel jpShop, jpConfirma;
     protected Fundo painel;
     private JTextField txtNome;
     protected JFormattedTextField txtfCnpj, txtfCpf;
     private MaskFormatter cnpj, cpf;
-    private JRadioButton bntCnpj, bntCpf;
+    private JRadioButton bntCnpj, bntCpf, bntNenhum;
     private ButtonGroup grupo;
     protected JButton bntConfirm;
 
     public Usuario() {
         configurarJanela();
         configurarPanel();
+
     }
 
     protected void configurarJanela() {
+
         iconPet = new ImageIcon(getClass().getResource("/imagens/dog.jpg"));
         painel = new Fundo();
         this.painel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 200));
@@ -61,16 +64,15 @@ public class Usuario extends JFrame implements ActionListener {
 
     }
 
-    protected  void configurarPanel() {
+    protected void configurarPanel() {
         jpShop = new JPanel();
         jpConfirma = new JPanel();
 
-        this.jpShop.setLayout(new FlowLayout(FlowLayout.LEFT, 50, 10));
+        this.jpShop.setLayout(new FlowLayout(FlowLayout.LEFT, 50, 25));
         this.jpShop.setPreferredSize(new Dimension(490, 400));
         this.jpShop.setBackground(Color.darkGray);
         this.jpShop.setOpaque(false);
 
-        this.jpConfirma.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 93));
         this.jpConfirma.setPreferredSize(new Dimension(440, 300));
         this.jpConfirma.setBackground(Color.red);
         this.jpConfirma.setOpaque(false);
@@ -83,13 +85,14 @@ public class Usuario extends JFrame implements ActionListener {
         this.jpShop.add(this.lblEscolha);
         this.jpShop.add(this.bntCnpj);
         this.jpShop.add(this.bntCpf);
+        this.jpShop.add(this.bntNenhum);
 
         this.jpShop.add(this.lblCnpj);
         this.jpShop.add(this.txtfCnpj);
         this.jpShop.add(this.lblCpf);
         this.jpShop.add(this.txtfCpf);
         this.jpShop.add(this.jpConfirma);
-        
+
         this.jpConfirma.add(this.bntConfirm);
 
         this.txtfCnpj.setVisible(false);
@@ -101,17 +104,33 @@ public class Usuario extends JFrame implements ActionListener {
 
         this.bntCnpj.addActionListener(this);
         this.bntCpf.addActionListener(this);
-        
-        this.bntConfirm.addActionListener(new ActionListener(){
+        this.bntNenhum.addActionListener(this);
+
+        this.bntConfirm.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Usuario.this.dispose();
+
+                if (bntCnpj.isSelected() && txtfCnpj.getText().equals("  .   .   /    -  ")) {
+                    System.out.println("ERRO");
+                } else if (bntCpf.isSelected() && txtfCpf.getText().equals("   .   .   -  ")) {
+                    System.out.println("ERRO2");
+                } else {
+                    if (txtfCnpj.getText().equals("  .   .   /    -  ")) {
+                        registro = txtfCpf.getText();
+                    } else {
+                        registro = txtfCnpj.getText();
+                    }
+
+                    System.out.println(registro);
+                    Usuario.this.dispose();
+                    new Produtos(registro).setVisible(true);
+                }
             }
-            
+
         });
     }
 
-    protected  void configurarDados() {
+    protected void configurarDados() {
         txtNome = new JTextField();
         lblNome = new JLabel();
         lblCnpj = new JLabel();
@@ -119,6 +138,7 @@ public class Usuario extends JFrame implements ActionListener {
         lblEscolha = new JLabel();
         bntCnpj = new JRadioButton();
         bntCpf = new JRadioButton();
+        bntNenhum = new JRadioButton();
         grupo = new ButtonGroup();
         iconDog = new ImageIcon(getClass().getResource("/imagens/shiba.jpg"));
         bntConfirm = new JButton(iconDog);
@@ -131,7 +151,6 @@ public class Usuario extends JFrame implements ActionListener {
         }
         txtfCnpj = new JFormattedTextField(cnpj);
         txtfCpf = new JFormattedTextField(cpf);
-
         this.lblNome.setText("CLIENTE:");
         this.lblNome.setFont(new Font("Arial Black", Font.PLAIN, 12));
         this.lblNome.setForeground(Color.black);
@@ -163,28 +182,37 @@ public class Usuario extends JFrame implements ActionListener {
         this.bntCnpj.setOpaque(false);
         this.bntCnpj.setBorder(null);
 
-        this.bntCpf.setText("CPF        ");
+        this.bntCpf.setText("CPF");
         this.bntCpf.setForeground(Color.black);
         this.bntCpf.setFont(new Font("Arial Black", Font.PLAIN, 12));
         this.bntCpf.setOpaque(false);
         this.bntCpf.setBorder(null);
+
+        this.bntNenhum.setText("Nenhum");
+        this.bntNenhum.setForeground(Color.black);
+        this.bntNenhum.setFont(new Font("Arial Black", Font.PLAIN, 12));
+        this.bntNenhum.setOpaque(false);
+        this.bntNenhum.setBorder(null);
 
         this.bntConfirm.setPreferredSize(new Dimension(50, 50));
         this.bntConfirm.setBackground(Color.darkGray);
 
         this.grupo.add(this.bntCnpj);
         this.grupo.add(this.bntCpf);
+        this.grupo.add(this.bntNenhum);
 
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        this.jpConfirma.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 33));
+
         if (this.bntCnpj.isSelected()) {
             this.lblCnpj.setVisible(true);
             this.txtfCnpj.setVisible(true);
             this.bntConfirm.setVisible(true);
             this.txtfCpf.setText(""); // se o cnpj foi selecionado apagamos  cpf
-            
+
             this.lblCpf.setVisible(false);
             this.txtfCpf.setVisible(false);
             this.jpConfirma.setVisible(true);
@@ -197,6 +225,19 @@ public class Usuario extends JFrame implements ActionListener {
             this.lblCnpj.setVisible(false);
             this.txtfCnpj.setVisible(false);
             this.jpConfirma.setVisible(true);
+        } else if (this.bntNenhum.isSelected()) {
+            this.txtfCnpj.setText("");
+            this.txtfCpf.setText("");
+            this.lblCpf.setVisible(false);
+            this.txtfCpf.setVisible(false);
+            this.lblCnpj.setVisible(false);
+            this.txtfCnpj.setVisible(false);
+
+            this.jpConfirma.setVisible(true);
+            this.bntConfirm.setVisible(true);
+            this.jpConfirma.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 88));
+            this.registro = null;
+
         }
     }
 

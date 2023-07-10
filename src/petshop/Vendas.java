@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 public class Vendas extends Produtos {
 
     private ImageIcon iconCarrinho;
+    private String registro;
     private JLabel lblCarrinho, lblValor, lblRegistro;
     private Float total = 0f;
     private List<Float> compras;
@@ -34,10 +35,12 @@ public class Vendas extends Produtos {
     private List<Float> precos;
     private JPanel jpCarrinho, jpDados;
 
-    public Vendas(List<Float> carrinho, List<Float> prec) {
+    public Vendas(List<Float> carrinho, List<Float> prec, String registro) {
+        super(registro);
+        this.registro = registro;
         this.compras = carrinho;
         this.precos = prec;
-
+        System.out.println(registro + "c");
         super.configurarJanela();
         this.setTitle("VENDAS");
         configurarDads(carrinho, prec);
@@ -113,18 +116,10 @@ public class Vendas extends Produtos {
 
         this.lblRegistro.setForeground(new Color(234, 61, 39));
         this.lblRegistro.setFont(new Font("Arial Black", Font.BOLD, 16));
-
-        if (!(this.txtfCnpj.getText().isEmpty() || this.txtfCpf.getText().isEmpty())) {
-            if (this.txtfCnpj.getText().isEmpty()) {
-                this.lblRegistro.setText(this.txtfCpf.getText());
-            } else {
-                this.lblRegistro.setText(this.txtfCnpj.getText());
-            }
-        } else {
-            this.lblRegistro.setVisible(false);
-        }
         
-
+        if(regist.length() == 14){this.lblRegistro.setText("CPF: " + regist);}
+        else{this.lblRegistro.setText("CNPJ: " + regist);}
+        
         for (Float compara : carrinho) {
             for (int k = 0; k < 12; k++) {
                 if (compara.equals(prec.get(k))) {
