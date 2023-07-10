@@ -71,7 +71,7 @@ public class Vendas extends Produtos {
         this.jpDados.setBackground(Color.darkGray);
         this.jpDados.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
         this.jpDados.add(this.lblRegistro);
-        //this.jpDados.setOpaque(false);
+        this.jpDados.setOpaque(false);
 
         this.painel.add(jsPane);
         this.painel.add(this.jpCarrinho);
