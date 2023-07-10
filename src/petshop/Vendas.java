@@ -117,8 +117,9 @@ public class Vendas extends Produtos {
         this.lblRegistro.setForeground(new Color(234, 61, 39));
         this.lblRegistro.setFont(new Font("Arial Black", Font.BOLD, 16));
         
-        if(regist.length() == 14){this.lblRegistro.setText("CPF: " + regist);}
-        else{this.lblRegistro.setText("CNPJ: " + regist);}
+        if(regist.length() == 14 && !regist.endsWith(" ")){this.lblRegistro.setText("CPF: " + regist);}
+        else if(regist.length() > 14){this.lblRegistro.setText("CNPJ: " + regist);}
+        else {this.lblRegistro.setVisible(false);}
         
         for (Float compara : carrinho) {
             for (int k = 0; k < 12; k++) {
