@@ -36,7 +36,7 @@ public class Usuario extends JFrame implements ActionListener {
     private JLabel lblNome, lblCnpj, lblCpf, lblEscolha;
     protected JPanel jpShop, jpConfirma;
     protected Fundo painel;
-    private JTextField txtNome;
+    protected JTextField txtNome;
     protected JFormattedTextField txtfCnpj, txtfCpf;
     private MaskFormatter cnpj, cpf;
     private JRadioButton bntCnpj, bntCpf, bntNenhum;
@@ -109,24 +109,14 @@ public class Usuario extends JFrame implements ActionListener {
         this.bntConfirm.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Integer teste = new Integer(testarCampos());
 
-                if (bntCnpj.isSelected() && txtfCnpj.getText().equals("  .   .   /    -  ")) {
-                    System.out.println("ERRO");
-                } else if (bntCpf.isSelected() && txtfCpf.getText().equals("   .   .   -  ")) {
-                    System.out.println("ERRO2");
-                } else {
-                    if (txtfCnpj.getText().equals("  .   .   /    -  ")) {
-                        registro = txtfCpf.getText();
-                    } else {
-                        registro = txtfCnpj.getText();
-                    }
-
-                    System.out.println(registro);
+                System.out.println(registro);
+                if (teste == 0) {
                     Usuario.this.dispose();
-                    new Produtos(registro).setVisible(true);
+                    new Produtos(registro, txtNome.getText()).setVisible(true);
                 }
             }
-
         });
     }
 
@@ -200,6 +190,41 @@ public class Usuario extends JFrame implements ActionListener {
         this.grupo.add(this.bntCnpj);
         this.grupo.add(this.bntCpf);
         this.grupo.add(this.bntNenhum);
+
+    }
+
+    private int testarCampos() {
+        Integer teste = new Integer(0);
+        char nome[] = this.txtNome.getText().toCharArray();
+
+        if (this.txtNome.getText().length() < 5) {
+            return ++teste;
+        } else if (nome[0] == 32 && nome[1] == 32 && nome[2] == 32) {
+            return ++teste;
+        }
+        for (char caracter : nome) {
+            if (caracter >= 48 && caracter <= 57) {
+                teste++;
+            } else if (caracter >= 58 && caracter <= 64 || caracter >= 91 && caracter <= 96) {
+                teste++;
+            } else if (caracter > 32 && caracter <= 47 || caracter >= 123 && caracter <= 126) {
+                teste++;
+            }
+        }
+
+        if (bntCnpj.isSelected() && txtfCnpj.getText().equals("  .   .   /    -  ")) {
+            teste++;
+        } else if (bntCpf.isSelected() && txtfCpf.getText().equals("   .   .   -  ")) {
+            teste++;
+        } else {
+            if (txtfCnpj.getText().equals("  .   .   /    -  ")) {
+                registro = txtfCpf.getText();
+            } else {
+                registro = txtfCnpj.getText();
+            }
+        }
+
+        return teste;
 
     }
 

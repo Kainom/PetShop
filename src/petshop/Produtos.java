@@ -24,7 +24,8 @@ import javax.swing.ScrollPaneConstants;
  */
 public class Produtos extends Usuario {
 
-    protected String regist;
+    protected String registro;
+    protected String nome;
     protected JScrollPane jsPane;
     private List<JCheckBox> produtos;
     protected List<JLabel> lblProdutos;
@@ -49,9 +50,10 @@ public class Produtos extends Usuario {
 
     }
 
-    public Produtos(String registro) {
+    public Produtos(String registro,String nome) {
         System.out.println(registro + "f");
-        regist = registro;
+        this.registro = registro;
+        this.nome = nome;
         super.configurarJanela();
         this.setTitle("PRODUTOS");
         configurarPanel();
@@ -101,7 +103,7 @@ public class Produtos extends Usuario {
             public void actionPerformed(ActionEvent confirma) {
                 if (!(Produtos.this.carrinho.isEmpty())) {
                     Produtos.this.dispose();
-                    new Vendas(Produtos.this.carrinho, Produtos.this.valores,regist).setVisible(true);
+                    new Vendas(Produtos.this.carrinho, Produtos.this.valores,registro,nome).setVisible(true);
                 }
             }
         });

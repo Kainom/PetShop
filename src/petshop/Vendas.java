@@ -11,6 +11,7 @@ import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
@@ -18,6 +19,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -25,19 +28,20 @@ import javax.swing.JPanel;
  */
 public class Vendas extends Produtos {
 
-    private ImageIcon iconCarrinho;
-    private String registro;
-    private JLabel lblCarrinho, lblValor, lblRegistro;
     private Float total = 0f;
+    private JLabel lblCarrinho, lblValor, lblRegistro, lblNome, lblCep, lblRua, lblBairro, lblNum, lblAdicional;
+    private JTextField txtBairro, txtRua, txtNum, txtAdicional;
+    private JFormattedTextField txtfCep;
+    private MaskFormatter cp;
+    private ImageIcon iconCarrinho;
     private List<Float> compras;
     private List<JLabel> lblCompras = new ArrayList<>();
     private List<JSpinner> spinner = new ArrayList<>();
     private List<Float> precos;
     private JPanel jpCarrinho, jpDados;
 
-    public Vendas(List<Float> carrinho, List<Float> prec, String registro) {
-        super(registro);
-        this.registro = registro;
+    public Vendas(List<Float> carrinho, List<Float> prec, String registro, String nome) {
+        super(registro, nome);
         this.compras = carrinho;
         this.precos = prec;
         System.out.println(registro + "c");
@@ -67,12 +71,23 @@ public class Vendas extends Produtos {
         this.jpCarrinho.add(this.lblCarrinho);
         this.jpCarrinho.add(this.lblValor);
 
-        this.jpDados.setPreferredSize(new Dimension(800, 262));
+        this.jpDados.setPreferredSize(new Dimension(745, 262));
         this.jpDados.setBackground(Color.darkGray);
-        this.jpDados.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        this.jpDados.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 20));
+        this.jpDados.add(this.lblNome);
         this.jpDados.add(this.lblRegistro);
-        this.jpDados.setOpaque(false);
+        this.jpDados.add(this.lblCep);
+        this.jpDados.add(this.txtfCep);
+        this.jpDados.add(this.lblBairro);
+        this.jpDados.add(this.txtBairro);
+        this.jpDados.add(this.lblRua);
+        this.jpDados.add(this.txtRua);
+        this.jpDados.add(this.lblNum);
+        this.jpDados.add(this.txtNum);
+        this.jpDados.add(this.lblAdicional);
+        this.jpDados.add(this.txtAdicional);
 
+        // this.jpDados.setOpaque(false);
         this.painel.add(jsPane);
         this.painel.add(this.jpCarrinho);
         this.painel.add(this.jpDados);
@@ -110,17 +125,59 @@ public class Vendas extends Produtos {
         lblCarrinho = new JLabel(iconCarrinho);
         lblValor = new JLabel();
         lblRegistro = new JLabel();
+        lblNome = new JLabel("NOME: " + super.nome);
+        lblCep = new JLabel("CEP:");;
+        lblRua = new JLabel("RUA: ");;
+        lblBairro = new JLabel("BAIRRO:");;
+        lblNum = new JLabel("NUM: ");;
+        lblAdicional = new JLabel("COMPLEMENTO: ");;
+        txtBairro = new JTextField();
+        txtRua = new JTextField();
+        txtNum = new JTextField();
+        txtAdicional = new JTextField();
+
+        try {
+            cp = new MaskFormatter("#####-###");
+        } catch (Exception erro) {
+        }
+
+        txtfCep = new JFormattedTextField(cp);
 
         this.lblValor.setForeground(new Color(234, 61, 39));
         this.lblValor.setFont(new Font("Arial Black", Font.BOLD, 16));
 
         this.lblRegistro.setForeground(new Color(234, 61, 39));
         this.lblRegistro.setFont(new Font("Arial Black", Font.BOLD, 16));
-        
-        if(regist.length() == 14 && !regist.endsWith(" ")){this.lblRegistro.setText("CPF: " + regist);}
-        else if(regist.length() > 14){this.lblRegistro.setText("CNPJ: " + regist);}
-        else {this.lblRegistro.setVisible(false);}
-        
+
+        this.lblNome.setForeground(new Color(234, 61, 39));
+        this.lblNome.setFont(new Font("Arial Black", Font.BOLD, 16));
+        this.lblNome.setPreferredSize(new Dimension(470, 30));
+
+        this.txtBairro.setPreferredSize(new Dimension(230, 30));
+        this.txtBairro.setFont(new Font("Arial Black", Font.PLAIN, 12));
+
+        this.txtRua.setPreferredSize(new Dimension(230, 30));
+        this.txtRua.setFont(new Font("Arial Black", Font.PLAIN, 12));
+
+        this.txtAdicional.setPreferredSize(new Dimension(100, 30));
+        this.txtAdicional.setFont(new Font("Arial Black", Font.PLAIN, 12));
+
+        this.txtfCep.setPreferredSize(new Dimension(100, 30));
+        this.txtfCep.setFont(new Font("Arial Black", Font.PLAIN, 12));
+
+        this.txtNum.setPreferredSize(new Dimension(50, 30));
+        this.txtNum.setFont(new Font("Arial Black", Font.PLAIN, 12));
+
+        if (super.registro.length() == 14 && !super.registro.endsWith(" ")) {
+            this.lblRegistro.setText("CPF: " + super.registro);
+                    this.lblNome.setPreferredSize(new Dimension(500, 30));
+
+        } else if (super.registro.length() > 14) {
+            this.lblRegistro.setText("CNPJ: " + super.registro);
+        } else {
+            this.lblRegistro.setVisible(false);
+        }
+
         for (Float compara : carrinho) {
             for (int k = 0; k < 12; k++) {
                 if (compara.equals(prec.get(k))) {
