@@ -170,7 +170,7 @@ public class Vendas extends Produtos {
 
         if (super.registro.length() == 14 && !super.registro.endsWith(" ")) {
             this.lblRegistro.setText("CPF: " + super.registro);
-                    this.lblNome.setPreferredSize(new Dimension(500, 30));
+            this.lblNome.setPreferredSize(new Dimension(500, 30));
 
         } else if (super.registro.length() > 14) {
             this.lblRegistro.setText("CNPJ: " + super.registro);
