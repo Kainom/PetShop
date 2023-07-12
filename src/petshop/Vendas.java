@@ -8,6 +8,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -73,7 +75,7 @@ public class Vendas extends Produtos {
 
         this.jpDados.setPreferredSize(new Dimension(745, 262));
         this.jpDados.setBackground(Color.darkGray);
-        this.jpDados.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 20));
+        this.jpDados.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 25));
         this.jpDados.add(this.lblNome);
         this.jpDados.add(this.lblRegistro);
         this.jpDados.add(this.lblCep);
@@ -87,7 +89,7 @@ public class Vendas extends Produtos {
         this.jpDados.add(this.lblAdicional);
         this.jpDados.add(this.txtAdicional);
 
-        // this.jpDados.setOpaque(false);
+        this.jpDados.setOpaque(false);
         this.painel.add(jsPane);
         this.painel.add(this.jpCarrinho);
         this.painel.add(this.jpDados);
@@ -121,16 +123,18 @@ public class Vendas extends Produtos {
 
     protected void configurarDads(List<Float> carrinho, List<Float> prec) {
         super.configurarDados();
+        Float i = new Float(0);
+        List<JLabel> color = new ArrayList<>();
         iconCarrinho = new ImageIcon(getClass().getResource("/imagens/carrinho.png"));
         lblCarrinho = new JLabel(iconCarrinho);
-        lblValor = new JLabel();
-        lblRegistro = new JLabel();
-        lblNome = new JLabel("NOME: " + super.nome);
-        lblCep = new JLabel("CEP:");;
-        lblRua = new JLabel("RUA: ");;
-        lblBairro = new JLabel("BAIRRO:");;
-        lblNum = new JLabel("NUM: ");;
-        lblAdicional = new JLabel("COMPLEMENTO: ");;
+        color.add(lblValor = new JLabel());
+        color.add(lblRegistro = new JLabel());
+        color.add(lblNome = new JLabel("NOME: " + super.nome));
+        color.add(lblCep = new JLabel("CEP:"));
+        color.add(lblRua = new JLabel("RUA:"));
+        color.add(lblBairro = new JLabel("BAIRRO:"));
+        color.add(lblNum = new JLabel("NUM:"));
+        color.add(lblAdicional = new JLabel("COMPLEMENTO:"));
         txtBairro = new JTextField();
         txtRua = new JTextField();
         txtNum = new JTextField();
@@ -140,27 +144,47 @@ public class Vendas extends Produtos {
             cp = new MaskFormatter("#####-###");
         } catch (Exception erro) {
         }
-
         txtfCep = new JFormattedTextField(cp);
 
-        this.lblValor.setForeground(new Color(234, 61, 39));
-        this.lblValor.setFont(new Font("Arial Black", Font.BOLD, 16));
+        for (JLabel cor : color) {
+            cor.setForeground(new Color(255, 117, 24));
+            cor.setFont(new Font("Arial Black", Font.BOLD, 12));
 
-        this.lblRegistro.setForeground(new Color(234, 61, 39));
-        this.lblRegistro.setFont(new Font("Arial Black", Font.BOLD, 16));
+        } // seta a cor da maioria dos lbls e a font 
+        for (Float soma : this.compras) {
+            i += soma;
+            this.lblValor.setText("" + i);
+        } // seta o valor inicial do carrinho
 
-        this.lblNome.setForeground(new Color(234, 61, 39));
         this.lblNome.setFont(new Font("Arial Black", Font.BOLD, 16));
         this.lblNome.setPreferredSize(new Dimension(470, 30));
 
-        this.txtBairro.setPreferredSize(new Dimension(230, 30));
+        this.lblRegistro.setFont(new Font("Arial Black", Font.BOLD, 16));
+
+        this.txtBairro.setPreferredSize(new Dimension(225, 30));
         this.txtBairro.setFont(new Font("Arial Black", Font.PLAIN, 12));
 
-        this.txtRua.setPreferredSize(new Dimension(230, 30));
+        this.txtRua.setPreferredSize(new Dimension(225, 30));
         this.txtRua.setFont(new Font("Arial Black", Font.PLAIN, 12));
 
         this.txtAdicional.setPreferredSize(new Dimension(100, 30));
         this.txtAdicional.setFont(new Font("Arial Black", Font.PLAIN, 12));
+        this.txtAdicional.setText("OPCIONAL");
+
+        class Mouse extends MouseAdapter { // implementa evento do mouse 
+
+            public void adiconaEvent() {
+                txtAdicional.addMouseListener(this);
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                if (txtAdicional.getText().equals("OPCIONAL")) {
+                    txtAdicional.setText("");
+                }
+            }
+        }
+        new Mouse().adiconaEvent();
 
         this.txtfCep.setPreferredSize(new Dimension(100, 30));
         this.txtfCep.setFont(new Font("Arial Black", Font.PLAIN, 12));
@@ -168,14 +192,14 @@ public class Vendas extends Produtos {
         this.txtNum.setPreferredSize(new Dimension(50, 30));
         this.txtNum.setFont(new Font("Arial Black", Font.PLAIN, 12));
 
-        if (super.registro.length() == 14 && !super.registro.endsWith(" ")) {
+        if (super.registro.length() == 14 && !super.registro.endsWith(" ")) { // referente ao cpf
             this.lblRegistro.setText("CPF: " + super.registro);
             this.lblNome.setPreferredSize(new Dimension(500, 30));
-
-        } else if (super.registro.length() > 14) {
+        } else if (super.registro.length() > 14) { // referente ao cnpj 
             this.lblRegistro.setText("CNPJ: " + super.registro);
         } else {
             this.lblRegistro.setVisible(false);
+            this.lblNome.setPreferredSize(new Dimension(800, 30));
         }
 
         for (Float compara : carrinho) {
@@ -194,7 +218,6 @@ public class Vendas extends Produtos {
             this.spinner.add(spinn);
 
         }
-
     }
 
 }

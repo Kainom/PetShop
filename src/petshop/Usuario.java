@@ -196,18 +196,24 @@ public class Usuario extends JFrame implements ActionListener {
     private int testarCampos() {
         Integer teste = new Integer(0);
         char nome[] = this.txtNome.getText().toCharArray();
+        try {
+            Long soNumeros = Long.parseLong(this.txtNome.getText());
+            return ++teste;
+
+        } catch (NumberFormatException erroNumero) {
+            teste = 0;
+        }
 
         if (this.txtNome.getText().length() < 5) {
             return ++teste;
-        } else if (nome[0] == 32 && nome[1] == 32 && nome[2] == 32) {
+        } else if (nome[0] >= 32 && nome[0] <= 64 || nome[1] >= 32 && nome[1] <= 64 || nome[2] >= 32 && nome[2] <= 64) {
             return ++teste;
         }
+
         for (char caracter : nome) {
-            if (caracter >= 48 && caracter <= 57) {
+            if (caracter >= 59 && caracter <= 64 && caracter != 63 || caracter >= 91 && caracter <= 96) { // != de 63 para permitir ?
                 teste++;
-            } else if (caracter >= 58 && caracter <= 64 || caracter >= 91 && caracter <= 96) {
-                teste++;
-            } else if (caracter > 32 && caracter <= 47 || caracter >= 123 && caracter <= 126) {
+            } else if (caracter >= 34 && caracter <= 44 && caracter != 38 || caracter >= 123 && caracter <= 126) { // != de 38 para permitir &
                 teste++;
             }
         }
