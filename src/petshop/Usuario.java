@@ -193,24 +193,24 @@ public class Usuario extends JFrame implements ActionListener {
 
     }
 
-    private int testarCampos() {
+    protected int testarCampos(String texto) {
         Integer teste = new Integer(0);
-        char nome[] = this.txtNome.getText().toCharArray();
+        char palavras[] = texto.toCharArray();
         try {
-            Long soNumeros = Long.parseLong(this.txtNome.getText());
+            Long soNumeros = Long.parseLong(texto);
             return ++teste;
 
         } catch (NumberFormatException erroNumero) {
             teste = 0;
         }
 
-        if (this.txtNome.getText().length() < 5) {
+        if (texto.length() < 5) {
             return ++teste;
-        } else if (nome[0] >= 32 && nome[0] <= 64 || nome[1] >= 32 && nome[1] <= 64 || nome[2] >= 32 && nome[2] <= 64) {
+        } else if (palavras[0] >= 32 && palavras[0] <= 64 || palavras[1] >= 32 && palavras[1] <= 64 || palavras[2] >= 32 && palavras[2] <= 64) {
             return ++teste;
         }
 
-        for (char caracter : nome) {
+        for (char caracter : palavras) {
             if (caracter >= 59 && caracter <= 64 && caracter != 63 || caracter >= 91 && caracter <= 96) { // != de 63 para permitir ?
                 teste++;
             } else if (caracter >= 34 && caracter <= 44 && caracter != 38 || caracter >= 123 && caracter <= 126) { // != de 38 para permitir &
@@ -232,6 +232,23 @@ public class Usuario extends JFrame implements ActionListener {
 
         return teste;
 
+    }
+
+    private int testarCampos() {
+        int teste = testarCampos(this.txtNome.getText());
+        
+        if (bntCnpj.isSelected() && txtfCnpj.getText().equals("  .   .   /    -  ")) {
+            teste++;
+        } else if (bntCpf.isSelected() && txtfCpf.getText().equals("   .   .   -  ")) {
+            teste++;
+        } else {
+            if (txtfCnpj.getText().equals("  .   .   /    -  ")) {
+                registro = txtfCpf.getText();
+            } else {
+                registro = txtfCnpj.getText();
+            }
+        }
+        return teste;
     }
 
     @Override
