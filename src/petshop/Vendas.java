@@ -125,9 +125,17 @@ public class Vendas extends Produtos {
         this.bntConfirm.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                long num;
                 int teste = testarCampos(txtBairro.getText());
                 teste += testarCampos(txtRua.getText());
-                if(teste == 0){Vendas.this.dispose();}
+                try {
+                    num = Long.parseLong(txtNum.getText());
+                } catch (NumberFormatException erro) {
+                    teste++;
+                }
+                if (teste == 0) {
+                    Vendas.this.dispose();
+                }
             }
 
         });

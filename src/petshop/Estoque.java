@@ -8,6 +8,11 @@ package petshop;
  *
  * @author User
  */
-class JPanel {
+public class Estoque extends Produtos {
+
+    public Estoque() {
+        super.configurarJanela();
+        this.setTitle("ESTOQUE");
+    }
     
 }

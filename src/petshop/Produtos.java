@@ -30,7 +30,7 @@ public class Produtos extends Usuario {
     private List<JCheckBox> produtos;
     protected List<JLabel> lblProdutos;
     private List<Float> carrinho = new ArrayList<>();
-    protected List<Float> valores = new ArrayList<>();
+    protected  List<Float> valores = new ArrayList<>();
     protected float ampicilina, coleira, dontral, granplus, prediderm, //
             racaoExtrusada, cheval, max, nutrilus, queranon, sacaMilho, whiskas;
 
@@ -50,16 +50,19 @@ public class Produtos extends Usuario {
 
     }
 
-    public Produtos(String registro,String nome) {
+    public Produtos(String registro, String nome) {
         System.out.println(registro + "f");
         this.registro = registro;
         this.nome = nome;
         super.configurarJanela();
         this.setTitle("PRODUTOS");
         configurarPanel();
-        
+
     }
-    
+
+    public Produtos() {
+
+    }
 
     @Override
     protected void configurarPanel() {
@@ -83,7 +86,7 @@ public class Produtos extends Usuario {
         this.jsPane.setOpaque(false);
         this.jsPane.getViewport().setOpaque(false);
         this.jsPane.setViewportView(this.jpShop);
-        
+
         this.painel.setLayout(new FlowLayout(FlowLayout.RIGHT, 15, 0));
         this.painel.add(this.jsPane);
         this.painel.add(this.jpConfirma);
@@ -103,7 +106,7 @@ public class Produtos extends Usuario {
             public void actionPerformed(ActionEvent confirma) {
                 if (!(Produtos.this.carrinho.isEmpty())) {
                     Produtos.this.dispose();
-                    new Vendas(Produtos.this.carrinho, Produtos.this.valores,registro,nome).setVisible(true);
+                    new Vendas(Produtos.this.carrinho, Produtos.this.valores, registro, nome).setVisible(true);
                 }
             }
         });
@@ -183,7 +186,6 @@ public class Produtos extends Usuario {
             }
         }
 
-        
     }
 
 }
