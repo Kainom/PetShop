@@ -24,17 +24,19 @@ import javax.swing.ScrollPaneConstants;
  */
 public class Produtos extends Usuario {
 
+    public static final int QUANTIDADE_PRODUTOS = 12; // constante referente a quantidade de produtos 
     protected String registro;
     protected String nome;
     protected JScrollPane jsPane;
-    private List<JCheckBox> produtos;
+    private List<JCheckBox> checkProdutos;
     protected List<JLabel> lblProdutos;
     private List<Float> carrinho = new ArrayList<>();
-    protected  List<Float> valores = new ArrayList<>();
+    protected List<Float> valores = new ArrayList<>();
     protected float ampicilina, coleira, dontral, granplus, prediderm, //
             racaoExtrusada, cheval, max, nutrilus, queranon, sacaMilho, whiskas;
 
-    {
+    {                
+
         valores.add(nutrilus = 100.55f);
         valores.add(whiskas = 30.54f);
         valores.add(cheval = 50.3f);
@@ -51,7 +53,7 @@ public class Produtos extends Usuario {
     }
 
     public Produtos(String registro, String nome) {
-        System.out.println(registro + "f");
+
         this.registro = registro;
         this.nome = nome;
         super.configurarJanela();
@@ -60,10 +62,7 @@ public class Produtos extends Usuario {
 
     }
 
-    public Produtos() {
-
-    }
-
+    
     @Override
     protected void configurarPanel() {
         jpShop = new javax.swing.JPanel();
@@ -94,11 +93,12 @@ public class Produtos extends Usuario {
         super.configurarDados(); // chama da classe pai com alguns elementos ja prontos para reutilização 
         configurarDados();
 
-        for (int i = 0; i < 12; i++) {
-            this.jpShop.add(this.lblProdutos.get(i));
-
-            this.jpShop.add(this.produtos.get(i));
-            this.produtos.get(i).addActionListener(this);
+        for (int i = 0; i < QUANTIDADE_PRODUTOS; i++) {
+            if (Estoque.produtos.get(i) > 0) {
+                this.jpShop.add(this.lblProdutos.get(i));
+                this.jpShop.add(this.checkProdutos.get(i));
+                this.checkProdutos.get(i).addActionListener(this);
+            }
         }
         this.jpConfirma.add(this.bntConfirm, BorderLayout.SOUTH); // bnt confirm reutilizado da classe Pai
         this.bntConfirm.addActionListener(new ActionListener() {
@@ -129,30 +129,31 @@ public class Produtos extends Usuario {
         ImageIcon nutrilus = new ImageIcon(getClass().getResource("/imagens/nutrilus.jpg"));
 
         lblProdutos = new ArrayList<>();
-        produtos = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
+        checkProdutos = new ArrayList<>();
+
+        for (int i = 0; i < QUANTIDADE_PRODUTOS; i++) {
             JLabel lblP = new JLabel();
             JCheckBox check = new JCheckBox();
             check.setPreferredSize(new Dimension(147, 20));
             check.setForeground(new Color(75, 0, 30));
             check.setOpaque(false);
-            this.produtos.add(check);
+            this.checkProdutos.add(check);
             this.lblProdutos.add(lblP);
 
         }
 
-        this.produtos.get(0).setText("Ração Nutrilus");
-        this.produtos.get(1).setText("Whiskas");
-        this.produtos.get(2).setText("Cheval");
-        this.produtos.get(3).setText("Saca de Milho 25kg");
-        this.produtos.get(4).setText("Shampoo MAX 500ml");
-        this.produtos.get(5).setText("Queranon");
-        this.produtos.get(6).setText("Ampicilina");
-        this.produtos.get(7).setText("Coleira Simples");
-        this.produtos.get(8).setText("Vermifugo");
-        this.produtos.get(9).setText("Prediderm");
-        this.produtos.get(10).setText("Gran Plus");
-        this.produtos.get(11).setText("Ração Extrusada");
+        this.checkProdutos.get(0).setText("Ração Nutrilus");
+        this.checkProdutos.get(1).setText("Whiskas");
+        this.checkProdutos.get(2).setText("Cheval");
+        this.checkProdutos.get(3).setText("Saca de Milho 25kg");
+        this.checkProdutos.get(4).setText("Shampoo MAX 500ml");
+        this.checkProdutos.get(5).setText("Queranon");
+        this.checkProdutos.get(6).setText("Ampicilina");
+        this.checkProdutos.get(7).setText("Coleira Simples");
+        this.checkProdutos.get(8).setText("Vermifugo");
+        this.checkProdutos.get(9).setText("Prediderm");
+        this.checkProdutos.get(10).setText("Gran Plus");
+        this.checkProdutos.get(11).setText("Ração Extrusada");
 
         this.lblProdutos.get(0).setIcon(nutrilus);
         this.lblProdutos.get(1).setIcon(whiskas);
@@ -171,13 +172,13 @@ public class Produtos extends Usuario {
 
     @Override
     public void actionPerformed(ActionEvent check) {
-        for (int i = 0; i < 12; i++) {
-            if (this.produtos.get(i).isSelected() && check.getSource() == this.produtos.get(i)) {
+        for (int i = 0; i < QUANTIDADE_PRODUTOS; i++) {
+            if (this.checkProdutos.get(i).isSelected() && check.getSource() == this.checkProdutos.get(i)) {
 
                 this.carrinho.add(this.valores.get(i));
                 break;
 
-            } else if (!(this.produtos.get(i).isSelected()) && check.getSource() == this.produtos.get(i)) {
+            } else if (!(this.checkProdutos.get(i).isSelected()) && check.getSource() == this.checkProdutos.get(i)) {
                 this.carrinho.remove(this.valores.get(i));
                 if (this.carrinho.isEmpty()) {
                     System.out.println("vazio");

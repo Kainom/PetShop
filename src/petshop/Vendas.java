@@ -46,8 +46,8 @@ public class Vendas extends Produtos {
 
     public Vendas(List<Float> carrinho, List<Float> prec, String registro, String nome) {
         super(registro, nome);
-        this.compras = carrinho;
-        this.precos = prec;
+        this.compras = carrinho; // valor dos produtos escolhidos  
+        this.precos = prec; // valor de todos os produtos 
         System.out.println(registro + "c");
         super.configurarJanela();
         this.setTitle("VENDAS");
@@ -64,7 +64,6 @@ public class Vendas extends Produtos {
         super.configurarPanel();
         this.painel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         this.painel.removeAll();
-
         this.jpShop.removeAll();
         this.jsPane.setPreferredSize(new Dimension(800, 100));
 
@@ -188,7 +187,7 @@ public class Vendas extends Produtos {
         this.txtRua.setPreferredSize(new Dimension(225, 30));
         this.txtRua.setFont(new Font("Arial Black", Font.PLAIN, 12));
 
-        this.txtAdicional.setPreferredSize(new Dimension(100, 30));
+        this.txtAdicional.setPreferredSize(new Dimension(180, 30));
         this.txtAdicional.setFont(new Font("Arial Black", Font.PLAIN, 12));
         this.txtAdicional.setText("OPCIONAL");
 
@@ -223,20 +222,21 @@ public class Vendas extends Produtos {
             this.lblNome.setPreferredSize(new Dimension(800, 30));
         }
 
-        for (Float compara : carrinho) {
-            for (int k = 0; k < 12; k++) {
+        for (Float compara : carrinho) {  //compara valor dos  produtos selecionados com todos os produtos afim de descobri qual lbl  definir o lbl
+            for (int k = 0; k < QUANTIDADE_PRODUTOS; k++) {
                 if (compara.equals(prec.get(k))) {
-
                     this.lblCompras.add(this.lblProdutos.get(k));
+                    int produto = Estoque.produtos.get(k);
+
+                    SpinnerModel value = new SpinnerNumberModel(1, 1, produto, 1); // adiciona os spinner referente aos produtos selecionados 
+                    JSpinner spinn = new JSpinner(value);
+                    spinn.setPreferredSize(new Dimension(50, 20));
+                    this.spinner.add(spinn);
 
                 }
             }
         }
         for (JLabel adiciona : this.lblCompras) {
-            SpinnerModel value = new SpinnerNumberModel(1, 1, 200, 1);
-            JSpinner spinn = new JSpinner(value);
-            spinn.setPreferredSize(new Dimension(50, 20));
-            this.spinner.add(spinn);
 
         }
     }

@@ -44,6 +44,7 @@ public class Usuario extends JFrame implements ActionListener {
     protected JButton bntConfirm;
 
     public Usuario() {
+        Estoque.produtos(); // Atualiza o estoque 
         configurarJanela();
         configurarPanel();
 
