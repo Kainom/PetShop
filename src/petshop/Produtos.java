@@ -94,7 +94,7 @@ public class Produtos extends Usuario {
         configurarDados();
 
         for (int i = 0; i < QUANTIDADE_PRODUTOS; i++) {
-            if (Estoque.produtos.get(i) > 0) {
+            if (Estoque.getProdutos().get(i) > 0) { // se o produto for menor que 0 ele se encontra indisponivel //
                 this.jpShop.add(this.lblProdutos.get(i));
                 this.jpShop.add(this.checkProdutos.get(i));
                 this.checkProdutos.get(i).addActionListener(this);

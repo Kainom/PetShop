@@ -226,9 +226,9 @@ public class Vendas extends Produtos {
             for (int k = 0; k < QUANTIDADE_PRODUTOS; k++) {
                 if (compara.equals(prec.get(k))) {
                     this.lblCompras.add(this.lblProdutos.get(k));
-                    int produto = Estoque.produtos.get(k);
+                    int produtos = Estoque.getProdutos().get(k);
 
-                    SpinnerModel value = new SpinnerNumberModel(1, 1, produto, 1); // adiciona os spinner referente aos produtos selecionados 
+                    SpinnerModel value = new SpinnerNumberModel(1, 1, produtos, 1); // adiciona os spinner referente aos produtos selecionados 
                     JSpinner spinn = new JSpinner(value);
                     spinn.setPreferredSize(new Dimension(50, 20));
                     this.spinner.add(spinn);

@@ -44,9 +44,11 @@ public class Usuario extends JFrame implements ActionListener {
     protected JButton bntConfirm;
 
     public Usuario() {
-        Estoque.produtos(); // Atualiza o estoque 
+        // Atualiza o estoque 
+        Estoque.produtos();
         configurarJanela();
         configurarPanel();
+
 
     }
 
@@ -237,7 +239,7 @@ public class Usuario extends JFrame implements ActionListener {
 
     private int testarCampos() {
         int teste = testarCampos(this.txtNome.getText());
-        
+
         if (bntCnpj.isSelected() && txtfCnpj.getText().equals("  .   .   /    -  ")) {
             teste++;
         } else if (bntCpf.isSelected() && txtfCpf.getText().equals("   .   .   -  ")) {
