@@ -10,10 +10,17 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -25,7 +32,7 @@ import javax.swing.SpinnerNumberModel;
  *
  * @author User
  */
-public class Estoque extends JFrame {
+public class Estoque {
 
     private static List<Integer> produtos = new ArrayList<>();
     private static Integer qtdampicilina, qtdcoleira, qtddontral, qtdgranplus, qtdprediderm,
@@ -54,14 +61,19 @@ public class Estoque extends JFrame {
         produtos.add(qtdracaoExtrusada = 56);
     }
 
-    private static class InsereProdutos<T> extends JFrame implements ActionListener {
+    private static class InsereProdutos<T> extends JFrame {
 
         private Fundo painel;
         private JSpinner spinner;
         private JComboBox<String> jcTipo;
-        private ImageIcon iconPet;
+        private ImageIcon iconPet, iconShiba;
         private JPanel jpAdiciona, jpConfirma;
-
+        private JButton bntConfirm;
+        private File arquivo;
+        private FileWriter fw;
+        private FileReader fr;
+        private BufferedReader br;
+        private PrintWriter pw;
         public InsereProdutos() {
             configurarJanela();
             configurarPanel();
@@ -90,49 +102,103 @@ public class Estoque extends JFrame {
             this.jpAdiciona.setPreferredSize(new Dimension(490, 400));
             this.jpAdiciona.setBackground(Color.darkGray);
 
-            this.jpAdiciona.setOpaque(false);
+            //this.jpAdiciona.setOpaque(false);
             this.jpConfirma.setPreferredSize(new Dimension(440, 300));
             //this.jpConfirma.setOpaque(false);
 
             this.painel.add(this.jpAdiciona);
-            configurarDados();
 
+            configurarDados();
             this.jpAdiciona.add(this.spinner);
             this.jpAdiciona.add(this.jcTipo);
+            this.jpAdiciona.add(this.bntConfirm);
+
+            this.bntConfirm.addActionListener(action -> armazena(action));
 
         }
 
         private void configurarDados() {
-            jcTipo = new JComboBox<>();
+            iconShiba = new ImageIcon(getClass().getResource("/imagens/shiba.jpg"));
+
+            bntConfirm = new JButton(iconShiba);
+            this.bntConfirm.setPreferredSize(new Dimension(50, 50));
+            this.bntConfirm.setBackground(Color.darkGray);
+
             SpinnerModel value = new SpinnerNumberModel(1, 1, 100, 1);
-            spinner = new JSpinner(value);
+            this.spinner = new JSpinner(value);
+            this.spinner.setPreferredSize(new Dimension(120, 20));
 
-            spinner.setPreferredSize(new Dimension(120, 20));
-            jcTipo.addItem("Nutrilus" + " " + 0);
-            jcTipo.addItem("Whiskas" + " " + 1);
-            jcTipo.addItem("Cheval" + " " + 2);
-            jcTipo.addItem("Milho" + " " + 3);
-            jcTipo.addItem("Max" + " " + 4);
-            jcTipo.addItem("Queranon" + " " + 5);
-            jcTipo.addItem("Ampicilina" + " " + 6);
-            jcTipo.addItem("Coleira" + " " + 7);
-            jcTipo.addItem("Dontral" + " " + 8);
-            jcTipo.addItem("Prediderm" + " " + 9);
-            jcTipo.addItem("Granplus" + " " + 10);
-            jcTipo.addItem("Ração Extrusada" + " " + 11);
-           
-
-        }
-
-        public void inserir() {
-            
-            int t = jcTipo.getSelectedIndex(); // com esse indice sabemos o produtos e o escrevemos no arquivo
+            this.jcTipo = new JComboBox<>();
+            this.jcTipo.addItem("");
+            this.jcTipo.addItem("Nutrilus");
+            this.jcTipo.addItem("Whiskas");
+            this.jcTipo.addItem("Cheval");
+            this.jcTipo.addItem("Milho");
+            this.jcTipo.addItem("Max");
+            this.jcTipo.addItem("Queranon");
+            this.jcTipo.addItem("Ampicilina");
+            this.jcTipo.addItem("Coleira");
+            this.jcTipo.addItem("Dontral");
+            this.jcTipo.addItem("Prediderm");
+            this.jcTipo.addItem("Granplus");
+            this.jcTipo.addItem("Ração Extrusada");
 
         }
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
+        private void inserir() throws IOException {
+            arquivo = new File("C:/Users/User/Documents/NetBeansProjects/PetShop/src/Estoque.txt");
+            int quantidade = Integer.parseInt(this.spinner.getValue().toString());
+            int position = jcTipo.getSelectedIndex();
+            List<String> leitura = new ArrayList<>();
 
+            if (!arquivo.exists()) {
+                System.out.println("VAZIO");
+                arquivo.createNewFile();
+
+            }
+
+            fr = new FileReader(arquivo);
+            br = new BufferedReader(fr);
+            int c = 0;
+            while (br.ready()) {
+                leitura.add(br.readLine());
+
+            }
+            fr.close();
+            br.close();
+
+            fw = new FileWriter(arquivo);
+            pw = new PrintWriter(fw);
+
+
+            for (String linha : leitura) {
+                c++;
+                if (c == position) {
+                    String[] linho = linha.split(" ");
+                    String teste = "" + linho[0];
+                    teste = teste + " " + quantidade;
+                    System.out.println(teste);
+                    pw.println(teste);
+                } else {
+                    System.out.println(linha);
+                    pw.println(linha);
+
+                }
+
+            }
+            fw.close();
+            pw.close();
+
+        }
+
+        private void armazena(ActionEvent action) {
+            if (!this.jcTipo.getSelectedItem().equals("")) {
+                try {
+                    System.out.println("opa");
+                    inserir();
+                } catch (IOException err) {
+                }
+            }
         }
 
         protected class Fundo extends javax.swing.JPanel {

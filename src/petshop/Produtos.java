@@ -130,6 +130,7 @@ public class Produtos extends Usuario {
 
         lblProdutos = new ArrayList<>();
         checkProdutos = new ArrayList<>();
+        
 
         for (int i = 0; i < QUANTIDADE_PRODUTOS; i++) {
             JLabel lblP = new JLabel();

@@ -166,11 +166,15 @@ public class Vendas extends Produtos {
         }
         txtfCep = new JFormattedTextField(cp);
 
+        color.stream().forEach(cor -> cor.setForeground(new Color(255, 117, 24)));
+        color.stream().forEach(cor -> cor.setFont(new Font("Arial Black", Font.BOLD, 12)));
+
         for (JLabel cor : color) {
             cor.setForeground(new Color(255, 117, 24));
             cor.setFont(new Font("Arial Black", Font.BOLD, 12));
-
         } // seta a cor da maioria dos lbls e a font 
+       this.compras.stream().map(var -> var+=2);
+        
         for (Float soma : this.compras) {
             i += soma;
             this.lblValor.setText("" + i);
