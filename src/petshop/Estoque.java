@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -37,6 +38,8 @@ public class Estoque {
     private static List<Integer> produtos = new ArrayList<>();
     private static Integer qtdampicilina, qtdcoleira, qtddontral, qtdgranplus, qtdprediderm,
             qtdracaoExtrusada, qtdcheval, qtdmax, qtdnutrilus, qtdqueranon, qtdsacaMilho, qtdwhiskas;
+    private PrintWriter pw;
+    private FileReader fr;
 
     public Estoque() {
         new InsereProdutos();
@@ -47,33 +50,46 @@ public class Estoque {
     }
 
     public static void produtos() {
-        produtos.add(qtdnutrilus = 2);
-        produtos.add(qtdwhiskas = 0);
-        produtos.add(qtdcheval = 32);
-        produtos.add(qtdsacaMilho = 0);
-        produtos.add(qtdmax = 10);
-        produtos.add(qtdqueranon = 95);
-        produtos.add(qtdampicilina = 32);
-        produtos.add(qtdcoleira = 20);
-        produtos.add(qtddontral = 60);
-        produtos.add(qtdprediderm = 15);
-        produtos.add(qtdgranplus = 0);
-        produtos.add(qtdracaoExtrusada = 56);
+        File arquivo = new File("C:/Users/User/Documents/NetBeansProjects/PetShop/src/Estoque.txt");
+        List<String> linha = new ArrayList<>();
+        int i = 0;
+        Integer quantidade;
+        produtos.clear();
+        try {
+            FileReader fr = new FileReader(arquivo);
+            BufferedReader br = new BufferedReader(fr);
+            while (br.ready()) {
+                linha.add(br.readLine());
+                System.out.println(linha.get(i));
+                String[] lendo = linha.get(i).split(":", 2);
+                System.out.println(lendo[1]);
+                produtos.add(Integer.parseInt(lendo[1]));
+                i++;
+            }
+
+            fr.close();
+            br.close();
+        } catch (Exception err) {
+            System.out.println("OPS!");
+        }
+
+        
     }
 
-    private static class InsereProdutos<T> extends JFrame {
+    private class InsereProdutos<T> extends JFrame {
 
         private Fundo painel;
         private JSpinner spinner;
         private JComboBox<String> jcTipo;
+        private List<String> leitura;
         private ImageIcon iconPet, iconShiba;
-        private JPanel jpAdiciona, jpConfirma;
+        private JPanel jpAdiciona, jpVolta;
         private JButton bntConfirm;
-        private File arquivo;
-        private FileWriter fw;
+        private File arquivo = new File("C:/Users/User/Documents/NetBeansProjects/PetShop/src/Estoque.txt");
+        private PrintWriter pw;
         private FileReader fr;
         private BufferedReader br;
-        private PrintWriter pw;
+
         public InsereProdutos() {
             configurarJanela();
             configurarPanel();
@@ -96,15 +112,15 @@ public class Estoque {
 
         private void configurarPanel() {
             jpAdiciona = new JPanel();
-            jpConfirma = new JPanel();
+            jpVolta = new JPanel();
 
             this.jpAdiciona.setLayout(new FlowLayout(FlowLayout.LEFT, 60, 40));
             this.jpAdiciona.setPreferredSize(new Dimension(490, 400));
             this.jpAdiciona.setBackground(Color.darkGray);
 
-            //this.jpAdiciona.setOpaque(false);
-            this.jpConfirma.setPreferredSize(new Dimension(440, 300));
-            //this.jpConfirma.setOpaque(false);
+            this.jpAdiciona.setOpaque(false);
+            this.jpVolta.setPreferredSize(new Dimension(300, 300));
+            this.jpVolta.setOpaque(false);
 
             this.painel.add(this.jpAdiciona);
 
@@ -145,40 +161,40 @@ public class Estoque {
 
         }
 
-        private void inserir() throws IOException {
-            arquivo = new File("C:/Users/User/Documents/NetBeansProjects/PetShop/src/Estoque.txt");
-            int quantidade = Integer.parseInt(this.spinner.getValue().toString());
-            int position = jcTipo.getSelectedIndex();
-            List<String> leitura = new ArrayList<>();
-
-            if (!arquivo.exists()) {
-                System.out.println("VAZIO");
-                arquivo.createNewFile();
-
-            }
-
+        private List<String> lendo() throws FileNotFoundException, IOException {
+            leitura = new ArrayList<>();
             fr = new FileReader(arquivo);
             br = new BufferedReader(fr);
-            int c = 0;
             while (br.ready()) {
                 leitura.add(br.readLine());
 
             }
             fr.close();
             br.close();
+            return leitura;
 
-            fw = new FileWriter(arquivo);
-            pw = new PrintWriter(fw);
+        }
 
+        private void inserir() throws IOException {
+            int quantidade = Integer.parseInt(this.spinner.getValue().toString());
+            int position = jcTipo.getSelectedIndex();
+            int c = 0;
+
+            if (!arquivo.exists()) {
+                System.out.println("VAZIO");
+                arquivo.createNewFile();
+
+            }
+            lendo();
+            pw = new PrintWriter(new BufferedWriter(new FileWriter(arquivo)));
 
             for (String linha : leitura) {
                 c++;
                 if (c == position) {
-                    String[] linho = linha.split(" ");
-                    String teste = "" + linho[0];
-                    teste = teste + " " + quantidade;
-                    System.out.println(teste);
-                    pw.println(teste);
+                    String[] linho = linha.split(":");
+                    String produto = linho[0] + ":" + quantidade;
+                    System.out.println(produto);
+                    pw.println(produto);
                 } else {
                     System.out.println(linha);
                     pw.println(linha);
@@ -186,7 +202,7 @@ public class Estoque {
                 }
 
             }
-            fw.close();
+
             pw.close();
 
         }

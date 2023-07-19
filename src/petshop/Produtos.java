@@ -24,7 +24,7 @@ import javax.swing.ScrollPaneConstants;
  */
 public class Produtos extends Usuario {
 
-    public static final int QUANTIDADE_PRODUTOS = 12; // constante referente a quantidade de produtos 
+    public static final int QUANTIDADE_PRODUTOS = Estoque.getProdutos().size(); // constante referente a quantidade de produtos 
     protected String registro;
     protected String nome;
     protected JScrollPane jsPane;

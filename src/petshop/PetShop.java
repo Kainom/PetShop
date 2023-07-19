@@ -14,7 +14,8 @@ public class PetShop {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-                 new Estoque();
+//                 new Estoque();
+       new Usuario().setVisible(true);
                  
 
 
