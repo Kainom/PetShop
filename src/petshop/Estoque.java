@@ -53,17 +53,16 @@ public class Estoque {
         File arquivo = new File("C:/Users/User/Documents/NetBeansProjects/PetShop/src/Estoque.txt");
         List<String> linha = new ArrayList<>();
         int i = 0;
-        Integer quantidade;
-        produtos.clear();
+        produtos.clear();  // limpa a lista para o recebimento de uma nova armazenagem
         try {
             FileReader fr = new FileReader(arquivo);
             BufferedReader br = new BufferedReader(fr);
             while (br.ready()) {
-                linha.add(br.readLine());
+                linha.add(br.readLine()); // adiciona a lista linha a leitura 
                 System.out.println(linha.get(i));
-                String[] lendo = linha.get(i).split(":", 2);
+                String[] lendo = linha.get(i).split(":", 2); // split para pegar apenas o valor numérico
                 System.out.println(lendo[1]);
-                produtos.add(Integer.parseInt(lendo[1]));
+                produtos.add(Integer.parseInt(lendo[1])); // adiciona a parte numerica ao produtos //
                 i++;
             }
 
@@ -76,7 +75,7 @@ public class Estoque {
         
     }
 
-    private class InsereProdutos<T> extends JFrame {
+    private class InsereProdutos<T> extends JFrame {  
 
         private Fundo painel;
         private JSpinner spinner;
@@ -190,12 +189,12 @@ public class Estoque {
 
             for (String linha : leitura) {
                 c++;
-                if (c == position) {
-                    String[] linho = linha.split(":");
-                    String produto = linho[0] + ":" + quantidade;
-                    System.out.println(produto);
-                    pw.println(produto);
-                } else {
+                if (c == position) { // confere quando produto  foi selecionado para alterá-lo
+                    String[] produto = linha.split(":"); //split que pega apenas o nome do produto 
+                    String novoProduto = produto[0] + ":" + quantidade; // armazena o nome e a nova  quantidade
+                    System.out.println(novoProduto);
+                    pw.println(novoProduto);
+                } else { // reescreve os produtos que não foram alterados 
                     System.out.println(linha);
                     pw.println(linha);
 

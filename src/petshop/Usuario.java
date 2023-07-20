@@ -28,14 +28,12 @@ import javax.swing.text.MaskFormatter;
  *
  * @author User
  */
-public class Usuario extends JFrame implements ActionListener {
+public class Usuario extends TelaInicial implements ActionListener {
 
     ImageIcon iconPet;
     private String registro;
     protected ImageIcon iconDog;
     private JLabel lblNome, lblCnpj, lblCpf, lblEscolha;
-    protected JPanel jpShop, jpConfirma;
-    protected Fundo painel;
     protected JTextField txtNome;
     protected JFormattedTextField txtfCnpj, txtfCpf;
     private MaskFormatter cnpj, cpf;
@@ -54,33 +52,24 @@ public class Usuario extends JFrame implements ActionListener {
 
     protected void configurarJanela() {
 
-        iconPet = new ImageIcon(getClass().getResource("/imagens/dog.jpg"));
-        painel = new Fundo();
-        this.painel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 200));
-
-        this.add(painel);
+        super.configurarJanela();
         this.setTitle("USUARIO");
-        this.setSize(1000, 500);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(false);
-        this.setLocationRelativeTo(this);
+     
 
     }
 
     protected void configurarPanel() {
-        jpShop = new JPanel();
-        jpConfirma = new JPanel();
-
+        super.configurarPanel();
+        this.jpShop.removeAll();
+        
         this.jpShop.setLayout(new FlowLayout(FlowLayout.LEFT, 50, 25));
-        this.jpShop.setPreferredSize(new Dimension(490, 400));
-        this.jpShop.setBackground(Color.darkGray);
-        this.jpShop.setOpaque(false);
+       
 
         this.jpConfirma.setPreferredSize(new Dimension(440, 300));
         this.jpConfirma.setBackground(Color.red);
-        this.jpConfirma.setOpaque(false);
+        this.jpConfirma.setOpaque(false); 
 
-        this.painel.add(this.jpShop);
+        this.painel.add(this.jpShop); // até aqui reutiliza 
 
         configurarDados();
         this.jpShop.add(this.lblNome);

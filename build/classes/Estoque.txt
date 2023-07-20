@@ -1,8 +1,8 @@
 Nutrilus:0
 Whiskas:3
-Cheval:4
+Cheval:1
 Milho:0
-Max:6
+Max:12
 Queranon:7
 Ampicilina:8
 Coleira:6
