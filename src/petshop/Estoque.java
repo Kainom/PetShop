@@ -7,8 +7,7 @@ package petshop;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -23,8 +22,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
@@ -36,8 +34,6 @@ import javax.swing.SpinnerNumberModel;
 public class Estoque {
 
     private static List<Integer> produtos = new ArrayList<>();
-    private static Integer qtdampicilina, qtdcoleira, qtddontral, qtdgranplus, qtdprediderm,
-            qtdracaoExtrusada, qtdcheval, qtdmax, qtdnutrilus, qtdqueranon, qtdsacaMilho, qtdwhiskas;
     private PrintWriter pw;
     private FileReader fr;
 
@@ -72,76 +68,79 @@ public class Estoque {
             System.out.println("OPS!");
         }
 
-        
     }
 
-    private class InsereProdutos<T> extends JFrame {  
+    private class InsereProdutos<T> extends TelaInicial {
 
-        private Fundo painel;
         private JSpinner spinner;
+        private JLabel lblQuantidade, lblProdutos;
         private JComboBox<String> jcTipo;
         private List<String> leitura;
-        private ImageIcon iconPet, iconShiba;
-        private JPanel jpAdiciona, jpVolta;
-        private JButton bntConfirm;
+        private ImageIcon iconShiba,iconVolta;
+        private JButton bntConfirm, bntVolta;
         private File arquivo = new File("C:/Users/User/Documents/NetBeansProjects/PetShop/src/Estoque.txt");
         private PrintWriter pw;
         private FileReader fr;
         private BufferedReader br;
 
         public InsereProdutos() {
-            configurarJanela();
-            configurarPanel();
-            this.setVisible(true);
-
-        }
-
-        private void configurarJanela() {
-            iconPet = new ImageIcon(getClass().getResource("/imagens/dog.jpg"));
-            painel = new Fundo();
-            painel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 200));
-            this.add(painel);
+            super.configurarJanela();
             this.setTitle("ESTOQUE");
-            this.setSize(1000, 500);
-            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            this.setResizable(false);
-            this.setLocationRelativeTo(this);
-
+            configurarPane();
+            this.setVisible(true);
         }
 
-        private void configurarPanel() {
-            jpAdiciona = new JPanel();
-            jpVolta = new JPanel();
+        private void configurarPane() {
+            super.configurarPanel();
+            this.jpShop.removeAll();
+            this.jpShop.setLayout(new FlowLayout(FlowLayout.LEFT, 70, 40));
+            this.jpShop.setBackground(Color.darkGray);
 
-            this.jpAdiciona.setLayout(new FlowLayout(FlowLayout.LEFT, 60, 40));
-            this.jpAdiciona.setPreferredSize(new Dimension(490, 400));
-            this.jpAdiciona.setBackground(Color.darkGray);
+            this.jpShop.setOpaque(false);
 
-            this.jpAdiciona.setOpaque(false);
-            this.jpVolta.setPreferredSize(new Dimension(300, 300));
-            this.jpVolta.setOpaque(false);
-
-            this.painel.add(this.jpAdiciona);
+            this.painel.add(this.jpShop);
 
             configurarDados();
-            this.jpAdiciona.add(this.spinner);
-            this.jpAdiciona.add(this.jcTipo);
-            this.jpAdiciona.add(this.bntConfirm);
+            this.jpShop.add(this.lblQuantidade);
+            this.jpShop.add(this.spinner);
+            this.jpShop.add(this.lblProdutos);
+            this.jpShop.add(this.jcTipo);
+            this.jpShop.add(this.bntVolta);
+            this.jpShop.add(this.bntConfirm);
 
-            this.bntConfirm.addActionListener(action -> armazena(action));
-
+            this.bntConfirm.addActionListener(evento -> action(evento));
+            this.bntVolta.addActionListener(evento -> action(evento));
         }
 
         private void configurarDados() {
-            iconShiba = new ImageIcon(getClass().getResource("/imagens/shiba.jpg"));
-
+            iconShiba = new ImageIcon(getClass().getResource("/imagens/shiba.png"));
+            iconVolta = new ImageIcon(getClass().getResource("/imagens/volta.png"));
+            lblQuantidade = new JLabel("QUANTIDADE");
+            lblProdutos = new JLabel("PRODUTOS   ");
             bntConfirm = new JButton(iconShiba);
-            this.bntConfirm.setPreferredSize(new Dimension(50, 50));
-            this.bntConfirm.setBackground(Color.darkGray);
+            bntVolta = new JButton(iconVolta);
 
-            SpinnerModel value = new SpinnerNumberModel(1, 1, 100, 1);
+            this.lblQuantidade.setFont(new Font("Arial Black", Font.BOLD, 14));
+            this.lblQuantidade.setForeground(Color.CYAN);
+
+            this.lblProdutos.setFont(new Font("Arial Black", Font.BOLD, 14));
+            this.lblProdutos.setForeground(Color.CYAN);
+
+            this.bntConfirm.setPreferredSize(new Dimension(129, 60));
+            this.bntConfirm.setBackground(Color.darkGray);
+            this.bntConfirm.setOpaque(false);
+            this.bntConfirm.setBorder(null);
+            this.bntConfirm.setFocusPainted(false);
+
+            this.bntVolta.setPreferredSize(new Dimension(129, 60));
+            this.bntVolta.setBackground(Color.darkGray);
+            this.bntVolta.setOpaque(false);
+            this.bntVolta.setBorder(null);
+            this.bntVolta.setFocusPainted(false);
+
+            SpinnerModel value = new SpinnerNumberModel(1, 1, 1000, 1);
             this.spinner = new JSpinner(value);
-            this.spinner.setPreferredSize(new Dimension(120, 20));
+            this.spinner.setPreferredSize(new Dimension(122, 20));
 
             this.jcTipo = new JComboBox<>();
             this.jcTipo.addItem("");
@@ -206,26 +205,19 @@ public class Estoque {
 
         }
 
-        private void armazena(ActionEvent action) {
-            if (!this.jcTipo.getSelectedItem().equals("")) {
+        private void action(ActionEvent evento) {
+            if (!this.jcTipo.getSelectedItem().equals("") && evento.getSource().equals(this.bntConfirm)) {
                 try {
                     System.out.println("opa");
                     inserir();
                 } catch (IOException err) {
                 }
+            } else if(evento.getSource().equals(this.bntVolta)){
+                new TelaInicial().setVisible(true);
+                this.dispose();
             }
         }
 
-        protected class Fundo extends javax.swing.JPanel {
-
-            @Override
-            public void paintComponent(Graphics g) {
-                super.paintComponent(g); // extendo de painel para utilizar o comando super // 
-                Image img = iconPet.getImage();
-                g.drawImage(img, 0, 0, this);
-            }
-
-        }
     }
 
 }

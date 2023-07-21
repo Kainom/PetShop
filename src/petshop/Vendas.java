@@ -4,6 +4,7 @@
  */
 package petshop;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -15,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
@@ -51,6 +53,8 @@ public class Vendas extends Produtos {
         System.out.println(registro + "c");
         super.configurarJanela();
         this.setTitle("VENDAS");
+        
+        super.configurarPanel();
         configurarDads(carrinho, prec);
         configurarPane();
 
@@ -61,8 +65,7 @@ public class Vendas extends Produtos {
         jpCarrinho = new JPanel();
         jpDados = new JPanel();
 
-        super.configurarPanel();
-        this.painel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        this.painel.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 0));
         this.painel.removeAll();
         this.jpShop.removeAll();
         this.jsPane.setPreferredSize(new Dimension(800, 100));
@@ -76,7 +79,8 @@ public class Vendas extends Produtos {
 
         this.jpDados.setPreferredSize(new Dimension(745, 262));
         this.jpDados.setBackground(Color.darkGray);
-        this.jpDados.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 25));
+        this.jpDados.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 25));        
+        this.jpDados.setOpaque(false);
         this.jpDados.add(this.lblNome);
         this.jpDados.add(this.lblRegistro);
         this.jpDados.add(this.lblCep);
@@ -90,9 +94,11 @@ public class Vendas extends Produtos {
         this.jpDados.add(this.lblAdicional);
         this.jpDados.add(this.txtAdicional);
         this.jpDados.add(this.bntConfirm);
-
-        this.jpDados.setOpaque(false);
-        this.painel.add(jsPane);
+        
+        this.jpVolta.removeAll();
+        this.jpVolta.add(this.bntVolta,BorderLayout.SOUTH   );
+        this.painel.add(this.jpVolta);
+        this.painel.add(this.jsPane);
         this.painel.add(this.jpCarrinho);
         this.painel.add(this.jpDados);
 
@@ -121,24 +127,8 @@ public class Vendas extends Produtos {
             });
         }
 
-        this.bntConfirm.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                long num;
-                int teste = testarCampos(txtBairro.getText());
-                teste += testarCampos(txtRua.getText());
-                try {
-                    num = Long.parseLong(txtNum.getText());
-                } catch (NumberFormatException erro) {
-                    teste++;
-                }
-                if (teste == 0) {
-                    Vendas.this.dispose();
-                }
-            }
-
-        });
-
+        this.bntConfirm.addActionListener(evento -> action(evento));
+        this.bntVolta.addActionListener(evento -> action(evento));
     }
 
     protected void configurarDads(List<Float> carrinho, List<Float> prec) {
@@ -159,7 +149,14 @@ public class Vendas extends Produtos {
         txtRua = new JTextField();
         txtNum = new JTextField();
         txtAdicional = new JTextField();
-
+        
+        this.bntVolta = new JButton(this.iconVolta);
+        this.bntVolta.setPreferredSize(new Dimension(60, 60));
+        this.bntVolta.setBackground(Color.darkGray);
+        this.bntVolta.setOpaque(false);
+        this.bntVolta.setBorder(null);
+        this.bntVolta.setFocusPainted(false);
+        
         try {
             cp = new MaskFormatter("#####-###");
         } catch (Exception erro) {
@@ -173,8 +170,8 @@ public class Vendas extends Produtos {
             cor.setForeground(new Color(255, 117, 24));
             cor.setFont(new Font("Arial Black", Font.BOLD, 12));
         } // seta a cor da maioria dos lbls e a font 
-       this.compras.stream().map(var -> var+=2);
-        
+        this.compras.stream().map(var -> var += 2);
+
         for (Float soma : this.compras) {
             i += soma;
             this.lblValor.setText("" + i);
@@ -245,4 +242,23 @@ public class Vendas extends Produtos {
         }
     }
 
+    private void action(ActionEvent evento) {
+        long num;
+        if (evento.getSource().equals(this.bntConfirm)) {
+            int teste = testarCampos(txtBairro.getText());
+
+            teste += testarCampos(txtRua.getText());
+            try {
+                num = Long.parseLong(txtNum.getText());
+            } catch (NumberFormatException erro) {
+                teste++;
+            }
+            if (teste == 0) {
+                Vendas.this.dispose();
+            }
+        } else if (evento.getSource().equals(this.bntVolta)) {
+            new Produtos(this.lblRegistro.getText(), this.lblNome.getText()).setVisible(true);
+            this.dispose();
+        }
+    }
 }

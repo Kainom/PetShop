@@ -26,7 +26,7 @@ public class TelaInicial extends JFrame {
 
     protected ImageIcon iconPet = new ImageIcon(getClass().getResource("/imagens/dog.jpg"));
     protected Fundo painel;
-    protected JPanel jpConfirma, jpShop;
+    protected JPanel jpConfirma, jpShop,jpVolta;
     private JLabel lblEstoque, lblVenda;
     private ImageIcon iconEstoque, iconVenda;
     private JButton btnEstoque, btnVenda;
@@ -52,15 +52,12 @@ public class TelaInicial extends JFrame {
     protected void configurarPanel() {
         jpShop = new JPanel();
         jpConfirma = new JPanel();
+        jpVolta = new JPanel();
 
         this.jpShop.setLayout(new FlowLayout(FlowLayout.LEFT, 100, 35));
         this.jpShop.setPreferredSize(new Dimension(490, 400));
         this.jpShop.setBackground(Color.darkGray);
         this.jpShop.setOpaque(false);
-
-        this.jpConfirma.setPreferredSize(new Dimension(440, 300));
-        this.jpConfirma.setBackground(Color.red);
-        this.jpConfirma.setOpaque(false);
 
         this.painel.add(this.jpShop);
 

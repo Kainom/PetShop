@@ -8,8 +8,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
@@ -17,9 +15,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
@@ -30,46 +26,37 @@ import javax.swing.text.MaskFormatter;
  */
 public class Usuario extends TelaInicial implements ActionListener {
 
-    ImageIcon iconPet;
     private String registro;
-    protected ImageIcon iconDog;
+    protected ImageIcon iconDog, iconVolta;
     private JLabel lblNome, lblCnpj, lblCpf, lblEscolha;
     protected JTextField txtNome;
     protected JFormattedTextField txtfCnpj, txtfCpf;
     private MaskFormatter cnpj, cpf;
     private JRadioButton bntCnpj, bntCpf, bntNenhum;
     private ButtonGroup grupo;
-    protected JButton bntConfirm;
+    protected JButton bntConfirm, bntVolta;
 
     public Usuario() {
         // Atualiza o estoque 
         Estoque.produtos();
-        configurarJanela();
-        configurarPanel();
-
-
-    }
-
-    protected void configurarJanela() {
-
         super.configurarJanela();
         this.setTitle("USUARIO");
-     
+        configurarPanel();
 
     }
 
     protected void configurarPanel() {
         super.configurarPanel();
         this.jpShop.removeAll();
-        
+
         this.jpShop.setLayout(new FlowLayout(FlowLayout.LEFT, 50, 25));
-       
 
         this.jpConfirma.setPreferredSize(new Dimension(440, 300));
+        this.jpConfirma.setLayout(new FlowLayout(FlowLayout.LEFT, 100, 60));
         this.jpConfirma.setBackground(Color.red);
-        this.jpConfirma.setOpaque(false); 
+        this.jpConfirma.setOpaque(false);
 
-        this.painel.add(this.jpShop); // até aqui reutiliza 
+        this.painel.add(this.jpShop); 
 
         configurarDados();
         this.jpShop.add(this.lblNome);
@@ -85,31 +72,21 @@ public class Usuario extends TelaInicial implements ActionListener {
         this.jpShop.add(this.txtfCpf);
         this.jpShop.add(this.jpConfirma);
 
+        this.jpConfirma.add(this.bntVolta);
         this.jpConfirma.add(this.bntConfirm);
 
         this.txtfCnpj.setVisible(false);
         this.txtfCpf.setVisible(false);
         this.lblCnpj.setVisible(false);
         this.lblCpf.setVisible(false);
-        this.bntConfirm.setVisible(false);
-        this.jpConfirma.setVisible(false);
 
         this.bntCnpj.addActionListener(this);
         this.bntCpf.addActionListener(this);
         this.bntNenhum.addActionListener(this);
 
-        this.bntConfirm.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Integer teste = new Integer(testarCampos());
+        this.bntConfirm.addActionListener(evento -> action(evento));
+        this.bntVolta.addActionListener(evento -> action(evento));
 
-                System.out.println(registro);
-                if (teste == 0) {
-                    Usuario.this.dispose();
-                    new Produtos(registro, txtNome.getText()).setVisible(true);
-                }
-            }
-        });
     }
 
     protected void configurarDados() {
@@ -122,8 +99,10 @@ public class Usuario extends TelaInicial implements ActionListener {
         bntCpf = new JRadioButton();
         bntNenhum = new JRadioButton();
         grupo = new ButtonGroup();
-        iconDog = new ImageIcon(getClass().getResource("/imagens/shiba.jpg"));
+        iconDog = new ImageIcon(getClass().getResource("/imagens/shiba.png"));
+        iconVolta = new ImageIcon(getClass().getResource("/imagens/volta.png"));
         bntConfirm = new JButton(iconDog);
+        bntVolta = new JButton(iconVolta);
 
         try {
             cnpj = new MaskFormatter("##.###.###/####-##");  //04.128.563/0001-10
@@ -176,8 +155,17 @@ public class Usuario extends TelaInicial implements ActionListener {
         this.bntNenhum.setOpaque(false);
         this.bntNenhum.setBorder(null);
 
-        this.bntConfirm.setPreferredSize(new Dimension(50, 50));
+        this.bntConfirm.setPreferredSize(new Dimension(60, 60));
         this.bntConfirm.setBackground(Color.darkGray);
+        this.bntConfirm.setOpaque(false);
+        this.bntConfirm.setBorder(null);
+        this.bntConfirm.setFocusPainted(false);
+
+        this.bntVolta.setPreferredSize(new Dimension(60, 60));
+        this.bntVolta.setBackground(Color.darkGray);
+        this.bntVolta.setOpaque(false);
+        this.bntVolta.setBorder(null);
+        this.bntVolta.setFocusPainted(false);
 
         this.grupo.add(this.bntCnpj);
         this.grupo.add(this.bntCpf);
@@ -243,28 +231,39 @@ public class Usuario extends TelaInicial implements ActionListener {
         return teste;
     }
 
+    private void action(ActionEvent event) {
+        Integer teste = new Integer(testarCampos());
+        if (event.getSource().equals(this.bntConfirm)) {
+            System.out.println(registro);
+            if (teste == 0) {
+                Usuario.this.dispose();
+                new Produtos(registro, txtNome.getText()).setVisible(true);
+            }
+        } else if (event.getSource().equals(this.bntVolta)) {
+            new TelaInicial().setVisible(true);
+            this.dispose();
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.jpConfirma.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 33));
+        this.jpConfirma.setLayout(new FlowLayout(FlowLayout.LEFT, 100, 5));
+        this.bntConfirm.setVisible(true);
 
         if (this.bntCnpj.isSelected()) {
             this.lblCnpj.setVisible(true);
             this.txtfCnpj.setVisible(true);
-            this.bntConfirm.setVisible(true);
             this.txtfCpf.setText(""); // se o cnpj foi selecionado apagamos  cpf
 
             this.lblCpf.setVisible(false);
             this.txtfCpf.setVisible(false);
-            this.jpConfirma.setVisible(true);
         } else if (this.bntCpf.isSelected()) {
             this.lblCpf.setVisible(true);
             this.txtfCpf.setVisible(true);
-            this.bntConfirm.setVisible(true);
             this.txtfCnpj.setText(""); // apagamos o cnpj
 
             this.lblCnpj.setVisible(false);
             this.txtfCnpj.setVisible(false);
-            this.jpConfirma.setVisible(true);
         } else if (this.bntNenhum.isSelected()) {
             this.txtfCnpj.setText("");
             this.txtfCpf.setText("");
@@ -273,22 +272,10 @@ public class Usuario extends TelaInicial implements ActionListener {
             this.lblCnpj.setVisible(false);
             this.txtfCnpj.setVisible(false);
 
-            this.jpConfirma.setVisible(true);
-            this.bntConfirm.setVisible(true);
-            this.jpConfirma.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 88));
+            this.jpConfirma.setLayout(new FlowLayout(FlowLayout.LEFT, 100, 60));
             this.registro = null;
 
         }
     }
 
-    protected class Fundo extends javax.swing.JPanel {
-
-        @Override
-        public void paintComponent(Graphics g) {
-            super.paintComponent(g); // extendo de painel para utilizar o comando super // 
-            Image img = Usuario.this.iconPet.getImage();
-            g.drawImage(img, 0, 0, this);
-        }
-
-    }
 }
