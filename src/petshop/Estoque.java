@@ -41,6 +41,10 @@ public class Estoque {
         new InsereProdutos();
     }
 
+    public Estoque(String vendas) {
+
+    }
+
     public static List<Integer> getProdutos() {
         return produtos;
     }
@@ -70,13 +74,13 @@ public class Estoque {
 
     }
 
-    private class InsereProdutos<T> extends TelaInicial {
+    public class InsereProdutos extends TelaInicial {
 
         private JSpinner spinner;
         private JLabel lblQuantidade, lblProdutos;
         private JComboBox<String> jcTipo;
         private List<String> leitura;
-        private ImageIcon iconShiba,iconVolta;
+        private ImageIcon iconShiba, iconVolta;
         private JButton bntConfirm, bntVolta;
         private File arquivo = new File("C:/Users/User/Documents/NetBeansProjects/PetShop/src/Estoque.txt");
         private PrintWriter pw;
@@ -88,6 +92,10 @@ public class Estoque {
             this.setTitle("ESTOQUE");
             configurarPane();
             this.setVisible(true);
+        }
+
+        public InsereProdutos(String vendas) {
+
         }
 
         private void configurarPane() {
@@ -187,7 +195,7 @@ public class Estoque {
             pw = new PrintWriter(new BufferedWriter(new FileWriter(arquivo)));
 
             for (String linha : leitura) {
-                c++;
+                c++; // começa incrementando por causa da posição  0 do check estar vazia;
                 if (c == position) { // confere quando produto  foi selecionado para alterá-lo
                     String[] produto = linha.split(":"); //split que pega apenas o nome do produto 
                     String novoProduto = produto[0] + ":" + quantidade; // armazena o nome e a nova  quantidade
@@ -205,6 +213,39 @@ public class Estoque {
 
         }
 
+        public void inserir(List<Integer> position, List<Integer> quantidade) throws IOException {
+            if (!arquivo.exists()) {
+                System.out.println("VAZIO");
+                arquivo.createNewFile();
+
+            }
+            lendo();
+            pw = new PrintWriter(new BufferedWriter(new FileWriter(arquivo)));
+            int c = 0;
+            int d = 0;
+            System.out.println("Quantidade" + quantidade.size());
+            int k = 0;
+            for (String linha : leitura) {
+                for (int f = 0; f < position.size(); f++) {
+                    if (c == position.get(f)) { // confere quando produto  foi selecionado para alterá-lo
+                        System.out.print(f + " ");
+                        String[] produto = linha.split(":"); //split que pega apenas o nome do produto 
+                        String novoProduto = produto[0] + ":" + quantidade.get(f); // armazena o nome e a nova  quantidade
+                        pw.println(novoProduto);
+                        k = 0;
+                        break;
+                    } else {
+                        k = 1;
+                    }
+                }
+                if (k == 1) {
+                    pw.println(linha);
+                }
+                c++;
+            }
+            pw.close();
+        }
+
         private void action(ActionEvent evento) {
             if (!this.jcTipo.getSelectedItem().equals("") && evento.getSource().equals(this.bntConfirm)) {
                 try {
@@ -212,7 +253,7 @@ public class Estoque {
                     inserir();
                 } catch (IOException err) {
                 }
-            } else if(evento.getSource().equals(this.bntVolta)){
+            } else if (evento.getSource().equals(this.bntVolta)) {
                 new TelaInicial().setVisible(true);
                 this.dispose();
             }

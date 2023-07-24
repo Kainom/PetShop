@@ -10,11 +10,14 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -27,6 +30,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
+import petshop.Estoque.InsereProdutos;
 
 /**
  *
@@ -34,6 +38,10 @@ import javax.swing.text.MaskFormatter;
  */
 public class Vendas extends Produtos {
 
+    private Estoque t = new Estoque("Vendas");
+    private InsereProdutos b = t.new InsereProdutos("Vendas");
+    private List<Integer> redution = new ArrayList<>();
+    private List<Integer> position = new ArrayList<>();
     private Float total = 0f;
     private JLabel lblCarrinho, lblValor, lblRegistro, lblNome, lblCep, lblRua, lblBairro, lblNum, lblAdicional;
     private JTextField txtBairro, txtRua, txtNum, txtAdicional;
@@ -53,7 +61,6 @@ public class Vendas extends Produtos {
         System.out.println(registro + "c");
         super.configurarJanela();
         this.setTitle("VENDAS");
-        
         super.configurarPanel();
         configurarDads(carrinho, prec);
         configurarPane();
@@ -79,7 +86,7 @@ public class Vendas extends Produtos {
 
         this.jpDados.setPreferredSize(new Dimension(745, 262));
         this.jpDados.setBackground(Color.darkGray);
-        this.jpDados.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 25));        
+        this.jpDados.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 25));
         this.jpDados.setOpaque(false);
         this.jpDados.add(this.lblNome);
         this.jpDados.add(this.lblRegistro);
@@ -94,9 +101,9 @@ public class Vendas extends Produtos {
         this.jpDados.add(this.lblAdicional);
         this.jpDados.add(this.txtAdicional);
         this.jpDados.add(this.bntConfirm);
-        
+
         this.jpVolta.removeAll();
-        this.jpVolta.add(this.bntVolta,BorderLayout.SOUTH   );
+        this.jpVolta.add(this.bntVolta, BorderLayout.SOUTH);
         this.painel.add(this.jpVolta);
         this.painel.add(this.jsPane);
         this.painel.add(this.jpCarrinho);
@@ -114,14 +121,20 @@ public class Vendas extends Produtos {
                 public void stateChanged(ChangeEvent carrinho) {
                     Float cont = new Float(0);
                     int i = 0;
+                    redution.removeAll(redution);
                     for (JSpinner soma : spinner) {
                         cont = compras.get(i) * Float.parseFloat(soma.getValue().toString());
                         total += cont;
+                        redution.add((Estoque.getProdutos().get(position.get(i)) - Integer.parseInt(soma.getValue().toString())));
                         i++;
                     }
                     System.out.println(total);
                     lblValor.setText(total.toString());
                     total = 0f;
+                    for (Integer tested : redution) {
+                        System.out.print(" " + tested);
+                    }
+
                 }
 
             });
@@ -133,64 +146,105 @@ public class Vendas extends Produtos {
 
     protected void configurarDads(List<Float> carrinho, List<Float> prec) {
         super.configurarDados();
+        List<Integer> poset = new ArrayList<>();
+        List<JLabel> lblCom = new ArrayList<>();
+        List<JSpinner> spin = new ArrayList<>();
+
         Float i = new Float(0);
         List<JLabel> color = new ArrayList<>();
         iconCarrinho = new ImageIcon(getClass().getResource("/imagens/carrinho.png"));
         lblCarrinho = new JLabel(iconCarrinho);
-        color.add(lblValor = new JLabel());
-        color.add(lblRegistro = new JLabel());
-        color.add(lblNome = new JLabel("NOME: " + super.nome));
-        color.add(lblCep = new JLabel("CEP:"));
-        color.add(lblRua = new JLabel("RUA:"));
-        color.add(lblBairro = new JLabel("BAIRRO:"));
-        color.add(lblNum = new JLabel("NUM:"));
-        color.add(lblAdicional = new JLabel("COMPLEMENTO:"));
+
+        color.add(lblValor
+                = new JLabel());
+        color.add(lblRegistro
+                = new JLabel());
+        color.add(lblNome
+                = new JLabel("NOME: " + super.nome));
+        color.add(lblCep
+                = new JLabel("CEP:"));
+        color.add(lblRua
+                = new JLabel("RUA:"));
+        color.add(lblBairro
+                = new JLabel("BAIRRO:"));
+        color.add(lblNum
+                = new JLabel("NUM:"));
+        color.add(lblAdicional
+                = new JLabel("COMPLEMENTO:"));
         txtBairro = new JTextField();
         txtRua = new JTextField();
         txtNum = new JTextField();
         txtAdicional = new JTextField();
-        
+
         this.bntVolta = new JButton(this.iconVolta);
-        this.bntVolta.setPreferredSize(new Dimension(60, 60));
+
+        this.bntVolta.setPreferredSize(
+                new Dimension(60, 60));
+
         this.bntVolta.setBackground(Color.darkGray);
-        this.bntVolta.setOpaque(false);
-        this.bntVolta.setBorder(null);
-        this.bntVolta.setFocusPainted(false);
-        
+
+        this.bntVolta.setOpaque(
+                false);
+
+        this.bntVolta.setBorder(
+                null);
+
+        this.bntVolta.setFocusPainted(
+                false);
+
+        this.bntConfirm.setPreferredSize(
+                new Dimension(50, 50));
+
         try {
             cp = new MaskFormatter("#####-###");
         } catch (Exception erro) {
         }
         txtfCep = new JFormattedTextField(cp);
 
-        color.stream().forEach(cor -> cor.setForeground(new Color(255, 117, 24)));
-        color.stream().forEach(cor -> cor.setFont(new Font("Arial Black", Font.BOLD, 12)));
+        color.stream()
+                .forEach(cor -> cor.setForeground(new Color(255, 117, 24)));
+        color.stream()
+                .forEach(cor -> cor.setFont(new Font("Arial Black", Font.BOLD, 12)));
 
         for (JLabel cor : color) {
             cor.setForeground(new Color(255, 117, 24));
             cor.setFont(new Font("Arial Black", Font.BOLD, 12));
         } // seta a cor da maioria dos lbls e a font 
-        this.compras.stream().map(var -> var += 2);
 
         for (Float soma : this.compras) {
             i += soma;
             this.lblValor.setText("" + i);
         } // seta o valor inicial do carrinho
 
-        this.lblNome.setFont(new Font("Arial Black", Font.BOLD, 16));
-        this.lblNome.setPreferredSize(new Dimension(470, 30));
+        this.lblNome.setFont(
+                new Font("Arial Black", Font.BOLD, 16));
 
-        this.lblRegistro.setFont(new Font("Arial Black", Font.BOLD, 16));
+        this.lblNome.setPreferredSize(
+                new Dimension(470, 30));
 
-        this.txtBairro.setPreferredSize(new Dimension(225, 30));
-        this.txtBairro.setFont(new Font("Arial Black", Font.PLAIN, 12));
+        this.lblRegistro.setFont(
+                new Font("Arial Black", Font.BOLD, 16));
 
-        this.txtRua.setPreferredSize(new Dimension(225, 30));
-        this.txtRua.setFont(new Font("Arial Black", Font.PLAIN, 12));
+        this.txtBairro.setPreferredSize(
+                new Dimension(225, 30));
 
-        this.txtAdicional.setPreferredSize(new Dimension(180, 30));
-        this.txtAdicional.setFont(new Font("Arial Black", Font.PLAIN, 12));
-        this.txtAdicional.setText("OPCIONAL");
+        this.txtBairro.setFont(
+                new Font("Arial Black", Font.PLAIN, 12));
+
+        this.txtRua.setPreferredSize(
+                new Dimension(225, 30));
+
+        this.txtRua.setFont(
+                new Font("Arial Black", Font.PLAIN, 12));
+
+        this.txtAdicional.setPreferredSize(
+                new Dimension(180, 30));
+
+        this.txtAdicional.setFont(
+                new Font("Arial Black", Font.PLAIN, 12));
+
+        this.txtAdicional.setText(
+                "OPCIONAL");
 
         class Mouse extends MouseAdapter { // implementa evento do mouse 
 
@@ -205,41 +259,60 @@ public class Vendas extends Produtos {
                 }
             }
         }
+
         new Mouse().adiconaEvent();
 
         this.txtfCep.setPreferredSize(new Dimension(100, 30));
+
         this.txtfCep.setFont(new Font("Arial Black", Font.PLAIN, 12));
 
         this.txtNum.setPreferredSize(new Dimension(50, 30));
+
         this.txtNum.setFont(new Font("Arial Black", Font.PLAIN, 12));
 
-        if (super.registro.length() == 14 && !super.registro.endsWith(" ")) { // referente ao cpf
+        if (super.registro.length()
+                == 14 && !super.registro.endsWith(" ")) { // referente ao cpf
             this.lblRegistro.setText("CPF: " + super.registro);
             this.lblNome.setPreferredSize(new Dimension(500, 30));
-        } else if (super.registro.length() > 14) { // referente ao cnpj 
+        } else if (super.registro.length()
+                > 14) { // referente ao cnpj 
             this.lblRegistro.setText("CNPJ: " + super.registro);
         } else {
             this.lblRegistro.setVisible(false);
             this.lblNome.setPreferredSize(new Dimension(800, 30));
         }
 
-        for (Float compara : carrinho) {  //compara valor dos  produtos selecionados com todos os produtos afim de descobri qual lbl  definir o lbl
+        for (Float compara : carrinho) {  //compara valor dos  produtos selecionados com todos os produtos afim de selecionar o lbl correspondente ao produto 
             for (int k = 0; k < QUANTIDADE_PRODUTOS; k++) {
                 if (compara.equals(prec.get(k))) {
-                    this.lblCompras.add(this.lblProdutos.get(k));
+                    poset.add(k);
                     int produtos = Estoque.getProdutos().get(k);
-
                     SpinnerModel value = new SpinnerNumberModel(1, 1, produtos, 1); // adiciona os spinner referente aos produtos selecionados 
                     JSpinner spinn = new JSpinner(value);
                     spinn.setPreferredSize(new Dimension(50, 20));
-                    this.spinner.add(spinn);
-
+                    spin.add(spinn);
                 }
             }
         }
-        for (JLabel adiciona : this.lblCompras) {
+        for (int j = 0; j < QUANTIDADE_PRODUTOS; j++) {
+            for (int f = 0; f < poset.size(); f++) {
+                if (j == poset.get(f)) {
+                    this.lblCompras.add(lblProdutos.get(poset.get(f)));
+                    this.spinner.add(spin.get(f));
+                    System.out.println(j + " " + poset.get(f));
+                    break;
+                }
 
+            }
         }
+
+        Collections.sort(poset);
+        for (Integer adiciona : poset) {
+            System.out.print(" " + adiciona);
+        }
+        
+        this.position = poset;
+
     }
 
     private void action(ActionEvent evento) {
@@ -254,11 +327,15 @@ public class Vendas extends Produtos {
                 teste++;
             }
             if (teste == 0) {
-                Vendas.this.dispose();
+                try {
+                    b.inserir(position, redution);
+                    Vendas.this.dispose();
+                } catch (IOException ex) {}
             }
         } else if (evento.getSource().equals(this.bntVolta)) {
             new Produtos(this.lblRegistro.getText(), this.lblNome.getText()).setVisible(true);
             this.dispose();
+
         }
     }
 }
