@@ -310,8 +310,13 @@ public class Vendas extends Produtos {
         for (Integer adiciona : poset) {
             System.out.print(" " + adiciona);
         }
-        
+
         this.position = poset;
+        int m = 0;
+        for (JSpinner soma : spinner) {
+            redution.add((Estoque.getProdutos().get(position.get(m)) - Integer.parseInt(soma.getValue().toString())));
+            m++;
+        }
 
     }
 
@@ -330,7 +335,8 @@ public class Vendas extends Produtos {
                 try {
                     b.inserir(position, redution);
                     Vendas.this.dispose();
-                } catch (IOException ex) {}
+                } catch (IOException ex) {
+                }
             }
         } else if (evento.getSource().equals(this.bntVolta)) {
             new Produtos(this.lblRegistro.getText(), this.lblNome.getText()).setVisible(true);
