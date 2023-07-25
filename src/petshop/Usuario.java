@@ -56,7 +56,7 @@ public class Usuario extends TelaInicial implements ActionListener {
         this.jpConfirma.setBackground(Color.red);
         this.jpConfirma.setOpaque(false);
 
-        this.painel.add(this.jpShop); 
+        this.painel.add(this.jpShop);
 
         configurarDados();
         this.jpShop.add(this.lblNome);
@@ -228,6 +228,10 @@ public class Usuario extends TelaInicial implements ActionListener {
                 registro = txtfCnpj.getText();
             }
         }
+        if (!(this.bntCnpj.isSelected() || this.bntCpf.isSelected() || this.bntNenhum.isSelected())) {
+            teste++;
+        }
+
         return teste;
     }
 

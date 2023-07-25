@@ -9,13 +9,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
@@ -24,20 +25,23 @@ import javax.swing.ScrollPaneConstants;
  * @author User
  */
 public class Produtos extends Usuario {
-    
+
     public static final int QUANTIDADE_PRODUTOS = Estoque.getProdutos().size(); // constante referente a quantidade de produtos 
+    private javax.swing.JPanel jpAlerta, jpEsquerda, jpDireita;
+    private ImageIcon setaEsquerda, setaDireita, perigo;
+    private JLabel lblPerigo, lblEsquerda, lblDireita;
     protected String registro;
     protected String nome;
-    protected JScrollPane jsPane;
+    protected JScrollPane jsPane, jsAlerta;
     private List<JCheckBox> checkProdutos;
-    protected List<JLabel> lblProdutos;
+    protected List<JLabel> lblProdutos, lblCopia;
     private List<Float> carrinho = new ArrayList<>();
     protected List<Float> valores = new ArrayList<>();
     protected float ampicilina, coleira, dontral, granplus, prediderm, //
             racaoExtrusada, cheval, max, nutrilus, queranon, sacaMilho, whiskas;
-    
+
     {
-        
+
         valores.add(nutrilus = 100.55f);
         valores.add(whiskas = 30.54f);
         valores.add(cheval = 50.3f);
@@ -50,102 +54,158 @@ public class Produtos extends Usuario {
         valores.add(prediderm = 15.3f);
         valores.add(granplus = 40.3f);
         valores.add(racaoExtrusada = 56.65f);
-        
+
     }
-    
+
     public Produtos(String registro, String nome) {
-        
+
         this.registro = registro;
         this.nome = nome;
         super.configurarJanela();
         this.setTitle("PRODUTOS");
         configurarPanel();
-        
+
     }
-    
+
     @Override
     protected void configurarPanel() {
         jpShop = new javax.swing.JPanel();
         jpConfirma = new javax.swing.JPanel();
         jpVolta = new javax.swing.JPanel();
-        
+        jpAlerta = new javax.swing.JPanel();
+        jpEsquerda = new javax.swing.JPanel();
+        jpDireita = new javax.swing.JPanel();
+        int teste = 0;
+
         this.jpShop.setBackground(Color.darkGray);
-        this.jpShop.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        this.jpShop.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
         this.jpShop.setOpaque(false);
-        
+
         this.jpConfirma.setPreferredSize(new Dimension(50, 97));
         this.jpConfirma.setBackground(Color.darkGray);
         this.jpConfirma.setLayout(new BorderLayout());
         this.jpConfirma.setOpaque(false);
-        
+
         this.jpVolta.setPreferredSize(new Dimension(70, 100));
         this.jpVolta.setBackground(Color.darkGray);
         this.jpVolta.setLayout(new BorderLayout());
-        this.jpVolta.setOpaque(false );
+        this.jpVolta.setOpaque(false);
+
+        BoxLayout box = new BoxLayout(this.jpAlerta, BoxLayout.Y_AXIS);
+
+        this.jpAlerta.setBackground(Color.darkGray);
+        this.jpAlerta.setLayout(new BoxLayout(this.jpAlerta, BoxLayout.Y_AXIS));
+        this.jpAlerta.setOpaque(false);
 
         jsPane = new JScrollPane();
-        jsPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        jsPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        this.jsPane.setPreferredSize(new Dimension(800, 100));
-        
+        this.jsPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        this.jsPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        this.jsPane.setPreferredSize(new Dimension(800, 145));
+
         this.jsPane.setOpaque(false);
         this.jsPane.getViewport().setOpaque(false);
         this.jsPane.setViewportView(this.jpShop);
-        
-        this.painel.setLayout(new FlowLayout(FlowLayout.RIGHT, 15, 0));
+
+        jsAlerta = new JScrollPane();
+        this.jsAlerta.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        this.jsAlerta.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        this.jsAlerta.setPreferredSize(new Dimension(400, 300));
+
+        this.jsAlerta.setOpaque(false);
+        this.jsAlerta.getViewport().setOpaque(false);
+        this.jsAlerta.setViewportView(this.jpAlerta);
+
+        this.jpEsquerda.setPreferredSize(new Dimension(100, 200));
+        this.jpEsquerda.setBackground(Color.darkGray);
+        this.jpEsquerda.setLayout(new BorderLayout());
+        this.jpEsquerda.setOpaque(false);
+
+        this.jpDireita.setPreferredSize(new Dimension(100, 200));
+        this.jpDireita.setBackground(Color.darkGray);
+        this.jpDireita.setLayout(new BorderLayout());
+        this.jpDireita.setOpaque(false);
+
+        this.painel.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 5));
         this.painel.add(this.jpVolta);
         this.painel.add(this.jsPane);
         this.painel.add(this.jpConfirma);
-        
+
         super.configurarDados(); // chama da classe pai com alguns elementos ja prontos para reutilização 
         configurarDados();
-        
+
+        this.jpAlerta.add(this.lblPerigo);
+
         for (int i = 0; i < QUANTIDADE_PRODUTOS; i++) {
             if (Estoque.getProdutos().get(i) > 0) { // se o produto for menor que 0 ele se encontra indisponivel //
                 this.jpShop.add(this.lblProdutos.get(i));
                 this.jpShop.add(this.checkProdutos.get(i));
                 this.checkProdutos.get(i).addActionListener(this);
+
             }
+            if (Estoque.getProdutos().get(i) <= 3) {
+                this.jpAlerta.add(Box.createRigidArea(new Dimension(130, 10)));
+                this.jpAlerta.add(this.lblCopia.get(i));
+                teste++;
+            }
+
         }
+        if (teste > 0) {
+            this.painel.add(this.jpEsquerda);
+            this.painel.add(this.jsAlerta);
+            this.painel.add(this.jpDireita);
+            this.jpDireita.add(this.lblDireita);
+            this.jpEsquerda.add(this.lblEsquerda);
+        }
+
         this.jpVolta.add(this.bntVolta, BorderLayout.SOUTH);
         this.jpConfirma.add(this.bntConfirm, BorderLayout.SOUTH); // bnt confirm reutilizado da classe Pai
         this.bntConfirm.addActionListener(evento -> action(evento));
         this.bntVolta.addActionListener(evento -> action(evento));
 
-            
-
     }
-    
+
     @Override
     protected void configurarDados() {
-        ImageIcon ampicilina = new ImageIcon(getClass().getResource("/imagens/Ampicilina.jpg"));
-        ImageIcon coleira = new ImageIcon(getClass().getResource("/imagens/Coleira Simples.jpg"));
-        ImageIcon Dontral = new ImageIcon(getClass().getResource("/imagens/Dontral Vermifugo.jpg"));
-        ImageIcon granplus = new ImageIcon(getClass().getResource("/imagens/Granplus.jpg"));
-        ImageIcon prediderm = new ImageIcon(getClass().getResource("/imagens/Prediderm.jpg"));
-        ImageIcon extrusada = new ImageIcon(getClass().getResource("/imagens/Ração Extrusada.jpg"));
-        ImageIcon cheval = new ImageIcon(getClass().getResource("/imagens/cheval.jpg"));
-        ImageIcon max = new ImageIcon(getClass().getResource("/imagens/max.jpg"));
-        ImageIcon queranon = new ImageIcon(getClass().getResource("/imagens/queranon.jpg"));
-        ImageIcon sacaMilho = new ImageIcon(getClass().getResource("/imagens/sacaMilho.jpg"));
-        ImageIcon whiskas = new ImageIcon(getClass().getResource("/imagens/whiskas.jpg"));
-        ImageIcon nutrilus = new ImageIcon(getClass().getResource("/imagens/nutrilus.jpg"));
-        
+        int k = 0;
+        List<ImageIcon> produtosImage = new ArrayList<>();
+        produtosImage.add(new ImageIcon(getClass().getResource("/imagens/nutrilus.png")));
+        produtosImage.add(new ImageIcon(getClass().getResource("/imagens/whiskas.png")));
+        produtosImage.add(new ImageIcon(getClass().getResource("/imagens/cheval.png")));
+        produtosImage.add(new ImageIcon(getClass().getResource("/imagens/sacaMilho.png")));
+        produtosImage.add(new ImageIcon(getClass().getResource("/imagens/max.png")));
+        produtosImage.add(new ImageIcon(getClass().getResource("/imagens/queranon.png")));
+        produtosImage.add(new ImageIcon(getClass().getResource("/imagens/Ampicilina.png")));
+        produtosImage.add(new ImageIcon(getClass().getResource("/imagens/Coleira Simples.png")));
+        produtosImage.add(new ImageIcon(getClass().getResource("/imagens/Dontral Vermifugo.png")));
+        produtosImage.add(new ImageIcon(getClass().getResource("/imagens/Prediderm.png")));
+        produtosImage.add(new ImageIcon(getClass().getResource("/imagens/Granplus.png")));
+        produtosImage.add(new ImageIcon(getClass().getResource("/imagens/Ração Extrusada.png")));
+
+        setaDireita = new ImageIcon(getClass().getResource("/screnn/setaDireita.png"));
+        setaEsquerda = new ImageIcon(getClass().getResource("/screnn/setaEsquerda.png"));
+        perigo = new ImageIcon(getClass().getResource("/screnn/perigo.png"));
+
+        lblPerigo = new JLabel(perigo);
+        lblEsquerda = new JLabel(setaEsquerda);
+        lblDireita = new JLabel(setaDireita);
         lblProdutos = new ArrayList<>();
+        lblCopia = new ArrayList<>();
         checkProdutos = new ArrayList<>();
-        
-       
+
         for (int i = 0; i < QUANTIDADE_PRODUTOS; i++) {
             JLabel lblP = new JLabel();
+            JLabel lblP2 = new JLabel();
+
             JCheckBox check = new JCheckBox();
             check.setPreferredSize(new Dimension(147, 20));
             check.setForeground(new Color(75, 0, 30));
             check.setOpaque(false);
             this.checkProdutos.add(check);
             this.lblProdutos.add(lblP);
-            
+            this.lblCopia.add(lblP2);
+
         }
-        
+
         this.checkProdutos.get(0).setText("Ração Nutrilus");
         this.checkProdutos.get(1).setText("Whiskas");
         this.checkProdutos.get(2).setText("Cheval");
@@ -158,30 +218,23 @@ public class Produtos extends Usuario {
         this.checkProdutos.get(9).setText("Prediderm");
         this.checkProdutos.get(10).setText("Gran Plus");
         this.checkProdutos.get(11).setText("Ração Extrusada");
-        
-        this.lblProdutos.get(0).setIcon(nutrilus);
-        this.lblProdutos.get(1).setIcon(whiskas);
-        this.lblProdutos.get(2).setIcon(cheval);
-        this.lblProdutos.get(3).setIcon(sacaMilho);
-        this.lblProdutos.get(4).setIcon(max);
-        this.lblProdutos.get(5).setIcon(queranon);
-        this.lblProdutos.get(6).setIcon(ampicilina);
-        this.lblProdutos.get(7).setIcon(coleira);
-        this.lblProdutos.get(8).setIcon(Dontral);
-        this.lblProdutos.get(9).setIcon(prediderm);
-        this.lblProdutos.get(10).setIcon(granplus);
-        this.lblProdutos.get(11).setIcon(extrusada);
-        
+
+        for (ImageIcon icon : produtosImage) {
+            lblProdutos.get(k).setIcon(icon);
+            lblCopia.get(k).setIcon(icon);
+            k++;
+        }
+
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent check) {
         for (int i = 0; i < QUANTIDADE_PRODUTOS; i++) {
             if (this.checkProdutos.get(i).isSelected() && check.getSource() == this.checkProdutos.get(i)) {
-                
+
                 this.carrinho.add(this.valores.get(i));
                 break;
-                
+
             } else if (!(this.checkProdutos.get(i).isSelected()) && check.getSource() == this.checkProdutos.get(i)) {
                 this.carrinho.remove(this.valores.get(i));
                 if (this.carrinho.isEmpty()) {
@@ -190,17 +243,17 @@ public class Produtos extends Usuario {
                 }
             }
         }
-        
+
     }
-    
+
     private void action(ActionEvent evento) {
         if (!(Produtos.this.carrinho.isEmpty()) && evento.getSource().equals(this.bntConfirm)) {
             Produtos.this.dispose();
             new Vendas(Produtos.this.carrinho, Produtos.this.valores, registro, nome).setVisible(true);
-        } else if(evento.getSource().equals(this.bntVolta)){
+        } else if (evento.getSource().equals(this.bntVolta)) {
             new Usuario().setVisible(true);
             this.dispose();
         }
     }
-    
+
 }

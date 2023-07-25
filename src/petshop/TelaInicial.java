@@ -74,10 +74,10 @@ public class TelaInicial extends JFrame {
     }
 
     private void configurarDados() {
-        lblEstoque = new JLabel("VENDAS  ");
-        lblVenda = new JLabel("ESTOQUE");
-        iconEstoque = new ImageIcon(getClass().getResource("/imagens/estoque.png"));
-        iconVenda = new ImageIcon(getClass().getResource("/imagens/sale.png"));
+        lblEstoque = new JLabel("ESTOQUE");
+        lblVenda = new JLabel("VENDAS  ");
+        iconEstoque = new ImageIcon(getClass().getResource("/screnn/estoque.png"));
+        iconVenda = new ImageIcon(getClass().getResource("/screnn/sale.png"));
         btnEstoque = new JButton(iconEstoque);
         btnVenda = new JButton(iconVenda);
 
