@@ -37,12 +37,11 @@ public class Estoque {
     private PrintWriter pw;
     private FileReader fr;
 
-    public Estoque() {
-        new InsereProdutos();
+    public Estoque(String insere) {
+        new InsereProdutos("Inserção");
     }
 
-    public Estoque(String vendas) {
-
+    public Estoque() { 
     }
 
     public static List<Integer> getProdutos() {
@@ -50,7 +49,7 @@ public class Estoque {
     }
 
     public static void produtos() {
-        File arquivo = new File("C:/Users/User/Documents/NetBeansProjects/PetShop/src/Estoque.txt");
+        File arquivo = new File("C:/Users/User/Documents/NetBeansProjects/PetShop/src/arquivos/Estoque.txt");
         List<String> linha = new ArrayList<>();
         int i = 0;
         produtos.clear();  // limpa a lista para o recebimento de uma nova armazenagem
@@ -82,19 +81,19 @@ public class Estoque {
         private List<String> leitura;
         private ImageIcon iconShiba, iconVolta;
         private JButton bntConfirm, bntVolta;
-        private File arquivo = new File("C:/Users/User/Documents/NetBeansProjects/PetShop/src/Estoque.txt");
+        private File arquivo = new File("C:/Users/User/Documents/NetBeansProjects/PetShop/src/arquivos/Estoque.txt");
         private PrintWriter pw;
         private FileReader fr;
         private BufferedReader br;
 
-        public InsereProdutos() {
+        public InsereProdutos(String insere) {
             super.configurarJanela();
             this.setTitle("ESTOQUE");
             configurarPane();
             this.setVisible(true);
         }
 
-        public InsereProdutos(String vendas) {
+        public InsereProdutos() { // construtor que não chama a parte gráfica,utilizada somente para inserir os produtos debitados da venda
 
         }
 
@@ -121,8 +120,8 @@ public class Estoque {
         }
 
         private void configurarDados() {
-            iconShiba = new ImageIcon(getClass().getResource("/imagens/shiba.png"));
-            iconVolta = new ImageIcon(getClass().getResource("/imagens/volta.png"));
+            iconShiba = new ImageIcon(getClass().getResource("/screnn/shiba.png"));
+            iconVolta = new ImageIcon(getClass().getResource("/screnn/volta.png"));
             lblQuantidade = new JLabel("QUANTIDADE");
             lblProdutos = new JLabel("PRODUTOS   ");
             bntConfirm = new JButton(iconShiba);
@@ -222,7 +221,6 @@ public class Estoque {
             lendo();
             pw = new PrintWriter(new BufferedWriter(new FileWriter(arquivo)));
             int c = 0;
-            int d = 0;
             System.out.println("Quantidade" + quantidade.size());
             int k = 0;
             for (String linha : leitura) {
@@ -255,7 +253,6 @@ public class Estoque {
                 }
             } else if (evento.getSource().equals(this.bntVolta)) {
                 new TelaInicial().setVisible(true);
-                this.dispose();
             }
         }
 

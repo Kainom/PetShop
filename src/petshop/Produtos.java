@@ -11,7 +11,6 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -66,7 +65,7 @@ public class Produtos extends Usuario {
         configurarPanel();
 
     }
-
+    
     @Override
     protected void configurarPanel() {
         jpShop = new javax.swing.JPanel();

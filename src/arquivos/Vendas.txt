@@ -1,0 +1,9 @@
+Nome: Baosf Cep: 32323-232 Bairro: Luz boma Rua: Goma de mascar Num: 456 Complemento: Perto de lá Valor: 127,94
+Nome: Sem ka Valor: 241,74
+Nome: Perto da luz Registro: CNPJ: 23.232.323/2323-23 Cep: 43533-434 Bairro: Kano Kamo Rua: Mamo kamo Num: 43433 Valor: 60,62
+Nome: Papo de Kalo  Cep: 32312-321 Bairro: Aki ali mano Rua: Papo de Pupo Num: 23232 Complemento: Logo Ali Valor: 153,41
+Nome: Sangue bom CPF: 333.333.333-33 Valor: 52,86
+Nome: DsSWES||Valor: 60,12
+Nome: ODoce pao de mandioca||Registro: CNPJ: 99.999.898/9898-88 Cep: 99898-989||Bairro: Moro ali a pakla||Rua: Ele mora la longe||Num: 98987||Complemento: Perto do lago cristalino||Valor: 1053,91
+Nome: Boka de kiko||CNPJ: 83.845.857/6767-67||Valor: 1242,88
+Nome: dwadadwa||Valor: 55,60

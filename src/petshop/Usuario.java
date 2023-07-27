@@ -99,8 +99,8 @@ public class Usuario extends TelaInicial implements ActionListener {
         bntCpf = new JRadioButton();
         bntNenhum = new JRadioButton();
         grupo = new ButtonGroup();
-        iconDog = new ImageIcon(getClass().getResource("/imagens/shiba.png"));
-        iconVolta = new ImageIcon(getClass().getResource("/imagens/volta.png"));
+        iconDog = new ImageIcon(getClass().getResource("/screnn/shiba.png"));
+        iconVolta = new ImageIcon(getClass().getResource("/screnn/volta.png"));
         bntConfirm = new JButton(iconDog);
         bntVolta = new JButton(iconVolta);
 

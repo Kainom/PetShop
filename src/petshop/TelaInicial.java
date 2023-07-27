@@ -7,7 +7,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -24,7 +23,7 @@ import javax.swing.JPanel;
  */
 public class TelaInicial extends JFrame {
 
-    protected ImageIcon iconPet = new ImageIcon(getClass().getResource("/imagens/dog.jpg"));
+    protected ImageIcon iconPet = new ImageIcon(getClass().getResource("/screnn/dog.jpg"));
     protected Fundo painel;
     protected JPanel jpConfirma, jpShop,jpVolta;
     private JLabel lblEstoque, lblVenda;
@@ -37,7 +36,6 @@ public class TelaInicial extends JFrame {
     }
 
     protected void configurarJanela() {
-        iconPet = new ImageIcon(getClass().getResource("/imagens/dog.jpg"));
         painel = new TelaInicial.Fundo();
         this.painel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 200));
         this.add(painel);
@@ -103,7 +101,7 @@ public class TelaInicial extends JFrame {
     
     private void escolha(ActionEvent event ){
         if(event.getSource().equals(this.btnEstoque)){
-            new Estoque();
+            new Estoque("Inserção");
             this.dispose();
         } else if(event.getSource().equals(this.btnVenda)){
             new Usuario().setVisible(true);

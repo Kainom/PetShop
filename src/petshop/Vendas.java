@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -26,6 +27,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 import petshop.Estoque.InsereProdutos;
@@ -36,8 +38,9 @@ import petshop.Estoque.InsereProdutos;
  */
 public class Vendas extends Produtos {
 
-    private Estoque t = new Estoque("Vendas");
-    private InsereProdutos b = t.new InsereProdutos("Vendas");
+    private boolean escolha;
+    private Estoque estoq = new Estoque();
+    private InsereProdutos armazena = estoq.new InsereProdutos();
     private List<Integer> redution = new ArrayList<>();
     private List<Integer> position = new ArrayList<>();
     private Float total = 0f;
@@ -50,10 +53,13 @@ public class Vendas extends Produtos {
     private List<JLabel> lblCompras = new ArrayList<>();
     private List<JSpinner> spinner = new ArrayList<>();
     private List<Float> precos;
+    private JRadioButton bntSim, bntNao;
+    private ButtonGroup grupo;
     private JPanel jpCarrinho, jpDados;
 
     public Vendas(List<Float> carrinho, List<Float> prec, String registro, String nome) {
         super(registro, nome);
+        System.out.println(nome);
         this.compras = carrinho; // valor dos produtos escolhidos  
         this.precos = prec; // valor de todos os produtos 
         System.out.println(registro + "c");
@@ -85,7 +91,7 @@ public class Vendas extends Produtos {
         this.jpDados.setPreferredSize(new Dimension(745, 262));
         this.jpDados.setBackground(Color.darkGray);
         this.jpDados.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 25));
-        this.jpDados.setOpaque(false);
+        this.jpDados.setOpaque(true);
         this.jpDados.add(this.lblNome);
         this.jpDados.add(this.lblRegistro);
         this.jpDados.add(this.lblCep);
@@ -98,6 +104,8 @@ public class Vendas extends Produtos {
         this.jpDados.add(this.txtNum);
         this.jpDados.add(this.lblAdicional);
         this.jpDados.add(this.txtAdicional);
+        this.jpDados.add(this.bntSim);
+        this.jpDados.add(this.bntNao);
         this.jpDados.add(this.bntConfirm);
 
         this.jpVolta.removeAll();
@@ -154,6 +162,10 @@ public class Vendas extends Produtos {
         txtRua = new JTextField();
         txtNum = new JTextField();
         txtAdicional = new JTextField();
+        bntSim = new JRadioButton();
+        bntNao = new JRadioButton();
+        grupo = new ButtonGroup();
+
         try {
             cp = new MaskFormatter("#####-###");
         } catch (Exception erro) {
@@ -175,6 +187,20 @@ public class Vendas extends Produtos {
         this.bntVolta.setBorder(null);
         this.bntVolta.setFocusPainted(false);
 
+        this.bntSim.setText("SIM");
+        this.bntSim.setFont(new Font("Arial Black", Font.PLAIN, 12));
+        this.bntSim.setForeground(Color.black);
+        this.bntSim.setOpaque(false);
+        this.bntSim.setBorder(null);
+        this.grupo.add(bntSim);
+
+        this.bntNao.setText("NÃO");
+        this.bntNao.setFont(new Font("Arial Black", Font.PLAIN, 12));
+        this.bntNao.setForeground(Color.black);
+        this.bntNao.setOpaque(false);
+        this.bntNao.setBorder(null);
+        this.grupo.add(bntNao);
+
         this.bntConfirm.setPreferredSize(new Dimension(50, 50));
 
         color.stream() // seta a cor e a fonte paddrão dos lbls afim de economizar código
@@ -185,7 +211,7 @@ public class Vendas extends Produtos {
         valorLBLInicial = (float) compras.stream()
                 .mapToDouble(var -> var).sum(); // seta o valor inicial do lbl
 
-        this.lblValor.setText(String.format("%.2f",valorLBLInicial));
+        this.lblValor.setText(String.format("%.2f", valorLBLInicial));
 
         this.lblNome.setFont(new Font("Arial Black", Font.BOLD, 16));
         this.lblNome.setPreferredSize(new Dimension(470, 30));
@@ -224,14 +250,15 @@ public class Vendas extends Produtos {
         this.txtNum.setPreferredSize(new Dimension(50, 30));
         this.txtNum.setFont(new Font("Arial Black", Font.PLAIN, 12));
 
-        if (super.registro.length()
-                == 14 && !super.registro.endsWith(" ")) { // referente ao cpf
+        if (super.registro.length() == 14 && !super.registro.endsWith(" ")) { // referente ao cpf
+            escolha = true;
             this.lblRegistro.setText("CPF: " + super.registro);
             this.lblNome.setPreferredSize(new Dimension(500, 30));
-        } else if (super.registro.length()
-                > 14) { // referente ao cnpj 
+        } else if (super.registro.length() > 14) { // referente ao cnpj 
+            escolha = true;
             this.lblRegistro.setText("CNPJ: " + super.registro);
         } else {
+            escolha = false;
             this.lblRegistro.setVisible(false);
             this.lblNome.setPreferredSize(new Dimension(800, 30));
         }
@@ -270,25 +297,45 @@ public class Vendas extends Produtos {
     }
 
     private void action(ActionEvent evento) {
+        String registro;
         long num;
+        int teste = 0;
+        boolean oferecer = true;
         if (evento.getSource().equals(this.bntConfirm)) {
-            int teste = testarCampos(txtBairro.getText());
-
-            teste += testarCampos(txtRua.getText());
-            try {
-                num = Long.parseLong(txtNum.getText());
-            } catch (NumberFormatException erro) {
-                teste++;
-            }
-            if (teste == 0) {
+            registro = (this.registro.length() == 14) ? "CPF: " + this.registro : "CNPJ: " + this.registro;
+            if (this.bntSim.isSelected()) { // bnt que configura a vontade do cliente em oferecer seu enredereço
+                oferecer = true;
+                teste += testarCampos(txtBairro.getText()); // usando esse método herdado de usuário para eliminar certos caracteres especiais
+                teste += testarCampos(txtRua.getText()); // usando esse método herdado de usuário para eliminar certos caracteres especiais
                 try {
-                    b.inserir(position, redution); // passa para o estoque a nova quantidade de produtos e a posição equivalente de cada um 
+                    num = Long.parseLong(txtNum.getText()); // se gerar exceção é porque não há só numeros,logo um erro
+                } catch (NumberFormatException erro) {
+                    teste++;
+                }
+            } else if (this.bntNao.isSelected()) { // bnt que configura a vontade do cliente não oferecer o endereço
+                oferecer = false;
+                teste = 0;
+            }
+            if (teste == 0 && this.bntSim.isSelected() || this.bntNao.isSelected()) {
+                try {
+                    armazena.inserir(position, redution); // passa para o estoque a nova quantidade de produtos e a posição equivalente de cada produtos
+                    if (oferecer && this.escolha) { // as quatro opções ao qual o cliente pode escolher no momento de sua compra
+                        new VendasHistorico(this.nome, registro, this.txtfCep.getText(), this.txtBairro.getText(), this.txtRua.getText(), this.txtNum.getText(), this.txtAdicional.getText(), this.lblValor.getText());
+                    } else if (oferecer && !this.escolha) {
+                        new VendasHistorico(this.nome, this.txtfCep.getText(), this.txtBairro.getText(), this.txtRua.getText(), this.txtNum.getText(), this.txtAdicional.getText(), this.lblValor.getText());
+                    } else if (!oferecer && this.escolha) {
+                        new VendasHistorico(this.nome, registro, this.lblValor.getText());
+                    } else if (!oferecer && !this.escolha) {
+                        new VendasHistorico(this.nome, this.lblValor.getText());
+
+                    }
+
                     Vendas.this.dispose();
                 } catch (IOException ex) {
                 }
             }
         } else if (evento.getSource().equals(this.bntVolta)) {
-            new Produtos(this.lblRegistro.getText(), this.lblNome.getText()).setVisible(true);
+            new Produtos(this.registro, this.nome).setVisible(true);
             this.dispose();
 
         }
