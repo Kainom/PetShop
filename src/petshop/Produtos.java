@@ -125,7 +125,7 @@ public class Produtos extends Usuario {
         this.jpDireita.setLayout(new BorderLayout());
         this.jpDireita.setOpaque(false);
 
-        this.painel.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 5));
+        this.painel.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 10));
         this.painel.add(this.jpVolta);
         this.painel.add(this.jsPane);
         this.painel.add(this.jpConfirma);
