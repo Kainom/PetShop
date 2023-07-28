@@ -19,12 +19,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
@@ -87,8 +90,10 @@ public class Estoque {
     public class InsereProdutos extends TelaInicial {
 
         private JPanel jpQuantidade;
+        private JScrollPane jsPane;
         private JSpinner spinner;
         private JLabel lblQuantidade, lblProdutos;
+        private List<JLabel> lblProdutosEstoque;
         private JComboBox<String> jcTipo;
         private List<String> leitura;
         private ImageIcon iconShiba, iconVolta;
@@ -111,13 +116,29 @@ public class Estoque {
 
         private void configurarPane() {
             super.configurarPanel();
+            jsPane = new JScrollPane();
+            jpQuantidade = new JPanel();
+            this.painel.setLayout(new FlowLayout(FlowLayout.RIGHT, 23, 200));
+
             this.jpShop.removeAll();
             this.jpShop.setLayout(new FlowLayout(FlowLayout.LEFT, 70, 40));
             this.jpShop.setBackground(Color.darkGray);
-
-            this.jpShop.setOpaque(true);
-
+            this.jpShop.setOpaque(false);
             this.painel.add(this.jpShop);
+
+            this.jpQuantidade.setLayout(new BoxLayout(this.jpQuantidade, BoxLayout.Y_AXIS));
+            this.jpQuantidade.setBackground(Color.darkGray);
+            this.jpQuantidade.setOpaque(false);
+
+            this.jsPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+            this.jsPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+            this.jsPane.setPreferredSize(new Dimension(200, 400));
+
+            this.jsPane.setOpaque(false);
+            this.jsPane.getViewport().setOpaque(false);
+            this.jsPane.setViewportView(this.jpQuantidade);
+            this.jsPane.setBorder(null);
+            this.painel.add(this.jsPane);
 
             configurarDados();
             this.jpShop.add(this.lblQuantidade);
@@ -126,6 +147,11 @@ public class Estoque {
             this.jpShop.add(this.jcTipo);
             this.jpShop.add(this.bntVolta);
             this.jpShop.add(this.bntConfirm);
+
+            for (JLabel produtos : this.lblProdutosEstoque) {
+                System.out.println(produtos.getText());
+                this.jpQuantidade.add(produtos);
+            }
 
             this.bntConfirm.addActionListener(evento -> action(evento));
             this.bntVolta.addActionListener(evento -> action(evento));
@@ -138,6 +164,7 @@ public class Estoque {
             lblProdutos = new JLabel("PRODUTOS   ");
             bntConfirm = new JButton(iconShiba);
             bntVolta = new JButton(iconVolta);
+            lblProdutosEstoque = new ArrayList<>();
 
             this.lblQuantidade.setFont(new Font("Arial Black", Font.BOLD, 14));
             this.lblQuantidade.setForeground(Color.CYAN);
@@ -175,6 +202,26 @@ public class Estoque {
             this.jcTipo.addItem("Prediderm");
             this.jcTipo.addItem("Granplus");
             this.jcTipo.addItem("Ração Extrusada");
+            try {
+                lendo();
+            } catch (IOException err) {
+            }
+            int k = 0;
+
+            for (String produto : leitura) {
+                JLabel lbl = new JLabel(produto);
+                String[] lendo = produto.split(":", 2);
+                if (Integer.parseInt(lendo[1]) <= 10) {
+                    lbl.setForeground(Color.red);
+                } else {
+                    lbl.setForeground(Color.black);
+                }
+                lbl.setFont(new Font("Arial Black", Font.BOLD, 14));
+                this.lblProdutosEstoque.add(lbl);
+                System.out.println(lbl.getText());
+                k++;
+                if(k==11)break;
+            }
 
         }
 
@@ -209,6 +256,8 @@ public class Estoque {
                 c++; // começa incrementando por causa da posição  0 do check estar vazia;
                 if (c == position) { // confere quando produto  foi selecionado para alterá-lo
                     String[] produto = linha.split(":"); //split que pega apenas o nome do produto 
+                    String[] lendo = linha.split(":", 2);
+                    quantidade += Integer.parseInt(lendo[1]);
                     String novoProduto = produto[0] + ":" + quantidade; // armazena o nome e a nova  quantidade
                     System.out.println(novoProduto);
                     pw.println(novoProduto);
@@ -257,10 +306,16 @@ public class Estoque {
         }
 
         private void action(ActionEvent evento) {
+            int k = 0;
             if (!this.jcTipo.getSelectedItem().equals("") && evento.getSource().equals(this.bntConfirm)) {
                 try {
                     System.out.println("opa");
                     inserir();
+                    lendo();
+                    for (String ler : leitura) {
+                        this.lblProdutosEstoque.get(k).setText(ler);
+                        k++;
+                    }
                 } catch (IOException err) {
                 }
             } else if (evento.getSource().equals(this.bntVolta)) {

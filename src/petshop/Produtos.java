@@ -90,7 +90,6 @@ public class Produtos extends Usuario {
         this.jpVolta.setLayout(new BorderLayout());
         this.jpVolta.setOpaque(false);
 
-        BoxLayout box = new BoxLayout(this.jpAlerta, BoxLayout.Y_AXIS);
 
         this.jpAlerta.setBackground(Color.darkGray);
         this.jpAlerta.setLayout(new BoxLayout(this.jpAlerta, BoxLayout.Y_AXIS));
@@ -104,6 +103,7 @@ public class Produtos extends Usuario {
         this.jsPane.setOpaque(false);
         this.jsPane.getViewport().setOpaque(false);
         this.jsPane.setViewportView(this.jpShop);
+        this.jsPane.setBorder(null);
 
         jsAlerta = new JScrollPane();
         this.jsAlerta.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -113,6 +113,7 @@ public class Produtos extends Usuario {
         this.jsAlerta.setOpaque(false);
         this.jsAlerta.getViewport().setOpaque(false);
         this.jsAlerta.setViewportView(this.jpAlerta);
+        this.jsAlerta.setBorder(null);
 
         this.jpEsquerda.setPreferredSize(new Dimension(100, 200));
         this.jpEsquerda.setBackground(Color.darkGray);
@@ -140,7 +141,7 @@ public class Produtos extends Usuario {
                 this.checkProdutos.get(i).addActionListener(this);
 
             }
-            if (Estoque.getProdutos().get(i) <= 3) {
+            if (Estoque.getProdutos().get(i) <= 10) {
                 this.jpAlerta.add(Box.createRigidArea(new Dimension(130, 10)));
                 this.jpAlerta.add(this.lblCopia.get(i));
                 teste++;
