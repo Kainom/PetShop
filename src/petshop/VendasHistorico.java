@@ -25,7 +25,7 @@ public class VendasHistorico {
     private PrintWriter pw;
     private FileReader fr;
 
-    public VendasHistorico(String nome, String registro, String cep, String bairro, String rua, String num, String complemento, String valor) {
+    public VendasHistorico(String nome, String registro, String cep, String bairro, String rua, String num, String complemento, String valor, String produtos) {
         this.nome = nome;
         this.registro = registro;
         this.cep = cep;
@@ -35,16 +35,16 @@ public class VendasHistorico {
         this.complemento = complemento;
         this.valor = valor;
         if (!complemento.equals("")) {
-            this.cliente = "Nome: " + nome + "||" + "Registro: " + registro + " ||" + "Cep: " + cep + "||" + "Bairro: " + bairro + "||" + "Rua: " + rua + "||" + "Num: " + num + "||" + "Complemento: " + complemento + "||" + "Valor: " + valor;
+            this.cliente = "Nome: " + nome + "||" + "Registro: " + registro + " ||" + "Cep: " + cep + "||" + "Bairro: " + bairro + "||" + "Rua: " + rua + "||" + "Num: " + num + "||" + "Complemento: " + complemento + "||" + "Valor: " + valor + "||" + produtos;
         } else {
-            this.cliente = "Nome: " + nome + "|| " + "Registro: " + registro + "||" + "Cep: " + cep + "||" + "Bairro: " + bairro + "||" + "Rua: " + rua + "||" + "Num: " + num + "||" + "Valor: " + valor;
+            this.cliente = "Nome: " + nome + "|| " + "Registro: " + registro + "||" + "Cep: " + cep + "||" + "Bairro: " + bairro + "||" + "Rua: " + rua + "||" + "Num: " + num + "||" + "Valor: " + valor + "||" + produtos;
 
         }
         armazena();
 
     }
 
-    public VendasHistorico(String nome, String cep, String bairro, String rua, String num, String complemento, String valor) {
+    public VendasHistorico(String nome, String cep, String bairro, String rua, String num, String complemento, String valor, String produtos) {
         this.nome = nome;
         this.cep = cep;
         this.bairro = bairro;
@@ -54,27 +54,27 @@ public class VendasHistorico {
         this.valor = valor;
         if (!complemento.equals("")) {
 
-            this.cliente = "Nome: " + nome + "||" + "Cep: " + cep + "||" + "Bairro: " + bairro + "||" + "Rua: " + rua + "||" + "Num: " + num + "||" + "Complemento: " + complemento + " " + "Valor: " + valor;
+            this.cliente = "Nome: " + nome + "||" + "Cep: " + cep + "||" + "Bairro: " + bairro + "||" + "Rua: " + rua + "||" + "Num: " + num + "||" + "Complemento: " + complemento + " " + "Valor: " + valor+ "||" + produtos;
         } else {
-            this.cliente = "Nome: " + nome + "||"+ "Cep: " + cep + "||"+ "Bairro: " + bairro + "||" + "Rua: " + rua + "||" + "Num: " + num + "||" + "Valor: " + valor;
+            this.cliente = "Nome: " + nome + "||" + "Cep: " + cep + "||" + "Bairro: " + bairro + "||" + "Rua: " + rua + "||" + "Num: " + num + "||" + "Valor: " + valor+ "||" + produtos;
 
         }
         armazena();
 
     }
 
-    public VendasHistorico(String nome, String Registro, String valor) {
+    public VendasHistorico(String nome, String Registro, String valor, String produtos) {
         this.nome = nome;
         this.registro = Registro;
         this.valor = valor;
-        this.cliente = "Nome: " + nome + "||" + registro + "||" + "Valor: " + valor;
+        this.cliente = "Nome: " + nome + "||" + registro + "||" + "Valor: " + valor+ "||" + produtos;
         armazena();
 
     }
 
-    public VendasHistorico(String nome, String valor) {
+    public VendasHistorico(String nome, String valor, String produtos) {
         this.nome = nome;
-        this.cliente = "Nome: " + nome + "||" + "Valor: " + valor;
+        this.cliente = "Nome: " + nome + "||" + "Valor: " + valor+ "||" + produtos;
         armazena();
     }
 

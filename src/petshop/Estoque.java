@@ -23,6 +23,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
@@ -34,6 +35,7 @@ import javax.swing.SpinnerNumberModel;
 public class Estoque {
 
     private static List<Integer> produtos = new ArrayList<>();
+    private static List<String> nomeProdutos = new ArrayList<>();
     private PrintWriter pw;
     private FileReader fr;
 
@@ -41,11 +43,15 @@ public class Estoque {
         new InsereProdutos("Inserção");
     }
 
-    public Estoque() { 
+    public Estoque() {
     }
 
     public static List<Integer> getProdutos() {
         return produtos;
+    }
+
+    public static List<String> getNomeProdutos() {
+        return nomeProdutos;
     }
 
     public static void produtos() {
@@ -59,15 +65,20 @@ public class Estoque {
             while (br.ready()) {
                 linha.add(br.readLine()); // adiciona a lista linha a leitura 
                 System.out.println(linha.get(i));
+                String[] nome = linha.get(i).split(":");
+                nomeProdutos.add(nome[0]);
                 String[] lendo = linha.get(i).split(":", 2); // split para pegar apenas o valor numérico
-                System.out.println(lendo[1]);
+                System.out.println("Leia" + lendo[1]);
                 produtos.add(Integer.parseInt(lendo[1])); // adiciona a parte numerica ao produtos //
+                if (i == 11) {
+                    break;
+                }
                 i++;
             }
 
             fr.close();
             br.close();
-        } catch (Exception err) {
+        } catch (IOException | NumberFormatException err) {
             System.out.println("OPS!");
         }
 
@@ -75,6 +86,7 @@ public class Estoque {
 
     public class InsereProdutos extends TelaInicial {
 
+        private JPanel jpQuantidade;
         private JSpinner spinner;
         private JLabel lblQuantidade, lblProdutos;
         private JComboBox<String> jcTipo;
@@ -103,7 +115,7 @@ public class Estoque {
             this.jpShop.setLayout(new FlowLayout(FlowLayout.LEFT, 70, 40));
             this.jpShop.setBackground(Color.darkGray);
 
-            this.jpShop.setOpaque(false);
+            this.jpShop.setOpaque(true);
 
             this.painel.add(this.jpShop);
 
@@ -253,6 +265,7 @@ public class Estoque {
                 }
             } else if (evento.getSource().equals(this.bntVolta)) {
                 new TelaInicial().setVisible(true);
+                this.dispose();
             }
         }
 

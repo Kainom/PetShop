@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -41,7 +43,7 @@ public class Vendas extends Produtos {
     private boolean escolha;
     private Estoque estoq = new Estoque();
     private InsereProdutos armazena = estoq.new InsereProdutos();
-    private List<Integer> redution = new ArrayList<>();
+    private List<Integer> quantidadeReduzida = new ArrayList<>();
     private List<Integer> position = new ArrayList<>();
     private Float total = 0f;
     private JLabel lblCarrinho, lblValor, lblRegistro, lblNome, lblCep, lblRua, lblBairro, lblNum, lblAdicional;
@@ -127,18 +129,18 @@ public class Vendas extends Produtos {
                 public void stateChanged(ChangeEvent carrinho) {
                     Float cont = new Float(0);
                     int i = 0;
-                    redution.removeAll(redution);
+                    quantidadeReduzida.removeAll(quantidadeReduzida);
                     for (JSpinner soma : spinner) {
                         cont = compras.get(i) * Float.parseFloat(soma.getValue().toString());
                         total += cont;
-                        redution.add((Estoque.getProdutos().get(position.get(i)) - Integer.parseInt(soma.getValue().toString())));
+                        quantidadeReduzida.add((Estoque.getProdutos().get(position.get(i)) - Integer.parseInt(soma.getValue().toString())));
                         i++;
                     }
                     System.out.println(total);
                     lblValor.setText(String.format("%.2f", total));
                     total = 0f;
-                    for (Integer tested : redution) {
-                        System.out.print(" " + tested);
+                    for (Integer tested : quantidadeReduzida) {
+                        System.out.print("reduz " + tested);
                     }
 
                 }
@@ -289,8 +291,8 @@ public class Vendas extends Produtos {
         Collections.sort(position); // reordena a position em ordem crescente afim de armazenar a nova quantidade de produtos de forma eficiente
         int m = 0;
 
-        for (JSpinner soma : spinner) { // passa para a lista redution a quantidade a ser reduzida dos respectivos produtos no estoque // 
-            redution.add((Estoque.getProdutos().get(position.get(m)) - Integer.parseInt(soma.getValue().toString())));
+        for (JSpinner soma : spinner) { // passa para a lista redution a quantidade a ser reduzida dos respectivos produtos no estoque quando o usuario não utiliza o spinner // 
+            quantidadeReduzida.add((Estoque.getProdutos().get(position.get(m)) - Integer.parseInt(soma.getValue().toString())));
             m++;
         }
 
@@ -298,9 +300,18 @@ public class Vendas extends Produtos {
 
     private void action(ActionEvent evento) {
         String registro;
+        String produtos = "";
         long num;
-        int teste = 0;
+        int teste = 0, k = 0;
         boolean oferecer = true;
+        List<String> le = Estoque.getNomeProdutos();
+        for (Integer pos : this.position) {
+            produtos += (this.position.size() > 1 && this.position.size() != (k+1)) ? le.get(pos) + " " + spinner.get(k).getValue() + "," : le.get(pos) + " " + spinner.get(k).getValue();
+            k++;
+            System.out.println(produtos);
+        }
+        produtos = "Produtos: " +  produtos;
+
         if (evento.getSource().equals(this.bntConfirm)) {
             registro = (this.registro.length() == 14) ? "CPF: " + this.registro : "CNPJ: " + this.registro;
             if (this.bntSim.isSelected()) { // bnt que configura a vontade do cliente em oferecer seu enredereço
@@ -318,25 +329,26 @@ public class Vendas extends Produtos {
             }
             if (teste == 0 && this.bntSim.isSelected() || this.bntNao.isSelected()) {
                 try {
-                    armazena.inserir(position, redution); // passa para o estoque a nova quantidade de produtos e a posição equivalente de cada produtos
+                    armazena.inserir(position, quantidadeReduzida); // passa para o estoque a nova quantidade de produtos e a posição equivalente de cada produtos
                     if (oferecer && this.escolha) { // as quatro opções ao qual o cliente pode escolher no momento de sua compra
-                        new VendasHistorico(this.nome, registro, this.txtfCep.getText(), this.txtBairro.getText(), this.txtRua.getText(), this.txtNum.getText(), this.txtAdicional.getText(), this.lblValor.getText());
+                        new VendasHistorico(this.nome, registro, this.txtfCep.getText(), this.txtBairro.getText(), this.txtRua.getText(), this.txtNum.getText(), this.txtAdicional.getText(), this.lblValor.getText(),produtos);
                     } else if (oferecer && !this.escolha) {
-                        new VendasHistorico(this.nome, this.txtfCep.getText(), this.txtBairro.getText(), this.txtRua.getText(), this.txtNum.getText(), this.txtAdicional.getText(), this.lblValor.getText());
+                        new VendasHistorico(this.nome, this.txtfCep.getText(), this.txtBairro.getText(), this.txtRua.getText(), this.txtNum.getText(), this.txtAdicional.getText(), this.lblValor.getText(),produtos);
                     } else if (!oferecer && this.escolha) {
-                        new VendasHistorico(this.nome, registro, this.lblValor.getText());
+                        new VendasHistorico(this.nome, registro, this.lblValor.getText(),produtos);
                     } else if (!oferecer && !this.escolha) {
-                        new VendasHistorico(this.nome, this.lblValor.getText());
+                        new VendasHistorico(this.nome, this.lblValor.getText(),produtos);
 
                     }
-
                     Vendas.this.dispose();
+                    new Usuario().setVisible(true);
+                    
                 } catch (IOException ex) {
                 }
             }
         } else if (evento.getSource().equals(this.bntVolta)) {
             new Produtos(this.registro, this.nome).setVisible(true);
-            this.dispose();
+            Vendas.this.dispose();
 
         }
     }

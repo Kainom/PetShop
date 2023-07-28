@@ -7,3 +7,24 @@ Nome: DsSWES||Valor: 60,12
 Nome: ODoce pao de mandioca||Registro: CNPJ: 99.999.898/9898-88 Cep: 99898-989||Bairro: Moro ali a pakla||Rua: Ele mora la longe||Num: 98987||Complemento: Perto do lago cristalino||Valor: 1053,91
 Nome: Boka de kiko||CNPJ: 83.845.857/6767-67||Valor: 1242,88
 Nome: dwadadwa||Valor: 55,60
+Nome: tgrgdgr||Valor: 150,84
+Nome: dawdaadaw||Valor: 1106,05
+Nome: ddddd||Valor: 259,62
+Nome: dawdaaw||Valor: 131,09
+Nome: dawdawdaw||Valor: 262,18
+Nome: dawdawwda||Valor: 171,18
+Nome: dwadw||Valor: 120,88
+Nome: dwadawd||Valor: 120,88
+Nome: kikojkuj||Valor: 96,95
+Nome: lokilik||Registro: CPF: 343.434.343-43 ||Cep: 89898-989||Bairro: Luz da Maria ||Rua: Felicidade no Oeste||Num: 323323||Complemento: Pao de Ló||Valor: 686,25||Granplus 5,Ração Extrusada 10,
+Nome: frfrfr||Valor: 50,62||Max 1,Granplus 1
+Nome: dawdwdw||Valor: 231,75||Nutrilus 1,Milho 1,Max 1
+Nome: dawdaawd||Valor: 163,92||Produtos: Max 1,Granplus 1,Ração Extrusada 2
+Nome: dawdawadw||Valor: 151,17||Produtos: Nutrilus 1,Max 1,Granplus 1
+Nome: dwdwadawd||Valor: 207,82||Produtos: Nutrilus 1,Max 1,Granplus 1,Ração Extrusada 1
+Nome: dawdawdaw||Valor: 207,82||Produtos: Nutrilus 1,Max 1,Granplus 1,Ração Extrusada 1
+Nome: dawdawdaw||Valor: 207,82||Produtos: Nutrilus 1,Max 1,Granplus 1,Ração Extrusada 1
+Nome: dawdawdaw||Valor: 207,82||Produtos: Nutrilus 1,Max 1,Granplus 1,Ração Extrusada 1
+Nome: dwadawd||Valor: 207,82||Produtos: Nutrilus 1,Max 1,Granplus 1,Ração Extrusada 1
+Nome: dwadawd||Valor: 264,47||Produtos: Nutrilus 1,Max 1,Granplus 1,Ração Extrusada 2
+Nome: dwadaw||Valor: 50,62||Produtos: Max 1,Granplus 1

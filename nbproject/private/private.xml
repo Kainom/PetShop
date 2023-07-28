@@ -1,27 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
-        <file>
-            <url>src/petshop/Vendas.java</url>
-            <bookmark id="1">
-                <name/>
-                <line>149</line>
-                <key/>
-            </bookmark>
-        </file>
-    </editor-bookmarks>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="5"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/PetShop/src/petshop/Estoque.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/PetShop/src/petshop/Insere.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/PetShop/src/petshop/Produtos.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/PetShop/src/screnn/perigo.png</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/PetShop/src/petshop/Usuario.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/PetShop/src/petshop/TelaInicial.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/PetShop/src/petshop/Vendas.java</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/PetShop/src/imagens/sacaMilho.png</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/PetShop/src/Estoque.txt</file>
-            <file>file:/C:/Users/User/Documents/NetBeansProjects/PetShop/src/petshop/PetShop.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

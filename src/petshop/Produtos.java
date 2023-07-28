@@ -129,7 +129,6 @@ public class Produtos extends Usuario {
         this.painel.add(this.jsPane);
         this.painel.add(this.jpConfirma);
 
-        super.configurarDados(); // chama da classe pai com alguns elementos ja prontos para reutilização 
         configurarDados();
 
         this.jpAlerta.add(this.lblPerigo);
@@ -155,7 +154,7 @@ public class Produtos extends Usuario {
             this.jpDireita.add(this.lblDireita);
             this.jpEsquerda.add(this.lblEsquerda);
         }
-
+        super.configurarDados(); //reutilizando os bnts volta e confirma         
         this.jpVolta.add(this.bntVolta, BorderLayout.SOUTH);
         this.jpConfirma.add(this.bntConfirm, BorderLayout.SOUTH); // bnt confirm reutilizado da classe Pai
         this.bntConfirm.addActionListener(evento -> action(evento));
