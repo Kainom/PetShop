@@ -28,3 +28,5 @@ Nome: dawdawdaw||Valor: 207,82||Produtos: Nutrilus 1,Max 1,Granplus 1,Ração Ex
 Nome: dwadawd||Valor: 207,82||Produtos: Nutrilus 1,Max 1,Granplus 1,Ração Extrusada 1
 Nome: dwadawd||Valor: 264,47||Produtos: Nutrilus 1,Max 1,Granplus 1,Ração Extrusada 2
 Nome: dwadaw||Valor: 50,62||Produtos: Max 1,Granplus 1
+Nome: Koko Kente||CNPJ: 33.333.333/3333-33||Valor: 181,39||Produtos: Nutrilus 1,Whiskas 1,Cheval 1
+Nome: dwadwadaw||Valor: 258,15||Produtos: Granplus 1,Ração Extrusada 5
