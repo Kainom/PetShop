@@ -348,14 +348,15 @@ public class Estoque {
             if (!this.jcTipo.getSelectedItem().equals("") && evento.getSource().equals(this.bntConfirm)) {
                 try {
                     System.out.println("opa");
-                    inserir();
+                    inserir(); // insere os valores novos no estoque e nos lbls de demonstração
                     lendo();
-                    for (String ler : leitura) {
-                        if (k == 12) {
-                            break; // a leitura por ler do arquivo acaba por possuir 12 index de elemento,desse modo,o break evita expcetion
-                        }
-                        this.lblProdutosEstoque.get(k).setText(ler);
+                    for (String linha : leitura) {
+                        if (k == 12)break;  // a leitura por ler do arquivo acaba por possuir 12 index de elemento,desse modo,o break evita execption
+                        this.lblProdutosEstoque.get(k).setText(linha);
                         k++;
+                        String[] grafico = linha.split(":");
+                        String[] valor = linha.split(":", 2);
+                        produtosGrafico.setValue(Integer.parseInt(valor[1]), grafico[0], "");
                     }
                 } catch (IOException err) {
                 }
