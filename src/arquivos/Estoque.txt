@@ -1,7 +1,7 @@
-Nutrilus:7
-Whiskas:13
-Cheval:4
-Milho:16
+Nutrilus:4
+Whiskas:8
+Cheval:2
+Milho:15
 Max:12
 Queranon:8
 Ampicilina:10

@@ -306,7 +306,7 @@ public class Vendas extends Produtos {
         boolean oferecer = true;
         List<String> le = Estoque.getNomeProdutos();
         for (Integer pos : this.position) {
-            produtos += (this.position.size() > 1 && this.position.size() != (k+1)) ? le.get(pos) + " " + spinner.get(k).getValue() + "," : le.get(pos) + " " + spinner.get(k).getValue();
+            produtos += (this.position.size() > 1 && this.position.size() != (k+1)) ? le.get(pos) + " " + spinner.get(k).getValue() + "," + " " : le.get(pos) + " " + spinner.get(k).getValue();
             k++;
             System.out.println(produtos);
         }
