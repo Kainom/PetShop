@@ -1,17 +1,9 @@
 Nome: dawdaawd||Valor: 163,92||Produtos: Max ;1, Granplus ;1, Ração Extrusada ;2
 Nome: dawdawadw||Valor: 151,17||Produtos: Nutrilus ;1, Max ;1, Granplus ;1
-Nome: dwdwadawd||Valor: 207,82||Produtos: Nutrilus ;1, Max ;1, Granplus ;1, Ração Extrusada ;1
+Nome: dwdwadawd||Valor: 207,82||Produtos: Nutrilus ;11, Max ;1, Granplus ;1, Ração Extrusada ;1
 Nome: dawdawdaw||Valor: 207,82||Produtos: Nutrilus ;1, Max ;1, Granplus ;1, Ração Extrusada ;1
 Nome: dawdawdaw||Valor: 207,82||Produtos: Nutrilus ;1, Max ;1, Granplus ;1, Ração Extrusada ;1
 Nome: dawdawdaw||Valor: 207,82||Produtos: Nutrilus ;1, Max ;1, Granplus ;1, Ração Extrusada ;1
-Nome: dwadawd||Valor: 207,82||Produtos: Nutrilus ;1, Max ;1, Granplus ;1, Ração Extrusada ;1
-Nome: dwadawd||Valor: 264,47||Produtos: Nutrilus ;1, Max ;1, Granplus ;1, Ração Extrusada ;2
+Nome: dwadawd||Valor: 207,82||Produtos: Nutrilus ;1, Max ;1, Granplus ;1, Ração Extrusada ;3
+Nome: dwadawd||Valor: 264,47||Produtos: Nutrilus ;1, Max ;2, Granplus ;1, Ração Extrusada ;2
 Nome: dwadaw||Valor: 50,62||Produtos: Max ;1, Granplus ;1
-Nome: Koko Kente||CNPJ: 33.333.333/3333-33||Valor: 181,39||Produtos: Nutrilus ;1, Whiskas ;1, Cheval ;1
-Nome: dwadwadaw||Valor: 258,15||Produtos: Granplus ;1, Ração Extrusada ;5
-Nome: dwadwaddw||Valor: 432,74||Produtos: Nutrilus ;4, Whiskas ;1
-Nome: ddddddddddd||Valor: 80,84||Produtos: Whiskas ;1, Cheval ;1
-Nome: dddddddddddddd||Valor: 30,54||Produtos: Whiskas ;1
-Nome: dawdwa||Valor: 131,09||Produtos: Nutrilus ;1, Whiskas ;1
-Nome: dwadawdaw||Valor: 131,09||Produtos: Nutrilus ;1, Whiskas ;1
-Nome: ddddddddddd||Valor: 302,27||Produtos: Nutrilus ;1, Whiskas ;1, Cheval ;1, Milho ;1
