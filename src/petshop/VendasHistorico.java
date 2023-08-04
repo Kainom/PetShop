@@ -4,25 +4,23 @@
  */
 package petshop;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -117,19 +115,21 @@ public class VendasHistorico {
         private DefaultCategoryDataset graficoProdutos, graficoVendas;
         private FileReader fr;
         private BufferedReader br;
-        private List<String> leitura, produtosVendidos, produtosNome;
-        private List<Integer> produtosValores;
+        private List<String> leitura, produtosVendidos, produtosNome, produtos10; // leitura:linha toda,produtosVendidos:todos os produtos,produtosNome:só os nomes,produtos10:entre os 10 mais vendidos
+        private List<Integer> produtosValores; // só os valores em ordem ;
 
         public VendasRelation() {
+            configurarGraficoProdutos();
             configurarPane();
         }
 
         private void configurarPane() {
             this.jpShop.removeAll();
             this.painel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 20));
-            this.jpShop.setPreferredSize(new Dimension(800, 200));
+            this.jpShop.setPreferredSize(new Dimension(700, 200));
             this.jpShop.setOpaque(true);
-            produtosMaisVendidos();
+            this.jpShop.setVisible(false);
+
         }
 
         private void lendo() {
@@ -144,28 +144,41 @@ public class VendasHistorico {
             }
         }
 
-        private void configurarGrafico() {
+        private void configurarGraficoProdutos() {
+            produtosMaisVendidos();
             graficoProdutos = new DefaultCategoryDataset();
             graficoVendas = new DefaultCategoryDataset();
 
-            JFreeChart grafico1 = ChartFactory.createBarChart3D("PRODUTOS VENDIDOS", "", "", graficoProdutos, PlotOrientation.HORIZONTAL, true, true, false);
+            JFreeChart grafico = ChartFactory.createBarChart3D("PRODUTOS MAIS  VENDIDOS", "", "", graficoProdutos, PlotOrientation.HORIZONTAL, true, true, false);
             JFreeChart grafico2 = ChartFactory.createBarChart3D("MAIORES CLIENTES", "", "", graficoVendas, PlotOrientation.HORIZONTAL, true, true, false);
+            grafico.getPlot().setOutlineVisible(false);
+            var trans = new Color(0xFF, 0xFF, 0xFF, 0);
+            grafico.getPlot().setBackgroundPaint(trans);
+            grafico.setBackgroundPaint(trans);
 
+            int i = 0;
+            for (Integer produt : produtosValores) {
+                graficoProdutos.setValue(produt, produtos10.get(i),"");
+                i++;
+                if(i==10)break;
+
+            }
+
+            ChartPanel panel = new ChartPanel(grafico);
+            panel.setPreferredSize(new Dimension(700, 200));
+            panel.setOpaque(false);
+            this.painel.add(panel);
         }
 
         private void produtosMaisVendidos() {
+            int k = 0;
             int produtosPosition;
-            String todosProdutos = "";
-            String produtosEspecificos = "";
-            String nome, quantidade;
-            List<String> produT = new ArrayList<>();
-
-            List<Integer> valores = new ArrayList<>();
             List<String> quanto = new ArrayList<>();
             Set<String> nombre = new HashSet<>();
+            produtosValores = new ArrayList<>();
             produtosNome = new ArrayList<>();
             produtosVendidos = new ArrayList<>();
-            produtosValores = new ArrayList<>();
+            produtos10 = new ArrayList<>();
 
             this.produtosNome.add(" Nutrilus ");
             this.produtosNome.add(" Whiskas ");
@@ -183,25 +196,23 @@ public class VendasHistorico {
             lendo();
             for (String lendo : leitura) {
                 String separaOsProdutos[] = lendo.split("Produtos:"); // separa os produtos dos demais registro 
-                todosProdutos = separaOsProdutos[1];                        // passa para uma string
+                String todosProdutos = separaOsProdutos[1];                        // passa para uma string
                 String separaTodosOsProdutos[] = todosProdutos.split(","); // separa todos os produtos 
                 produtosPosition = separaTodosOsProdutos.length;        // pega a quantidade de produtos do vetor 
                 for (int i = 0; i < produtosPosition; i++) {
-                    produtosEspecificos = separaTodosOsProdutos[i];       // pega todos os produtos separados na linha 
+                    String produtosEspecificos = separaTodosOsProdutos[i];       // pega todos os produtos separados na linha 
                     String separa[] = produtosEspecificos.split(";");
-                    quantidade = separa[1];
-                    nome = separa[0];
+                    String quantidade = separa[1];
+                    String nome = separa[0];
                     produtosVendidos.add(nome);
                     quanto.add(quantidade);
                     nombre.add(nome);
 
                 }
 
-//                System.out.println(todosProdutos);
-//                System.out.println(produtosEspecificos);
             }
-            int k = 0;
             produtosPosition = nombre.size();
+
             for (int i = 0; i < this.produtosNome.size(); i++) {
                 int f = 0;
                 int resultado = 0;
@@ -212,50 +223,36 @@ public class VendasHistorico {
                     f++;
                 }
                 if (k <= produtosPosition - 1 && resultado != 0) {
-                    produT.add(produtosNome.get(i));
-                    valores.add(k, resultado);
-
+                    produtos10.add(produtosNome.get(i));
+                    produtosValores.add(k, resultado);
                     k++;
                 }
             }
-for (Integer qua : valores) {
-                System.out.println(qua);
+            for (Integer qua : produtosValores) {
+                System.out.print(qua + " ");
             }
+            System.out.println("");
 
-            
-            k = 0;
-            int j = valores.size() - 1;
-            for (int n = 0; n <=j; n++) {
-                for (int i = 0; i <= j; i++) {
-                    if (valores.get(n) < valores.get(j - i) && valores.get(n) != valores.get(j - i)) {
-                        System.out.print(n + " ");
-                        String aux = produT.get(n);
-                        int aux2 = valores.get(j - i);
-                        produT.add(i, produT.get(j - i));
-                        produT.add(j - i, aux);
-                        valores.add(j - i,valores.get(n));
-                        valores.add(n, aux2);
-                        
-                    } 
+            int j = produtosValores.size() - 1;
+            for (int n = 0; n <= j; n++) {
+                for (int i = (0 + n); i <= j; i++) {
+                    if (produtosValores.get(n) < produtosValores.get(i)) {
+                        String aux = produtos10.get(n);
+                        int aux2 = produtosValores.get(n);
+                        produtos10.set(n, produtos10.get(i));
+                        produtos10.set(i, aux);
+                        produtosValores.set(n, produtosValores.get(i));
+                        produtosValores.set(i, aux2);
+                    }
                 }
             }
-            for (String qua : produT) {
-                System.out.println(qua);
+            for (Integer qua : produtosValores) {
+                System.out.print(qua + " ");
             }
-            
-//            }
-//            for (int i = 0; i < this.produtosNome.size(); i++) {
-//                int l = 0;
-//                for (String qua : quanti) {
-//                    String separa[] = qua.split(";");
-//                    quantidade = separa[1];
-//                    if(l==12)break;
-//                    if (nombre.get(l).equals(this.produtosNome.get(i))) {
-//                        this.produtosValores.add(i,Integer.parseInt(quantidade));
-//                    }
-//                    l++;
-//                }
-//            }
+            for (String qua : produtos10) {
+                System.out.print(qua + " ");
+            }
+
         }
     }
 }

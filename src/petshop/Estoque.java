@@ -175,7 +175,6 @@ public class Estoque {
             produtosGrafico = new DefaultCategoryDataset();
 
             JFreeChart grafico = ChartFactory.createBarChart3D("Quantidade No Estoque", "PRODUTOS", "", produtosGrafico, PlotOrientation.HORIZONTAL, true, true, false);
-            grafico.getPlot().setBackgroundPaint(Color.white);
             grafico.getPlot().setOutlineVisible(false);
             var trans = new Color(0xFF, 0xFF, 0xFF, 0);
             grafico.setBackgroundPaint(trans);

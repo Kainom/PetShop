@@ -306,11 +306,11 @@ public class Vendas extends Produtos {
         boolean oferecer = true;
         List<String> le = Estoque.getNomeProdutos();
         for (Integer pos : this.position) {
-            produtos += (this.position.size() > 1 && this.position.size() != (k+1)) ? le.get(pos) + " " + spinner.get(k).getValue() + "," + " " : le.get(pos) + " " + spinner.get(k).getValue();
+            produtos += (this.position.size() > 1 && this.position.size() != (k + 1)) ? le.get(pos) + " " + ";" + spinner.get(k).getValue() + "," + " " : le.get(pos) + " " + ";" + spinner.get(k).getValue();
             k++;
             System.out.println(produtos);
         }
-        produtos = "Produtos: " +  produtos;
+        produtos = "Produtos: " + produtos;
 
         if (evento.getSource().equals(this.bntConfirm)) {
             registro = (this.registro.length() == 14) ? "CPF: " + this.registro : "CNPJ: " + this.registro;
@@ -331,18 +331,18 @@ public class Vendas extends Produtos {
                 try {
                     armazena.inserir(position, quantidadeReduzida); // passa para o estoque a nova quantidade de produtos e a posição equivalente de cada produtos
                     if (oferecer && this.escolha) { // as quatro opções ao qual o cliente pode escolher no momento de sua compra
-                        new VendasHistorico(this.nome, registro, this.txtfCep.getText(), this.txtBairro.getText(), this.txtRua.getText(), this.txtNum.getText(), this.txtAdicional.getText(), this.lblValor.getText(),produtos);
+                        new VendasHistorico(this.nome, registro, this.txtfCep.getText(), this.txtBairro.getText(), this.txtRua.getText(), this.txtNum.getText(), this.txtAdicional.getText(), this.lblValor.getText(), produtos);
                     } else if (oferecer && !this.escolha) {
-                        new VendasHistorico(this.nome, this.txtfCep.getText(), this.txtBairro.getText(), this.txtRua.getText(), this.txtNum.getText(), this.txtAdicional.getText(), this.lblValor.getText(),produtos);
+                        new VendasHistorico(this.nome, this.txtfCep.getText(), this.txtBairro.getText(), this.txtRua.getText(), this.txtNum.getText(), this.txtAdicional.getText(), this.lblValor.getText(), produtos);
                     } else if (!oferecer && this.escolha) {
-                        new VendasHistorico(this.nome, registro, this.lblValor.getText(),produtos);
+                        new VendasHistorico(this.nome, registro, this.lblValor.getText(), produtos);
                     } else if (!oferecer && !this.escolha) {
-                        new VendasHistorico(this.nome, this.lblValor.getText(),produtos);
+                        new VendasHistorico(this.nome, this.lblValor.getText(), produtos);
 
                     }
                     Vendas.this.dispose();
                     new Usuario().setVisible(true);
-                    
+
                 } catch (IOException ex) {
                 }
             }

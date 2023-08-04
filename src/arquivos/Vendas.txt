@@ -1,9 +1,14 @@
 Nome: dawdaawd||Valor: 163,92||Produtos: Max ;1, Granplus ;1, Ração Extrusada ;2
 Nome: dawdawadw||Valor: 151,17||Produtos: Nutrilus ;1, Max ;1, Granplus ;1
-Nome: dwdwadawd||Valor: 207,82||Produtos: Nutrilus ;11, Max ;1, Granplus ;1, Ração Extrusada ;1
+Nome: dwdwadawd||Valor: 207,82||Produtos: Nutrilus ;11, Max ;4, Granplus ;1, Ração Extrusada ;1
 Nome: dawdawdaw||Valor: 207,82||Produtos: Nutrilus ;1, Max ;1, Granplus ;1, Ração Extrusada ;1
 Nome: dawdawdaw||Valor: 207,82||Produtos: Nutrilus ;1, Max ;1, Granplus ;1, Ração Extrusada ;1
 Nome: dawdawdaw||Valor: 207,82||Produtos: Nutrilus ;1, Max ;1, Granplus ;1, Ração Extrusada ;1
 Nome: dwadawd||Valor: 207,82||Produtos: Nutrilus ;1, Max ;1, Granplus ;1, Ração Extrusada ;3
 Nome: dwadawd||Valor: 264,47||Produtos: Nutrilus ;1, Max ;2, Granplus ;1, Ração Extrusada ;2
 Nome: dwadaw||Valor: 50,62||Produtos: Max ;1, Granplus ;1
+Nome: dawdwad||Valor: 572,40||Produtos: Queranon ;6
+Nome: KokoDoko||Valor: 131,09||Produtos: Nutrilus ;1, Whiskas ;1
+Nome: dukokuko||Valor: 121,19||Produtos: Nutrilus ;1, Max ;2
+Nome: ddddas||Valor: 498,32||Produtos: Milho ;2, Ampicilina ;2, Coleira ;2, Vermifugo ;2, Prediderm ;2
+Nome: sssssssss||Valor: 50,30||Produtos: Cheval ;1
