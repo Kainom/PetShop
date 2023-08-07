@@ -1,6 +1,6 @@
 Nutrilus:2
-Whiskas:7
-Cheval:1
+Whiskas:6
+Cheval:0
 Milho:13
 Max:10
 Queranon:2
