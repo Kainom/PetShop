@@ -1,15 +1,15 @@
 Nome: zilonfio||Valor: 163,92||Produtos: Max ;1, Granplus ;1, Ração Extrusada ;2
 Nome: dfsgr||Valor: 151,17||Produtos: Nutrilus ;1, Max ;1, Granplus ;1
-Nome: fgted||Valor: 207,82||Produtos: Nutrilus ;11, Max ;4, Granplus ;1, Ração Extrusada ;1
-Nome: sukod||Valor: 207,82||Produtos: Nutrilus ;1, Max ;1, Granplus ;1, Ração Extrusada ;1
-Nome: sukudmoe||Valor: 207,82||Produtos: Nutrilus ;1, Max ;1, Granplus ;1, Ração Extrusada ;1
-Nome: dukos||Valor: 207,82||Produtos: Nutrilus ;1, Max ;1, Granplus ;1, Ração Extrusada ;1
-Nome: fescd||Valor: 207,82||Produtos: Nutrilus ;1, Max ;1, Granplus ;1, Ração Extrusada ;3
-Nome: mamoko||Valor: 264,47||Produtos: Nutrilus ;1, Max ;2, Granplus ;1, Ração Extrusada ;2
-Nome: donoko||Valor: 50,62||Produtos: Max ;1, Granplus ;1
-Nome: pokob||Valor: 572,40||Produtos: Queranon ;6
+Nome: fgted||Valor: 205,82||Produtos: Nutrilus ;11, Max ;4, Granplus ;1, Ração Extrusada ;1
+Nome: sukod||Valor: 206,82||Produtos: Nutrilus ;1, Max ;1, Granplus ;1, Ração Extrusada ;1
+Nome: sukudmoe||Valor: 264,47||Produtos: Nutrilus ;1, Max ;1, Granplus ;1, Ração Extrusada ;1
+Nome: quarto||Valor: 264,47||Produtos: Nutrilus ;1, Max ;1, Granplus ;1, Ração Extrusada ;1
+Nome: fescd||Valor: 264,47||Produtos: Nutrilus ;1, Max ;1, Granplus ;1, Ração Extrusada ;3
+Nome: terceiro||Valor: 264,47||Produtos: Nutrilus ;1, Max ;2, Granplus ;1, Ração Extrusada ;2
+Nome: Nioko||Valor: 50,62||Produtos: Max ;1, Granplus ;1
+Nome: primeiro||Valor: 572,40||Produtos: Queranon ;6
 Nome: KokoDoko||Valor: 131,09||Produtos: Nutrilus ;1, Whiskas ;1
 Nome: dukokuko||Valor: 121,19||Produtos: Nutrilus ;1, Max ;2
-Nome: ddddas||Valor: 498,32||Produtos: Milho ;2, Ampicilina ;2, Coleira ;2, Vermifugo ;2, Prediderm ;2
+Nome: segundo||Valor: 498,32||Produtos: Milho ;2, Ampicilina ;2, Coleira ;2, Vermifugo ;2, Prediderm ;2
 Nome: sssssssss||Valor: 50,30||Produtos: Cheval ;1
 Nome: DAWDAWDAW||Valor: 80,84||Produtos: Whiskas ;1, Cheval ;1

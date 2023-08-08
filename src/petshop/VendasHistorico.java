@@ -125,11 +125,10 @@ public class VendasHistorico {
         private DefaultCategoryDataset graficoProdutos, graficoVendas;
         private FileReader fr;
         private BufferedReader br;
-        private List<String> leitura, produtosVendidos, produtosNome, produtos10; // leitura:linha toda,produtosVendidos:todos os produtos,produtosNome:só os nomes,produtos10:entre os 10 mais vendidos
+        private List<String> leitura, produtosVendidos, produtosNome, produtos10, maioresCompradores; // leitura:linha toda,produtosVendidos:todos os produtos,produtosNome:só os nomes,produtos10:entre os 10 mais vendidos
         private List<Integer> produtosQuantidade; // só os valores em ordem ;
         private List<JLabel> lblProdutosMaisVendidos, lblMaioresCompradores;
         private List<Float> maioresCompras;
-        private Set<String> maioresCompradores;
 
         public VendasRelation() {
             configurarGraficoProdutos();
@@ -138,7 +137,7 @@ public class VendasHistorico {
         }
 
         private void configurarPane() {
-                        this.painel.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 25));
+            this.painel.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 25));
 
             jpProdutosMaisVendidos = new JPanel();
             jsGraficoProdutos = new JScrollPane();
@@ -220,7 +219,6 @@ public class VendasHistorico {
         }
 
         private void configurarGraficoVendas() {
-            relation();
             graficoVendas = new DefaultCategoryDataset();
             lblMaioresCompradores = new ArrayList<>();
             int i = maioresCompradores.size();
@@ -232,14 +230,13 @@ public class VendasHistorico {
             grafico2.getPlot().setBackgroundPaint(trans);
             grafico2.setBackgroundPaint(trans);
 
-            while (f.hasNext()) {
-                i--;
-                String nomes = f.next();
-                var lbl = new JLabel((k + 1) + "° " + nomes + ": " + "$" + this.maioresCompras.get(i));
+            for (String nomes : this.maioresCompradores) {
+                i--; // como a lista foi ordenada pelo sort no formato de ordem crescente,eu realizo o inverso para utilzar o formato decrescente
+                var lbl = new JLabel((k + 1) + "° " + this.maioresCompradores.get(i) + ": " + "$" + this.maioresCompras.get(i)); // acrescentando ao lbl
                 lbl.setFont(new Font("Arial Black", Font.BOLD, 14));
                 lbl.setForeground(Color.black);
                 this.jpMaioresCompradores.add(lbl);
-                graficoVendas.setValue(this.maioresCompras.get(i), nomes, "");
+                graficoVendas.setValue(this.maioresCompras.get(i), this.maioresCompradores.get(i), "");
                 k++;
                 if (k == 10) {
                     break;
@@ -256,7 +253,7 @@ public class VendasHistorico {
         private void relation() {
             int k = 0;
             int produtosPosition;
-            maioresCompradores = new HashSet<>();
+            maioresCompradores = new ArrayList<>();
             List<String> compradores = new ArrayList<>();
             List<Float> numbers = new ArrayList<>();
             List<String> quanto = new ArrayList<>();
@@ -304,22 +301,25 @@ public class VendasHistorico {
                 valor2 = valor[0].replace("Nome: ", "");
                 valor2 = valor2.replace("||", "");
                 compradores.add(valor2);
-                // System.out.println(valor3);
 
             }
+            List<Integer> h = new ArrayList<>();
             Collections.sort(maioresCompras);
-
+            System.out.println(compradores.size());
             for (Float ma : maioresCompras) {
-                for (int i = k; i < maioresCompras.size(); i++) {
-                    if (numbers.get(i).equals(ma)) {
-                        k++;
-                        System.out.println(i);
-                        maioresCompradores.add(compradores.get(i));
+                for (int i = 0; i < maioresCompras.size(); i++) {
+                    k = 0;
+                    for (Integer ppo : h) {k += (ppo == i) ? 1 : k;} // testa todos os que ja foram 
+                    if (numbers.get(i).equals(ma) && k == 0) {
+                        h.add(i); // adiciona a lista de valores para evitar repetição de elementos
+                        maioresCompradores.add(compradores.get(i)); ///Adiciona a ordem correta os maiores valores 
+                        break;
                     }
                 }
+                
             }
+            k = 0;
 
-            maioresCompradores.stream().forEach(i -> System.out.println(i));
             produtosPosition = nombre.size();
 
             for (int i = 0; i < this.produtosNome.size(); i++) {
