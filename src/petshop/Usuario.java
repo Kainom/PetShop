@@ -222,24 +222,26 @@ public class Usuario extends TelaInicial implements ActionListener {
         } else if (bntCpf.isSelected() && txtfCpf.getText().equals("   .   .   -  ")) {
             teste++;
         } else {
-            if (txtfCnpj.getText().equals("  .   .   /    -  ")) {
+            if (txtfCnpj.getText().equals("  .   .   /    -  ")) { // se o cnpj estiver vazio o cpf recebe o valor 
                 registro = txtfCpf.getText();
             } else {
-                registro = txtfCnpj.getText();
+                registro = txtfCnpj.getText();                    // se o cpf estiver vazio  o cnpj recebe o valor 
             }
         }
         if (!(this.bntCnpj.isSelected() || this.bntCpf.isSelected() || this.bntNenhum.isSelected())) {
             teste++;
         }
-
+        
         return teste;
     }
 
     private void action(ActionEvent event) {
         Integer teste = new Integer(testarCampos());
+        VendasHistorico venda = new VendasHistorico(txtNome.getText(), registro);
+        Integer teste2 = venda.teste();
         if (event.getSource().equals(this.bntConfirm)) {
-            System.out.println(registro);
-            if (teste == 0) {
+            //System.out.println(registro);
+            if (teste == 0 && teste2 == 0) {
                 Usuario.this.dispose();
                 new Produtos(registro, txtNome.getText()).setVisible(true);
             }

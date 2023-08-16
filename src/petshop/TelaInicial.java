@@ -25,10 +25,10 @@ public class TelaInicial extends JFrame {
 
     protected ImageIcon iconPet = new ImageIcon(getClass().getResource("/screnn/dog.jpg"));
     protected Fundo painel;
-    protected JPanel jpConfirma, jpShop,jpVolta;
-    private JLabel lblEstoque, lblVenda;
-    private ImageIcon iconEstoque, iconVenda;
-    private JButton btnEstoque, btnVenda;
+    protected JPanel jpConfirma, jpShop, jpVolta;
+    private JLabel lblEstoque, lblVenda, lblRelation;
+    private ImageIcon iconEstoque, iconVenda,iconRelation;
+    private JButton btnEstoque, btnVenda, bntRelation;
 
     public TelaInicial() {
         configurarJanela();
@@ -39,7 +39,7 @@ public class TelaInicial extends JFrame {
         painel = new TelaInicial.Fundo();
         this.painel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 200));
         this.add(painel);
-        this.setTitle("USUARIO");
+        this.setTitle("Tela Inicial");
         this.setSize(1000, 500);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
@@ -52,8 +52,8 @@ public class TelaInicial extends JFrame {
         jpConfirma = new JPanel();
         jpVolta = new JPanel();
 
-        this.jpShop.setLayout(new FlowLayout(FlowLayout.LEFT, 100, 35));
-        this.jpShop.setPreferredSize(new Dimension(490, 400));
+        this.jpShop.setLayout(new FlowLayout(FlowLayout.LEFT, 100, 5));
+        this.jpShop.setPreferredSize(new Dimension(490, 500));
         this.jpShop.setBackground(Color.darkGray);
         this.jpShop.setOpaque(false);
 
@@ -64,9 +64,12 @@ public class TelaInicial extends JFrame {
         this.jpShop.add(this.btnVenda);
         this.jpShop.add(this.lblEstoque);
         this.jpShop.add(this.btnEstoque);
-        
+        this.jpShop.add(this.lblRelation);
+        this.jpShop.add(this.bntRelation);
+
         this.btnEstoque.addActionListener(event -> escolha(event));
         this.btnVenda.addActionListener(event -> escolha(event));
+        this.bntRelation.addActionListener(event -> escolha(event));
         
 
     }
@@ -76,36 +79,52 @@ public class TelaInicial extends JFrame {
         lblVenda = new JLabel("VENDAS  ");
         iconEstoque = new ImageIcon(getClass().getResource("/screnn/estoque.png"));
         iconVenda = new ImageIcon(getClass().getResource("/screnn/sale.png"));
+        iconRelation = new ImageIcon(getClass().getResource("/screnn/relation.png"));
         btnEstoque = new JButton(iconEstoque);
         btnVenda = new JButton(iconVenda);
+        lblRelation = new JLabel("RELAÇÃO");
+        bntRelation = new JButton(iconRelation);
 
         this.lblEstoque.setFont(new Font("Arial Black", Font.BOLD, 14));
         this.lblEstoque.setForeground(Color.CYAN);
 
-        this.lblVenda.setFont(new Font("Arial Black", Font.BOLD, 14));
-        this.lblVenda.setForeground(Color.CYAN);
-
-        this.btnEstoque.setPreferredSize(new Dimension(100, 90));
+        this.btnEstoque.setPreferredSize(new Dimension(100, 80));
         this.btnEstoque.setBackground(Color.black);
         this.btnEstoque.setBorder(null);
         this.btnEstoque.setOpaque(false);
         this.btnEstoque.setFocusPainted(false);
-
-        this.btnVenda.setPreferredSize(new Dimension(100, 90));
+        
+        this.lblVenda.setFont(new Font("Arial Black", Font.BOLD, 14));
+        this.lblVenda.setForeground(Color.CYAN);
+       
+        this.btnVenda.setPreferredSize(new Dimension(100, 80));
         this.btnVenda.setBackground(Color.black);
         this.btnVenda.setBorder(null);
         this.btnVenda.setOpaque(false);
         this.btnVenda.setFocusPainted(false);
+        
+        this.lblRelation.setFont(new Font("Arial Black",Font.BOLD,14));
+        this.lblRelation.setForeground(Color.CYAN);
+        
+        this.bntRelation.setPreferredSize(new Dimension(100,80));
+        this.bntRelation.setBackground(Color.BLACK);
+        this.bntRelation.setBorder(null);
+        this.bntRelation.setOpaque(false);
+        this.bntRelation.setFocusPainted(false);
 
     }
-    
-    private void escolha(ActionEvent event ){
-        if(event.getSource().equals(this.btnEstoque)){
+
+    private void escolha(ActionEvent event) {
+        if (event.getSource().equals(this.btnEstoque)) {
             new Estoque("Inserção");
             this.dispose();
-        } else if(event.getSource().equals(this.btnVenda)){
+        } else if (event.getSource().equals(this.btnVenda)) {
             new Usuario().setVisible(true);
             this.dispose();
+        } else if (event.getSource().equals(this.bntRelation)){
+            new VendasHistorico();
+            this.dispose();
+            
         }
     }
 

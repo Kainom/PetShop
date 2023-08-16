@@ -13,3 +13,8 @@ Nome: dukokuko||Valor: 121,19||Produtos: Nutrilus ;1, Max ;2
 Nome: segundo||Valor: 498,32||Produtos: Milho ;2, Ampicilina ;2, Coleira ;2, Vermifugo ;2, Prediderm ;2
 Nome: sssssssss||Valor: 50,30||Produtos: Cheval ;1
 Nome: DAWDAWDAW||Valor: 80,84||Produtos: Whiskas ;1, Cheval ;1
+Nome: FERDSDDES||Valor: 533,29||Produtos: Nutrilus ;5, Whiskas ;1
+Nome: ddddddddd||;CPF: 899.899.899-89||Valor: 120,88||Produtos: Milho ;1
+Nome: dddwa||;CNPJ: 43.444.444/4444-44||Valor: 120,88||Produtos: Milho ;1
+Nome: fwaffawa||;CNPJ: 33.333.333/3333-33||Valor: 120,88||Produtos: Milho ;1
+Nome: Torvin||;CPF: 333.333.333-33||Valor: 161,63||Produtos: Nutrilus ;1, Whiskas ;2

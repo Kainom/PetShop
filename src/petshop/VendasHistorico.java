@@ -4,10 +4,12 @@
  */
 package petshop;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -16,7 +18,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -24,6 +25,8 @@ import java.util.List;
 import java.util.Set;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -40,13 +43,21 @@ import org.jfree.data.category.DefaultCategoryDataset;
  */
 public class VendasHistorico {
 
-    private String nome, registro, cep, bairro, rua, num, complemento, valor;
-    private String cliente;
+    private List<String> leitura, leituraRegistro;
+    private String nome, registro, cep, bairro, rua, num, complemento, valor, cliente;
     private File arquivo = new File("C:/Users/User/Documents/NetBeansProjects/PetShop/src/arquivos/Vendas.txt");
+    private File arquivoRegistro = new File("C:/Users/User/Documents/NetBeansProjects/PetShop/src/arquivos/Registros.txt");
+    private FileReader fr;
+    private BufferedReader br;
     private PrintWriter pw;
 
     public VendasHistorico() {
         new VendasRelation().setVisible(true);
+    }
+
+    public VendasHistorico(String nome, String registro) {
+        this.nome = nome;
+        this.registro = registro;
     }
 
     public VendasHistorico(String nome, String registro, String cep, String bairro, String rua, String num, String complemento, String valor, String produtos) {
@@ -59,12 +70,14 @@ public class VendasHistorico {
         this.complemento = complemento;
         this.valor = valor;
         if (!complemento.equals("")) {
-            this.cliente = "Nome: " + nome + "||" + "Registro: " + registro + " ||" + "Cep: " + cep + "||" + "Bairro: " + bairro + "||" + "Rua: " + rua + "||" + "Num: " + num + "||" + "Complemento: " + complemento + "||" + "Valor: " + valor + "||" + produtos;
+            this.cliente = "Nome: " + nome + "||" + registro + "||" + "Cep: " + cep + "||" + "Bairro: " + bairro + "||" + "Rua: " + rua + "||" + "Num: " + num + "||" + "Complemento: " + complemento + "||" + "Valor: " + valor + "||" + produtos;
         } else {
-            this.cliente = "Nome: " + nome + "|| " + "Registro: " + registro + "||" + "Cep: " + cep + "||" + "Bairro: " + bairro + "||" + "Rua: " + rua + "||" + "Num: " + num + "||" + "Valor: " + valor + "||" + produtos;
+            this.cliente = "Nome: " + nome + "||" + registro + "||" + "Cep: " + cep + "||" + "Bairro: " + bairro + "||" + "Rua: " + rua + "||" + "Num: " + num + "||" + "Valor: " + valor + "||" + produtos;
 
         }
+
         armazena();
+        armazenaRegistro();
 
     }
 
@@ -93,6 +106,7 @@ public class VendasHistorico {
         this.valor = valor;
         this.cliente = "Nome: " + nome + "||" + registro + "||" + "Valor: " + valor + "||" + produtos;
         armazena();
+        armazenaRegistro();
 
     }
 
@@ -102,48 +116,128 @@ public class VendasHistorico {
         armazena();
     }
 
+    private void armazenaRegistro() {
+        String registro = (this.registro.length() == 25) ? this.registro.replace(";CNPJ: ", "") : this.registro.replace(";CPF: ", "");
+        try {
+            if (!this.arquivoRegistro.exists()) {
+                System.out.println("Criando");
+                this.arquivoRegistro.createNewFile();
+            }
+            this.pw = new PrintWriter(new BufferedWriter(new FileWriter(this.arquivoRegistro, true)));
+            this.pw.println(registro);
+            this.pw.flush();
+            this.pw.close();
+        } catch (Exception err) {
+            System.out.println("ERRO NO ARQUIVO");
+        }
+    }
+
     private void armazena() {
         try {
-            if (!arquivo.exists()) {
+            if (!this.arquivo.exists()) {
                 System.out.println("CRIANDO");
-                arquivo.createNewFile();
+                this.arquivo.createNewFile();
             }
 
-            pw = new PrintWriter(new BufferedWriter(new FileWriter(arquivo, true)));
-            pw.println(this.cliente);
-            pw.close();
+            this.pw = new PrintWriter(new BufferedWriter(new FileWriter(this.arquivo, true)));
+            this.pw.println(this.cliente);
+            this.pw.close();
         } catch (IOException ex) {
             System.out.println("ERRO NO ARQUIVO");
         }
 
     }
 
+    private void lendoRegistros() {
+        try {
+            leituraRegistro = new ArrayList<>();
+            fr = new FileReader(this.arquivoRegistro);
+            br = new BufferedReader(fr);
+            while (br.ready()) {
+                this.leituraRegistro.add(br.readLine());
+            }
+        } catch (Exception err) {
+        }
+    }
+
+    private void lendo() {
+        try {
+            leitura = new ArrayList<>();
+            fr = new FileReader(this.arquivo);
+            br = new BufferedReader(fr);
+            while (br.ready()) {
+                this.leitura.add(br.readLine());
+            }
+        } catch (IOException e) {
+        }
+    }
+
+    public int teste() {
+        lendo();
+        lendoRegistros();
+        int validade = 0;
+        int i = 0;
+        System.out.println(registro);
+        for (String registro : this.leituraRegistro) {
+            validade = (registro.equals(this.registro)) ? 1 : validade;
+        }
+            for (String lendo : leitura) {
+                String teste[] = lendo.split("Valor: "); // tratamento dos dados extraidos do arquivo para se obter a comparação;
+                String nome = teste[0];
+                String teste2[] = nome.split("Nome: ");
+                nome = teste2[1].replace("||", "");
+                String teste3[] = nome.split(";");
+                nome = teste3[0];
+//                System.out.println(nome);
+                validade = (nome.equals(this.nome)) ? 1 : validade;
+            }
+        return validade;
+    }
+
     private class VendasRelation extends TelaInicial {
 
-        private JPanel jpProdutosMaisVendidos, jpMaioresCompradores;
+        private JPanel jpProdutosMaisVendidos, jpMaioresCompradores,jpVolta;
         private JScrollPane jsGraficoProdutos, jsGraficoVendas;
         private DefaultCategoryDataset graficoProdutos, graficoVendas;
-        private FileReader fr;
-        private BufferedReader br;
-        private List<String> leitura, produtosVendidos, produtosNome, produtos10, maioresCompradores; // leitura:linha toda,produtosVendidos:todos os produtos,produtosNome:só os nomes,produtos10:entre os 10 mais vendidos
+        private List<String> produtosVendidos, produtosNome, produtos10, maioresCompradores; // produtosVendidos:todos os produtos,produtosNome:só os nomes,produtos10:entre os 10 mais vendidos
         private List<Integer> produtosQuantidade; // só os valores em ordem ;
         private List<JLabel> lblProdutosMaisVendidos, lblMaioresCompradores;
         private List<Float> maioresCompras;
-
+        private ImageIcon iconVolta;
+        private JButton bntVolta;
+        
         public VendasRelation() {
+           
             configurarGraficoProdutos();
             configurarPane();
             configurarGraficoVendas();
         }
 
         private void configurarPane() {
-            this.painel.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 25));
+            this.painel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 25));
 
             jpProdutosMaisVendidos = new JPanel();
             jsGraficoProdutos = new JScrollPane();
             jpMaioresCompradores = new JPanel();
             jsGraficoVendas = new JScrollPane();
+            jpVolta = new JPanel();
+            iconVolta = new ImageIcon(getClass().getResource("/screnn/volta.png"));
 
+            bntVolta = new JButton(iconVolta);
+            
+            this.bntVolta.setPreferredSize(new Dimension(60,60));
+            this.bntVolta.setBackground(Color.darkGray);
+            this.bntVolta.setOpaque(false);
+            this.bntVolta.setBorder(null);
+            this.bntVolta.setFocusPainted(false);
+            this.bntVolta.addActionListener(volta -> voltar(volta));
+            
+            this.jpVolta.setPreferredSize(new Dimension(61,600));
+            this.jpVolta.setBackground(Color.darkGray);
+            this.jpVolta.setLayout(new BorderLayout());
+            this.jpVolta.add(this.bntVolta,BorderLayout.NORTH);
+            this.jpVolta.setOpaque(false);
+            
             this.jpProdutosMaisVendidos.setLayout(new BoxLayout(this.jpProdutosMaisVendidos, BoxLayout.Y_AXIS));
             this.jpProdutosMaisVendidos.setBackground(Color.darkGray);
             this.jpProdutosMaisVendidos.setOpaque(false);
@@ -156,6 +250,7 @@ public class VendasHistorico {
             this.jsGraficoProdutos.getViewport().setOpaque(false);
             this.jsGraficoProdutos.setViewportView(this.jpProdutosMaisVendidos);
             this.jsGraficoProdutos.setBorder(null);
+            
             this.jpProdutosMaisVendidos.add(Box.createVerticalStrut(20));
             this.lblProdutosMaisVendidos.stream().forEach(add -> jpProdutosMaisVendidos.add(add));
             this.painel.add(this.jsGraficoProdutos);
@@ -178,18 +273,6 @@ public class VendasHistorico {
             this.jpShop.setOpaque(true);
             this.jpShop.setVisible(false);
 
-        }
-
-        private void lendo() {
-            try {
-                leitura = new ArrayList<>();
-                fr = new FileReader(arquivo);
-                br = new BufferedReader(fr);
-                while (br.ready()) {
-                    leitura.add(br.readLine());
-                }
-            } catch (IOException e) {
-            }
         }
 
         private void configurarGraficoProdutos() {
@@ -245,6 +328,9 @@ public class VendasHistorico {
             ChartPanel panel2 = new ChartPanel(grafico2);
             panel2.setPreferredSize(new Dimension(700, 200));
             panel2.setOpaque(false);
+            panel2.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
+            panel2.add(this.jpVolta);
+
             this.painel.add(panel2);
             this.painel.add(this.jsGraficoVendas);
 
@@ -309,14 +395,16 @@ public class VendasHistorico {
             for (Float ma : maioresCompras) {
                 for (int i = 0; i < maioresCompras.size(); i++) {
                     k = 0;
-                    for (Integer ppo : h) {k += (ppo == i) ? 1 : k;} // testa todos os que ja foram 
+                    for (Integer ppo : h) {
+                        k += (ppo == i) ? 1 : k;
+                    } // testa todos os que ja foram 
                     if (numbers.get(i).equals(ma) && k == 0) {
                         h.add(i); // adiciona a lista de valores para evitar repetição de elementos
                         maioresCompradores.add(compradores.get(i)); ///Adiciona a ordem correta os maiores valores 
                         break;
                     }
                 }
-                
+
             }
             k = 0;
 
@@ -354,6 +442,13 @@ public class VendasHistorico {
                 }
             }
 
+        }
+
+        private void voltar(ActionEvent volta) {
+            if(this.bntVolta.equals(volta.getSource())){
+                this.dispose();
+                new TelaInicial().setVisible(true);
+            }
         }
     }
 }

@@ -313,7 +313,7 @@ public class Vendas extends Produtos {
         produtos = "Produtos: " + produtos;
 
         if (evento.getSource().equals(this.bntConfirm)) {
-            registro = (this.registro.length() == 14) ? "CPF: " + this.registro : "CNPJ: " + this.registro;
+            registro = (this.registro.length() == 14) ? ";CPF: " + this.registro : ";CNPJ: " + this.registro;
             if (this.bntSim.isSelected()) { // bnt que configura a vontade do cliente em oferecer seu enredereço
                 oferecer = true;
                 teste += testarCampos(txtBairro.getText()); // usando esse método herdado de usuário para eliminar certos caracteres especiais

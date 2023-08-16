@@ -15,7 +15,6 @@ public class PetShop {
      */
     public static void main(String[] args) {
         new TelaInicial().setVisible(true);
-        new VendasHistorico();
     }
 
 }
