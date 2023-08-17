@@ -18,3 +18,8 @@ Nome: ddddddddd||;CPF: 899.899.899-89||Valor: 120,88||Produtos: Milho ;1
 Nome: dddwa||;CNPJ: 43.444.444/4444-44||Valor: 120,88||Produtos: Milho ;1
 Nome: fwaffawa||;CNPJ: 33.333.333/3333-33||Valor: 120,88||Produtos: Milho ;1
 Nome: Torvin||;CPF: 333.333.333-33||Valor: 161,63||Produtos: Nutrilus ;1, Whiskas ;2
+Nome: dedededed||;CPF: 344.444.444-44||Valor: 30,54||Produtos: Whiskas ;1
+Nome: primeiro||Valor: 100,55||Produtos: Nutrilus ;1
+Nome: Abacaxi||;CPF: 333.333.333-33||Valor: 120,88||Produtos: Milho ;1
+Nome: Abacadabra||;CPF: 343.333.333-33||Valor: 151,42||Produtos: Whiskas ;1, Milho ;1
+Nome: Abacaxi||;CPF: 333.333.333-33||Valor: 10,32||Produtos: Max ;1

@@ -250,7 +250,7 @@ public class Estoque {
                 } else {
                     lbl.setForeground(Color.green);
                 }
-                produtosGrafico.setValue(Integer.parseInt(lendo[1]), nome[0], "");
+                this.produtosGrafico.setValue(Integer.parseInt(lendo[1]), nome[0], "");
                 lbl.setFont(new Font("Arial Black", Font.BOLD, 14));
                 this.lblProdutosEstoque.add(lbl);
                 System.out.println(lbl.getText());
@@ -286,10 +286,10 @@ public class Estoque {
             lendo();
             pw = new PrintWriter(new BufferedWriter(new FileWriter(arquivo)));
 
-            for (String linha : leitura) {
+            for (String linha : this.leitura) {
                 String[] grafico = linha.split(":");
                 String[] valor = linha.split(":", 2);
-                produtosGrafico.setValue(Integer.parseInt(valor[1]), grafico[0], "");
+                this.produtosGrafico.setValue(Integer.parseInt(valor[1]), grafico[0], "");
                 c++; // começa incrementando por causa da posição  0 do check estar vazia;
                 if (c == position) { // confere quando produto  foi selecionado para alterá-lo
                     String[] produto = linha.split(":"); //split que pega apenas o nome do produto 
@@ -311,23 +311,23 @@ public class Estoque {
         }
 
         public void inserir(List<Integer> position, List<Integer> quantidade) throws IOException {
-            if (!arquivo.exists()) {
+            if (!this.arquivo.exists()) {
                 System.out.println("VAZIO");
-                arquivo.createNewFile();
+                this.arquivo.createNewFile();
 
             }
             lendo();
-            pw = new PrintWriter(new BufferedWriter(new FileWriter(arquivo)));
+            pw = new PrintWriter(new BufferedWriter(new FileWriter(this.arquivo)));
             int c = 0;
             System.out.println("Quantidade" + quantidade.size());
             int k = 0;
-            for (String linha : leitura) {
+            for (String linha : this.leitura) {
                 for (int f = 0; f < position.size(); f++) {
                     if (c == position.get(f)) { // confere quando produto  foi selecionado para alterá-lo
                         System.out.print(f + " ");
                         String[] produto = linha.split(":"); //split que pega apenas o nome do produto 
                         String novoProduto = produto[0] + ":" + quantidade.get(f); // armazena o nome e a nova  quantidade
-                        pw.println(novoProduto);
+                        this.pw.println(novoProduto);
                         k = 0;
                         break;
                     } else {
@@ -335,11 +335,11 @@ public class Estoque {
                     }
                 }
                 if (k == 1) {
-                    pw.println(linha);
+                    this.pw.println(linha);
                 }
                 c++;
             }
-            pw.close();
+            this.pw.close();
         }
 
         private void action(ActionEvent evento) {
@@ -349,13 +349,14 @@ public class Estoque {
                     System.out.println("opa");
                     inserir(); // insere os valores novos no estoque e nos lbls de demonstração
                     lendo();
-                    for (String linha : leitura) {
+                    for (String linha : this.leitura) {
                         if (k == 12)break;  // a leitura por ler do arquivo acaba por possuir 12 index de elemento,desse modo,o break evita execption
                         this.lblProdutosEstoque.get(k).setText(linha);
-                        k++;
                         String[] grafico = linha.split(":");
                         String[] valor = linha.split(":", 2);
-                        produtosGrafico.setValue(Integer.parseInt(valor[1]), grafico[0], "");
+                        if(Integer.parseInt(valor[1])>10)this.lblProdutosEstoque.get(k).setForeground(Color.green);
+                        k++;
+                        this.produtosGrafico.setValue(Integer.parseInt(valor[1]), grafico[0], "");
                     }
                 } catch (IOException err) {
                 }

@@ -118,6 +118,7 @@ public class VendasHistorico {
 
     private void armazenaRegistro() {
         String registro = (this.registro.length() == 25) ? this.registro.replace(";CNPJ: ", "") : this.registro.replace(";CPF: ", "");
+        registro = this.nome + " " + registro;
         try {
             if (!this.arquivoRegistro.exists()) {
                 System.out.println("Criando");
@@ -176,27 +177,20 @@ public class VendasHistorico {
         lendo();
         lendoRegistros();
         int validade = 0;
-        int i = 0;
-        System.out.println(registro);
         for (String registro : this.leituraRegistro) {
-            validade = (registro.equals(this.registro)) ? 1 : validade;
+            String documento[] = registro.split(" ");
+            String nome[] = registro.split(" ");
+            System.out.println( nome[0] +  " "+ documento[1]);
+            validade = (documento[1].equals(this.registro) && nome[0].equals(this.nome)) ? 1 : validade;
+            if(validade == 1)return 1;
         }
-            for (String lendo : leitura) {
-                String teste[] = lendo.split("Valor: "); // tratamento dos dados extraidos do arquivo para se obter a comparação;
-                String nome = teste[0];
-                String teste2[] = nome.split("Nome: ");
-                nome = teste2[1].replace("||", "");
-                String teste3[] = nome.split(";");
-                nome = teste3[0];
-//                System.out.println(nome);
-                validade = (nome.equals(this.nome)) ? 1 : validade;
-            }
+
         return validade;
     }
 
     private class VendasRelation extends TelaInicial {
 
-        private JPanel jpProdutosMaisVendidos, jpMaioresCompradores,jpVolta;
+        private JPanel jpProdutosMaisVendidos, jpMaioresCompradores, jpVolta;
         private JScrollPane jsGraficoProdutos, jsGraficoVendas;
         private DefaultCategoryDataset graficoProdutos, graficoVendas;
         private List<String> produtosVendidos, produtosNome, produtos10, maioresCompradores; // produtosVendidos:todos os produtos,produtosNome:só os nomes,produtos10:entre os 10 mais vendidos
@@ -205,9 +199,9 @@ public class VendasHistorico {
         private List<Float> maioresCompras;
         private ImageIcon iconVolta;
         private JButton bntVolta;
-        
+
         public VendasRelation() {
-           
+
             configurarGraficoProdutos();
             configurarPane();
             configurarGraficoVendas();
@@ -224,20 +218,20 @@ public class VendasHistorico {
             iconVolta = new ImageIcon(getClass().getResource("/screnn/volta.png"));
 
             bntVolta = new JButton(iconVolta);
-            
-            this.bntVolta.setPreferredSize(new Dimension(60,60));
+
+            this.bntVolta.setPreferredSize(new Dimension(60, 60));
             this.bntVolta.setBackground(Color.darkGray);
             this.bntVolta.setOpaque(false);
             this.bntVolta.setBorder(null);
             this.bntVolta.setFocusPainted(false);
             this.bntVolta.addActionListener(volta -> voltar(volta));
-            
-            this.jpVolta.setPreferredSize(new Dimension(61,600));
+
+            this.jpVolta.setPreferredSize(new Dimension(61, 600));
             this.jpVolta.setBackground(Color.darkGray);
             this.jpVolta.setLayout(new BorderLayout());
-            this.jpVolta.add(this.bntVolta,BorderLayout.NORTH);
+            this.jpVolta.add(this.bntVolta, BorderLayout.NORTH);
             this.jpVolta.setOpaque(false);
-            
+
             this.jpProdutosMaisVendidos.setLayout(new BoxLayout(this.jpProdutosMaisVendidos, BoxLayout.Y_AXIS));
             this.jpProdutosMaisVendidos.setBackground(Color.darkGray);
             this.jpProdutosMaisVendidos.setOpaque(false);
@@ -250,7 +244,7 @@ public class VendasHistorico {
             this.jsGraficoProdutos.getViewport().setOpaque(false);
             this.jsGraficoProdutos.setViewportView(this.jpProdutosMaisVendidos);
             this.jsGraficoProdutos.setBorder(null);
-            
+
             this.jpProdutosMaisVendidos.add(Box.createVerticalStrut(20));
             this.lblProdutosMaisVendidos.stream().forEach(add -> jpProdutosMaisVendidos.add(add));
             this.painel.add(this.jsGraficoProdutos);
@@ -307,7 +301,6 @@ public class VendasHistorico {
             int i = maioresCompradores.size();
             int k = 0;
             var trans = new Color(0xFF, 0xFF, 0xFF, 0);
-            Iterator<String> f = maioresCompradores.iterator();
 
             JFreeChart grafico2 = ChartFactory.createBarChart3D("MAIORES CLIENTES", "", "", graficoVendas, PlotOrientation.HORIZONTAL, true, true, false);
             grafico2.getPlot().setBackgroundPaint(trans);
@@ -328,7 +321,7 @@ public class VendasHistorico {
             ChartPanel panel2 = new ChartPanel(grafico2);
             panel2.setPreferredSize(new Dimension(700, 200));
             panel2.setOpaque(false);
-            panel2.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
+            panel2.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
             panel2.add(this.jpVolta);
 
             this.painel.add(panel2);
@@ -445,7 +438,7 @@ public class VendasHistorico {
         }
 
         private void voltar(ActionEvent volta) {
-            if(this.bntVolta.equals(volta.getSource())){
+            if (this.bntVolta.equals(volta.getSource())) {
                 this.dispose();
                 new TelaInicial().setVisible(true);
             }

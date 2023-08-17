@@ -132,7 +132,7 @@ public class TelaInicial extends JFrame {
 
         @Override
         public void paintComponent(Graphics g) {
-            super.paintComponent(g); // extendo de painel para utilizar o comando super //
+            super.paintComponent(g); // extendo de painel para utilizar o método paintComponet do mesmoo //
             Image img = TelaInicial.this.iconPet.getImage();
             g.drawImage(img, 0, 0, this);
         }

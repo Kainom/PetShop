@@ -26,13 +26,13 @@ import javax.swing.text.MaskFormatter;
  */
 public class Usuario extends TelaInicial implements ActionListener {
 
-    private String registro;
+    protected String registro;
     protected ImageIcon iconDog, iconVolta;
     private JLabel lblNome, lblCnpj, lblCpf, lblEscolha;
     protected JTextField txtNome;
     protected JFormattedTextField txtfCnpj, txtfCpf;
     private MaskFormatter cnpj, cpf;
-    private JRadioButton bntCnpj, bntCpf, bntNenhum;
+    protected JRadioButton bntCnpj, bntCpf, bntNenhum;
     private ButtonGroup grupo;
     protected JButton bntConfirm, bntVolta;
 
@@ -83,7 +83,6 @@ public class Usuario extends TelaInicial implements ActionListener {
         this.bntCnpj.addActionListener(this);
         this.bntCpf.addActionListener(this);
         this.bntNenhum.addActionListener(this);
-
         this.bntConfirm.addActionListener(evento -> action(evento));
         this.bntVolta.addActionListener(evento -> action(evento));
 
@@ -214,7 +213,7 @@ public class Usuario extends TelaInicial implements ActionListener {
 
     }
 
-    private int testarCampos() {
+    protected int testarCampos() {
         int teste = testarCampos(this.txtNome.getText());
 
         if (bntCnpj.isSelected() && txtfCnpj.getText().equals("  .   .   /    -  ")) {
@@ -237,13 +236,13 @@ public class Usuario extends TelaInicial implements ActionListener {
 
     private void action(ActionEvent event) {
         Integer teste = new Integer(testarCampos());
-        VendasHistorico venda = new VendasHistorico(txtNome.getText(), registro);
+        VendasHistorico venda = new VendasHistorico(this.txtNome.getText(), this.registro);
         Integer teste2 = venda.teste();
         if (event.getSource().equals(this.bntConfirm)) {
             //System.out.println(registro);
             if (teste == 0 && teste2 == 0) {
                 Usuario.this.dispose();
-                new Produtos(registro, txtNome.getText()).setVisible(true);
+                new Produtos(this.registro, this.txtNome.getText()).setVisible(true);
             }
         } else if (event.getSource().equals(this.bntVolta)) {
             new TelaInicial().setVisible(true);
