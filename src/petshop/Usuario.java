@@ -26,6 +26,7 @@ import javax.swing.text.MaskFormatter;
  */
 public class Usuario extends TelaInicial implements ActionListener {
 
+    private static final int TIPO_ARMAZENA = 1;
     protected String registro;
     protected ImageIcon iconDog, iconVolta;
     private JLabel lblNome, lblCnpj, lblCpf, lblEscolha;
@@ -236,13 +237,13 @@ public class Usuario extends TelaInicial implements ActionListener {
 
     private void action(ActionEvent event) {
         Integer teste = new Integer(testarCampos());
-        VendasHistorico venda = new VendasHistorico(this.txtNome.getText(), this.registro);
+        VendasHistorico venda = new VendasHistorico(this.txtNome.getText(), this.registro); // Instânciando o objeto para se testar a existência dos campos
         Integer teste2 = venda.teste();
         if (event.getSource().equals(this.bntConfirm)) {
             //System.out.println(registro);
             if (teste == 0 && teste2 == 0) {
                 Usuario.this.dispose();
-                new Produtos(this.registro, this.txtNome.getText()).setVisible(true);
+                new Produtos(this.registro, this.txtNome.getText(),TIPO_ARMAZENA).setVisible(true);
             }
         } else if (event.getSource().equals(this.bntVolta)) {
             new TelaInicial().setVisible(true);

@@ -17,9 +17,9 @@ Nome: FERDSDDES||Valor: 533,29||Produtos: Nutrilus ;5, Whiskas ;1
 Nome: ddddddddd||;CPF: 899.899.899-89||Valor: 120,88||Produtos: Milho ;1
 Nome: dddwa||;CNPJ: 43.444.444/4444-44||Valor: 120,88||Produtos: Milho ;1
 Nome: fwaffawa||;CNPJ: 33.333.333/3333-33||Valor: 120,88||Produtos: Milho ;1
-Nome: Torvin||;CPF: 333.333.333-33||Valor: 161,63||Produtos: Nutrilus ;1, Whiskas ;2
-Nome: dedededed||;CPF: 344.444.444-44||Valor: 30,54||Produtos: Whiskas ;1
+Nome: 5||;CPF: 344.444.444-44||Valor: 30,54||Produtos: Whiskas ;1
 Nome: primeiro||Valor: 100,55||Produtos: Nutrilus ;1
-Nome: Abacaxi||;CPF: 333.333.333-33||Valor: 120,88||Produtos: Milho ;1
-Nome: Abacadabra||;CPF: 343.333.333-33||Valor: 151,42||Produtos: Whiskas ;1, Milho ;1
-Nome: Abacaxi||;CPF: 333.333.333-33||Valor: 10,32||Produtos: Max ;1
+Nome: Abacaxi||;CPF: 333.333.333-33||Valor: 512,35||Produtos: Milho ;1, Granplus ;1, Cheval ;3, Granplus ;2, Ração Extrusada ;2
+Nome: Queijo||Valor: 10,32||Produtos: Max ;1
+Nome: Abacadabra||;CPF: 243.333.333-33||Valor: 80,6||Produtos: Granplus ;1
+Nome: Zanka||Valor: 6134,65||Produtos: Cheval ;1, Granplus ;9, Ração Extrusada ;101

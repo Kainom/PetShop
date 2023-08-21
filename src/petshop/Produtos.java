@@ -1,4 +1,4 @@
-    /*
+/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -26,6 +26,7 @@ import javax.swing.ScrollPaneConstants;
 public class Produtos extends Usuario {
 
     public static final int QUANTIDADE_PRODUTOS = Estoque.getProdutos().size(); // constante referente a quantidade de produtos 
+    private int tipoArmazena;
     private javax.swing.JPanel jpAlerta, jpEsquerda, jpDireita;
     private ImageIcon setaEsquerda, setaDireita, perigo;
     private JLabel lblPerigo, lblEsquerda, lblDireita;
@@ -56,8 +57,12 @@ public class Produtos extends Usuario {
 
     }
 
-    public Produtos(String registro, String nome) {
+    public Produtos() {
+        
+    }
 
+    public Produtos(String registro, String nome, int tipoArmazena) {
+        this.tipoArmazena = tipoArmazena;
         this.registro = registro;
         this.nome = nome;
         super.configurarJanela();
@@ -65,7 +70,7 @@ public class Produtos extends Usuario {
         configurarPanel();
 
     }
-    
+
     @Override
     protected void configurarPanel() {
         jpShop = new javax.swing.JPanel();
@@ -89,7 +94,6 @@ public class Produtos extends Usuario {
         this.jpVolta.setBackground(Color.darkGray);
         this.jpVolta.setLayout(new BorderLayout());
         this.jpVolta.setOpaque(false);
-
 
         this.jpAlerta.setBackground(Color.darkGray);
         this.jpAlerta.setLayout(new BoxLayout(this.jpAlerta, BoxLayout.Y_AXIS));
@@ -248,7 +252,7 @@ public class Produtos extends Usuario {
     private void action(ActionEvent evento) {
         if (!(Produtos.this.carrinho.isEmpty()) && evento.getSource().equals(this.bntConfirm)) {
             Produtos.this.dispose();
-            new Vendas(Produtos.this.carrinho, Produtos.this.valores, registro, nome).setVisible(true);
+            new Vendas(Produtos.this.carrinho, Produtos.this.valores, registro, nome, tipoArmazena).setVisible(true);
         } else if (evento.getSource().equals(this.bntVolta)) {
             new Usuario().setVisible(true);
             this.dispose();

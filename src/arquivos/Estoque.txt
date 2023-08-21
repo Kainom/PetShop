@@ -1,12 +1,12 @@
-Nutrilus:4
-Whiskas:1
-Cheval:0
-Milho:0
-Max:10
-Queranon:0
-Ampicilina:15
-Coleira:3
-Vermifugo:11
-Prediderm:27
-Granplus:30
-Ração Extrusada:108
+Nutrilus:11
+Whiskas:22
+Cheval:22
+Milho:11
+Max:0
+Queranon:22
+Ampicilina:0
+Coleira:0
+Vermifugo:0
+Prediderm:0
+Granplus:0
+Ração Extrusada:0

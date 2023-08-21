@@ -20,7 +20,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.swing.Box;
@@ -43,8 +42,9 @@ import org.jfree.data.category.DefaultCategoryDataset;
  */
 public class VendasHistorico {
 
+    private int tipoArmazena;
     private List<String> leitura, leituraRegistro;
-    private String nome, registro, cep, bairro, rua, num, complemento, valor, cliente;
+    private String nome, registro, cep, bairro, rua, num, complemento, valor, cliente,produtos;
     private File arquivo = new File("C:/Users/User/Documents/NetBeansProjects/PetShop/src/arquivos/Vendas.txt");
     private File arquivoRegistro = new File("C:/Users/User/Documents/NetBeansProjects/PetShop/src/arquivos/Registros.txt");
     private FileReader fr;
@@ -55,12 +55,12 @@ public class VendasHistorico {
         new VendasRelation().setVisible(true);
     }
 
-    public VendasHistorico(String nome, String registro) {
+    public VendasHistorico(String nome, String registro) { // utilizado na instância do teste para o Login
         this.nome = nome;
         this.registro = registro;
     }
 
-    public VendasHistorico(String nome, String registro, String cep, String bairro, String rua, String num, String complemento, String valor, String produtos) {
+    public VendasHistorico(String nome, String registro, String cep, String bairro, String rua, String num, String complemento, String valor, String produtos, int tipoArmazena) {
         this.nome = nome;
         this.registro = registro;
         this.cep = cep;
@@ -69,6 +69,8 @@ public class VendasHistorico {
         this.num = num;
         this.complemento = complemento;
         this.valor = valor;
+        this.tipoArmazena = tipoArmazena;
+
         if (!complemento.equals("")) {
             this.cliente = "Nome: " + nome + "||" + registro + "||" + "Cep: " + cep + "||" + "Bairro: " + bairro + "||" + "Rua: " + rua + "||" + "Num: " + num + "||" + "Complemento: " + complemento + "||" + "Valor: " + valor + "||" + produtos;
         } else {
@@ -100,11 +102,15 @@ public class VendasHistorico {
 
     }
 
-    public VendasHistorico(String nome, String Registro, String valor, String produtos) {
+    public VendasHistorico(String nome, String Registro, String valor, String produtos, int tipoArmazena) {
+
         this.nome = nome;
         this.registro = Registro;
         this.valor = valor;
         this.cliente = "Nome: " + nome + "||" + registro + "||" + "Valor: " + valor + "||" + produtos;
+        this.tipoArmazena = tipoArmazena;
+        this.produtos = produtos;
+
         armazena();
         armazenaRegistro();
 
@@ -113,6 +119,7 @@ public class VendasHistorico {
     public VendasHistorico(String nome, String valor, String produtos) {
         this.nome = nome;
         this.cliente = "Nome: " + nome + "||" + "Valor: " + valor + "||" + produtos;
+        this.tipoArmazena = 1;
         armazena();
     }
 
@@ -135,14 +142,71 @@ public class VendasHistorico {
 
     private void armazena() {
         try {
+            lendo();
             if (!this.arquivo.exists()) {
                 System.out.println("CRIANDO");
                 this.arquivo.createNewFile();
             }
+            if (this.tipoArmazena == 1) {
+                this.pw = new PrintWriter(new BufferedWriter(new FileWriter(this.arquivo, true)));
+                this.pw.println(this.cliente);
+                this.pw.close();
+            } else {
+                System.out.println("ka");
+                this.pw = new PrintWriter(new BufferedWriter(new FileWriter(this.arquivo)));
+                System.out.println(this.valor + "Valor ");
+                for (String armazena : this.leitura) {
+                    String split1[] = armazena.split("Valor:");
+                    String replace1 = split1[0].replace("Nome:", "");
+                    String documento = replace1.replace("||", "");
+                    String registro = "";
+                    String valor = split1[1];
+                    String valorSplit[] = valor.split("Produtos:");
 
-            this.pw = new PrintWriter(new BufferedWriter(new FileWriter(this.arquivo, true)));
-            this.pw.println(this.cliente);
-            this.pw.close();
+//                    System.out.println("Antigo " + this.valor + " " + "Novo " + valor);
+                    //System.out.println(valor);
+                    //System.out.println(this.valor);
+//                    System.out.println(split1[1]);
+                    if (documento.contains("CPF:")) {
+                        if (this.registro.contains(";CPF:")) {
+                            this.registro = this.registro.replace(";CPF:", "");
+                        }
+                        documento = documento.replace("Cep", "");
+                        String cpf[] = documento.split(":");
+                        registro = cpf[1];
+
+                    } else if (documento.contains("CNPJ:")) {
+                        if (this.registro.contains(";CNPJ:")) {
+                            this.registro = this.registro.replace(";CNPJ:", "");
+                        }
+                        String cnpj[] = documento.split(":");
+                        registro = cnpj[1];
+                    }
+
+                    if (registro.equals(this.registro)) {
+                        System.out.println("bukna");
+                        valor = valorSplit[0].replace("||", "");
+                        valor = valor.replace(",", ".");
+                        valor = valor.replace(" ", "");
+                        this.valor = this.valor.replace(",", ".");
+                        System.out.println(this.produtos);
+                        this.produtos = produtos.replace("Produtos:", ",");
+                        float novoValor = (Float.parseFloat(valor) + Float.parseFloat(this.valor));
+
+                        String novoValor2 = novoValor + "";
+                        System.out.println(valor);
+                                                valor = valor.replace(".", ",");
+
+                        novoValor2 = novoValor2.replace(".", ",");
+                        armazena = armazena.replace((valor), (novoValor2));
+                        System.out.println(armazena);
+                        pw.println(armazena + this.produtos);
+                    } else {
+                        pw.println(armazena);
+                    }
+                }
+                pw.close();
+            }
         } catch (IOException ex) {
             System.out.println("ERRO NO ARQUIVO");
         }
@@ -177,12 +241,14 @@ public class VendasHistorico {
         lendo();
         lendoRegistros();
         int validade = 0;
-        for (String registro : this.leituraRegistro) {
+        for (String registro : this.leituraRegistro) { // se o registro e o nome já estiverem armazenados,retorna 1.Do contrário retorna 0 //
             String documento[] = registro.split(" ");
             String nome[] = registro.split(" ");
-            System.out.println( nome[0] +  " "+ documento[1]);
+            //System.out.println(nome[0] + " " + documento[1]);
             validade = (documento[1].equals(this.registro) && nome[0].equals(this.nome)) ? 1 : validade;
-            if(validade == 1)return 1;
+            if (validade == 1) {
+                return 1;
+            }
         }
 
         return validade;

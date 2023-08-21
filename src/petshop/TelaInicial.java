@@ -26,9 +26,9 @@ public class TelaInicial extends JFrame {
     protected ImageIcon iconPet = new ImageIcon(getClass().getResource("/screnn/dog.jpg"));
     protected Fundo painel;
     protected JPanel jpConfirma, jpShop, jpVolta;
-    private JLabel lblEstoque, lblVenda, lblRelation;
+    protected JLabel lblEstoque, lblVenda, lblRelation;
     private ImageIcon iconEstoque, iconVenda,iconRelation;
-    private JButton btnEstoque, btnVenda, bntRelation;
+    protected JButton btnEstoque, btnVenda, bntRelation;
 
     public TelaInicial() {
         configurarJanela();
@@ -119,7 +119,7 @@ public class TelaInicial extends JFrame {
             new Estoque("Inserção");
             this.dispose();
         } else if (event.getSource().equals(this.btnVenda)) {
-            new Usuario().setVisible(true);
+            new Cliente().setVisible(true);
             this.dispose();
         } else if (event.getSource().equals(this.bntRelation)){
             new VendasHistorico();

@@ -48,11 +48,12 @@ public class Estoque {
     private PrintWriter pw;
     private FileReader fr;
 
-    public Estoque(String insere) {
-        new InsereProdutos("Inserção");
+    public Estoque() {
+
     }
 
-    public Estoque() {
+    public Estoque(String insere) {
+        new InsereProdutos("Inserção");
     }
 
     public static List<Integer> getProdutos() {
@@ -350,11 +351,15 @@ public class Estoque {
                     inserir(); // insere os valores novos no estoque e nos lbls de demonstração
                     lendo();
                     for (String linha : this.leitura) {
-                        if (k == 12)break;  // a leitura por ler do arquivo acaba por possuir 12 index de elemento,desse modo,o break evita execption
+                        if (k == 12) {
+                            break;  // a leitura por ler do arquivo acaba por possuir 12 index de elemento,desse modo,o break evita execption
+                        }
                         this.lblProdutosEstoque.get(k).setText(linha);
                         String[] grafico = linha.split(":");
                         String[] valor = linha.split(":", 2);
-                        if(Integer.parseInt(valor[1])>10)this.lblProdutosEstoque.get(k).setForeground(Color.green);
+                        if (Integer.parseInt(valor[1]) > 10) {
+                            this.lblProdutosEstoque.get(k).setForeground(Color.green);
+                        }
                         k++;
                         this.produtosGrafico.setValue(Integer.parseInt(valor[1]), grafico[0], "");
                     }

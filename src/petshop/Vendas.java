@@ -16,8 +16,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -41,6 +39,7 @@ import petshop.Estoque.InsereProdutos;
 public class Vendas extends Produtos {
 
     private boolean escolha;
+    private int tipoArmazena;
     private Estoque estoq = new Estoque();
     private InsereProdutos armazena = estoq.new InsereProdutos();
     private List<Integer> quantidadeReduzida = new ArrayList<>();
@@ -59,11 +58,15 @@ public class Vendas extends Produtos {
     private ButtonGroup grupo;
     private JPanel jpCarrinho, jpDados;
 
-    public Vendas(List<Float> carrinho, List<Float> prec, String registro, String nome) {
-        super(registro, nome);
-        System.out.println(nome);
+    public Vendas() {
+        
+    }
+
+    public Vendas(List<Float> carrinho, List<Float> prec, String registro, String nome, int tipoArmazena) {
+        super(registro, nome, tipoArmazena);
         this.compras = carrinho; // valor dos produtos escolhidos  
         this.precos = prec; // valor de todos os produtos 
+        this.tipoArmazena = tipoArmazena; // tipo de Armazenamento
         System.out.println(registro + "c");
         super.configurarJanela();
         this.setTitle("VENDAS");
@@ -331,11 +334,11 @@ public class Vendas extends Produtos {
                 try {
                     armazena.inserir(position, quantidadeReduzida); // passa para o estoque a nova quantidade de produtos e a posição equivalente de cada produtos
                     if (oferecer && this.escolha) { // as quatro opções ao qual o cliente pode escolher no momento de sua compra
-                        new VendasHistorico(this.nome, registro, this.txtfCep.getText(), this.txtBairro.getText(), this.txtRua.getText(), this.txtNum.getText(), this.txtAdicional.getText(), this.lblValor.getText(), produtos);
+                        new VendasHistorico(this.nome, registro, this.txtfCep.getText(), this.txtBairro.getText(), this.txtRua.getText(), this.txtNum.getText(), this.txtAdicional.getText(), this.lblValor.getText(), produtos, this.tipoArmazena);
                     } else if (oferecer && !this.escolha) {
                         new VendasHistorico(this.nome, this.txtfCep.getText(), this.txtBairro.getText(), this.txtRua.getText(), this.txtNum.getText(), this.txtAdicional.getText(), this.lblValor.getText(), produtos);
                     } else if (!oferecer && this.escolha) {
-                        new VendasHistorico(this.nome, registro, this.lblValor.getText(), produtos);
+                        new VendasHistorico(this.nome, registro, this.lblValor.getText(), produtos, this.tipoArmazena);
                     } else if (!oferecer && !this.escolha) {
                         new VendasHistorico(this.nome, this.lblValor.getText(), produtos);
 
@@ -347,7 +350,7 @@ public class Vendas extends Produtos {
                 }
             }
         } else if (evento.getSource().equals(this.bntVolta)) {
-            new Produtos(this.registro, this.nome).setVisible(true);
+            new Produtos(this.registro, this.nome, this.tipoArmazena).setVisible(true);
             Vendas.this.dispose();
 
         }

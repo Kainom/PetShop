@@ -14,41 +14,39 @@ import java.awt.event.ActionListener;
  */
 public class Logon extends Usuario {
 
+    private static final int TIPO_ARMAZENA = 2;
+
     public Logon() {
-        super();
         this.setTitle("LOGON");
+        reutilizandoDados();
+    }
+
+    public void reutilizandoDados() {
         this.jpShop.setLayout(new FlowLayout(FlowLayout.LEFT, 60, 25));
         this.jpShop.remove(this.bntNenhum);
- for(ActionListener bnt : this.bntConfirm.getActionListeners()){
+        for (ActionListener bnt : this.bntConfirm.getActionListeners()) { // retirando o Action anterior do bnt 
             this.bntConfirm.removeActionListener(bnt);
-      }
+            for (ActionListener volta : this.bntVolta.getActionListeners()) { // retirando o Action anterior do bnt 
+                this.bntVolta.removeActionListener(volta);
+            }
+        }
         this.bntConfirm.addActionListener(evento -> action(evento));
-    }
-
-    
-    private void configurarDads() {
-        super.configurarDados();
-     
-    }
-
-    private int teste() {
-
-        return 0;
-
+        this.bntVolta.addActionListener(evento -> action(evento));
     }
 
     private void action(ActionEvent evento) {
         testarCampos();
         System.out.println((this.txtNome.getText() + " " + this.registro));
-        VendasHistorico venda = new VendasHistorico(this.txtNome.getText(),this.registro);
+        VendasHistorico venda = new VendasHistorico(this.txtNome.getText(), this.registro);
         Integer teste = venda.teste();
         System.out.println(teste + " oka");
-            if (this.bntConfirm.equals(evento.getSource()) && teste==1) {
-                this.dispose();
-                new Produtos(this.registro,this.txtNome.getText()).setVisible(true);
-            } else{
-                System.out.println("NOT");
-            }
-        
+        if (this.bntConfirm.equals(evento.getSource()) && teste == 1) {
+            this.dispose();
+            new Produtos(this.registro, this.txtNome.getText(), TIPO_ARMAZENA).setVisible(true);
+        } else if(this.bntVolta.equals(evento.getSource())){
+            this.dispose();
+            new TelaInicial().setVisible(true);
+        }
+
     }
 }
