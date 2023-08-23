@@ -1,11 +1,11 @@
-Nutrilus:11
-Whiskas:22
-Cheval:22
-Milho:11
+Nutrilus:6
+Whiskas:11
+Cheval:9
+Milho:9
 Max:0
 Queranon:22
-Ampicilina:0
-Coleira:0
+Ampicilina:21
+Coleira:20
 Vermifugo:0
 Prediderm:0
 Granplus:0

@@ -38,7 +38,7 @@ public class Logon extends Usuario {
         testarCampos();
         System.out.println((this.txtNome.getText() + " " + this.registro));
         VendasHistorico venda = new VendasHistorico(this.txtNome.getText(), this.registro);
-        Integer teste = venda.teste();
+        Integer teste = venda.teste(TIPO_ARMAZENA);
         System.out.println(teste + " oka");
         if (this.bntConfirm.equals(evento.getSource()) && teste == 1) {
             this.dispose();

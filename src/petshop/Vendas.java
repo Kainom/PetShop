@@ -59,7 +59,7 @@ public class Vendas extends Produtos {
     private JPanel jpCarrinho, jpDados;
 
     public Vendas() {
-        
+
     }
 
     public Vendas(List<Float> carrinho, List<Float> prec, String registro, String nome, int tipoArmazena) {
@@ -112,6 +112,10 @@ public class Vendas extends Produtos {
         this.jpDados.add(this.bntSim);
         this.jpDados.add(this.bntNao);
         this.jpDados.add(this.bntConfirm);
+        if (this.tipoArmazena == 1 && this.nome.contains("CLIENTE") && !(this.escolha)) {
+            this.jpCarrinho.add(this.bntConfirm);
+            this.jpDados.setVisible(false);
+        }
 
         this.jpVolta.removeAll();
         this.jpVolta.add(this.bntVolta, BorderLayout.SOUTH);
@@ -330,7 +334,11 @@ public class Vendas extends Produtos {
                 oferecer = false;
                 teste = 0;
             }
-            if (teste == 0 && this.bntSim.isSelected() || this.bntNao.isSelected()) {
+            if (this.tipoArmazena == 1 && !this.escolha) {
+                new VendasHistorico(this.nome, this.lblValor.getText(), produtos, this.tipoArmazena);
+                this.dispose();
+                new TelaInicial().setVisible(true);
+            } else if (teste == 0 && this.bntSim.isSelected() || this.bntNao.isSelected()) {
                 try {
                     armazena.inserir(position, quantidadeReduzida); // passa para o estoque a nova quantidade de produtos e a posição equivalente de cada produtos
                     if (oferecer && this.escolha) { // as quatro opções ao qual o cliente pode escolher no momento de sua compra
@@ -339,12 +347,9 @@ public class Vendas extends Produtos {
                         new VendasHistorico(this.nome, this.txtfCep.getText(), this.txtBairro.getText(), this.txtRua.getText(), this.txtNum.getText(), this.txtAdicional.getText(), this.lblValor.getText(), produtos);
                     } else if (!oferecer && this.escolha) {
                         new VendasHistorico(this.nome, registro, this.lblValor.getText(), produtos, this.tipoArmazena);
-                    } else if (!oferecer && !this.escolha) {
-                        new VendasHistorico(this.nome, this.lblValor.getText(), produtos);
-
                     }
                     Vendas.this.dispose();
-                    new Usuario().setVisible(true);
+                    new TelaInicial().setVisible(true);
 
                 } catch (IOException ex) {
                 }

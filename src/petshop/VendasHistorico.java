@@ -10,6 +10,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -22,13 +24,16 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.swing.AbstractAction;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -42,9 +47,9 @@ import org.jfree.data.category.DefaultCategoryDataset;
  */
 public class VendasHistorico {
 
-    private int tipoArmazena;
+    private int tipoArmazena, contagem;
     private List<String> leitura, leituraRegistro;
-    private String nome, registro, cep, bairro, rua, num, complemento, valor, cliente,produtos;
+    private String nome, registro, cep, bairro, rua, num, complemento, valor, cliente, produtos;
     private File arquivo = new File("C:/Users/User/Documents/NetBeansProjects/PetShop/src/arquivos/Vendas.txt");
     private File arquivoRegistro = new File("C:/Users/User/Documents/NetBeansProjects/PetShop/src/arquivos/Registros.txt");
     private FileReader fr;
@@ -72,9 +77,9 @@ public class VendasHistorico {
         this.tipoArmazena = tipoArmazena;
 
         if (!complemento.equals("")) {
-            this.cliente = "Nome: " + nome + "||" + registro + "||" + "Cep: " + cep + "||" + "Bairro: " + bairro + "||" + "Rua: " + rua + "||" + "Num: " + num + "||" + "Complemento: " + complemento + "||" + "Valor: " + valor + "||" + produtos;
+            this.cliente = "Nome: " + this.nome + "||" + this.registro + "||" + "Cep: " + this.cep + "||" + "Bairro: " + this.bairro + "||" + "Rua: " + this.rua + "||" + "Num: " + this.num + "||" + "Complemento: " + this.complemento + "||" + "Valor: " + this.valor + "||" + this.produtos;
         } else {
-            this.cliente = "Nome: " + nome + "||" + registro + "||" + "Cep: " + cep + "||" + "Bairro: " + bairro + "||" + "Rua: " + rua + "||" + "Num: " + num + "||" + "Valor: " + valor + "||" + produtos;
+            this.cliente = "Nome: " + this.nome + "||" + this.registro + "||" + "Cep: " + this.cep + "||" + "Bairro: " + this.bairro + "||" + "Rua: " + this.rua + "||" + "Num: " + this.num + "||" + "Valor: " + this.valor + "||" + this.produtos;
 
         }
 
@@ -91,11 +96,12 @@ public class VendasHistorico {
         this.num = num;
         this.complemento = complemento;
         this.valor = valor;
+        this.produtos = produtos;
         if (!complemento.equals("")) {
 
-            this.cliente = "Nome: " + nome + "||" + "Cep: " + cep + "||" + "Bairro: " + bairro + "||" + "Rua: " + rua + "||" + "Num: " + num + "||" + "Complemento: " + complemento + " " + "Valor: " + valor + "||" + produtos;
+            this.cliente = "Nome: " + this.nome + "||" + "Cep: " + this.cep + "||" + "Bairro: " + this.bairro + "||" + "Rua: " + this.rua + "||" + "Num: " + this.num + "||" + "Complemento: " + this.complemento + " " + "Valor: " + this.valor + "||" + this.produtos;
         } else {
-            this.cliente = "Nome: " + nome + "||" + "Cep: " + cep + "||" + "Bairro: " + bairro + "||" + "Rua: " + rua + "||" + "Num: " + num + "||" + "Valor: " + valor + "||" + produtos;
+            this.cliente = "Nome: " + this.nome + "||" + "Cep: " + this.cep + "||" + "Bairro: " + this.bairro + "||" + "Rua: " + this.rua + "||" + "Num: " + this.num + "||" + "Valor: " + this.valor + "||" + this.produtos;
 
         }
         armazena();
@@ -107,20 +113,32 @@ public class VendasHistorico {
         this.nome = nome;
         this.registro = Registro;
         this.valor = valor;
-        this.cliente = "Nome: " + nome + "||" + registro + "||" + "Valor: " + valor + "||" + produtos;
         this.tipoArmazena = tipoArmazena;
         this.produtos = produtos;
+        this.cliente = "Nome: " + this.nome + "||" + registro + "||" + "Valor: " + this.valor + "||" + this.produtos;
 
         armazena();
         armazenaRegistro();
 
     }
 
-    public VendasHistorico(String nome, String valor, String produtos) {
-        this.nome = nome;
-        this.cliente = "Nome: " + nome + "||" + "Valor: " + valor + "||" + produtos;
-        this.tipoArmazena = 1;
+    public VendasHistorico(String nome, String valor, String produtos, int tipoArmazena) { // cliente avulso
+        lendo();
+        this.nome = (this.getContagem() > 0) ? nome + (this.getContagem() + 1) : nome;
+        this.valor = valor;
+        this.produtos = produtos;
+        this.tipoArmazena = tipoArmazena;
+        this.cliente = "Nome: " + this.nome + "||" + "Valor: " + this.valor + "||" + this.produtos;
+
         armazena();
+    }
+
+    public void setContagem(int contagem) {
+        this.contagem = contagem;
+    }
+
+    public int getContagem() {
+        return contagem;
     }
 
     private void armazenaRegistro() {
@@ -163,10 +181,7 @@ public class VendasHistorico {
                     String valor = split1[1];
                     String valorSplit[] = valor.split("Produtos:");
 
-//                    System.out.println("Antigo " + this.valor + " " + "Novo " + valor);
-                    //System.out.println(valor);
-                    //System.out.println(this.valor);
-//                    System.out.println(split1[1]);
+                    System.out.println(split1[1]);
                     if (documento.contains("CPF:")) {
                         if (this.registro.contains(";CPF:")) {
                             this.registro = this.registro.replace(";CPF:", "");
@@ -195,7 +210,7 @@ public class VendasHistorico {
 
                         String novoValor2 = novoValor + "";
                         System.out.println(valor);
-                                                valor = valor.replace(".", ",");
+                        valor = valor.replace(".", ",");
 
                         novoValor2 = novoValor2.replace(".", ",");
                         armazena = armazena.replace((valor), (novoValor2));
@@ -233,25 +248,33 @@ public class VendasHistorico {
             while (br.ready()) {
                 this.leitura.add(br.readLine());
             }
+            for (String le : leitura) { // Concede ao cliente avulso uma numeração
+                if (le.contains("CLIENTE") && !(le.contains("CPF:")) && (!le.contains("CNPJ:"))) {
+                    this.setContagem(this.getContagem() + 1);
+                }
+            }
         } catch (IOException e) {
         }
     }
 
-    public int teste() {
+    public int teste(int tipoArmazena) {
         lendo();
         lendoRegistros();
+        int existencia = 0;
         int validade = 0;
+
         for (String registro : this.leituraRegistro) { // se o registro e o nome já estiverem armazenados,retorna 1.Do contrário retorna 0 //
             String documento[] = registro.split(" ");
             String nome[] = registro.split(" ");
-            //System.out.println(nome[0] + " " + documento[1]);
-            validade = (documento[1].equals(this.registro) && nome[0].equals(this.nome)) ? 1 : validade;
-            if (validade == 1) {
-                return 1;
-            }
+            existencia = (documento[1].equals(this.registro) && nome[0].equals(this.nome)) ? 1 : existencia;
+            validade = (documento[1].equals(this.registro)) ? 1 : validade;
         }
 
-        return validade;
+        if (tipoArmazena == 1) { // verifica se o teste é para o login ou para o cadastro //
+            return validade;
+        } else {
+            return existencia;
+        }
     }
 
     private class VendasRelation extends TelaInicial {
@@ -268,7 +291,7 @@ public class VendasHistorico {
 
         public VendasRelation() {
 
-            configurarGraficoProdutos();
+            //configurarGraficoProdutos();
             configurarPane();
             configurarGraficoVendas();
         }
@@ -291,6 +314,17 @@ public class VendasHistorico {
             this.bntVolta.setBorder(null);
             this.bntVolta.setFocusPainted(false);
             this.bntVolta.addActionListener(volta -> voltar(volta));
+
+            
+
+            getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+                    KeyStroke.getKeyStroke("1"), "myAction");
+
+            getRootPane().getActionMap().put("myAction", new AbstractAction() {
+                public void actionPerformed(java.awt.event.ActionEvent e) {
+                    VendasRelation.this.dispose();
+                }
+            });
 
             this.jpVolta.setPreferredSize(new Dimension(61, 600));
             this.jpVolta.setBackground(Color.darkGray);
@@ -445,7 +479,9 @@ public class VendasHistorico {
                 maioresCompras.add(Float.parseFloat(valor3)); // adição a lsita 
                 valor2 = valor[0].replace("Nome: ", "");
                 valor2 = valor2.replace("||", "");
-                compradores.add(valor2);
+                String nomenclatura[] = valor2.split(";");;
+                System.out.println(nomenclatura[0] + "valor");
+                compradores.add(nomenclatura[0]);
 
             }
             List<Integer> h = new ArrayList<>();

@@ -1,25 +1,17 @@
-Nome: zilonfio||Valor: 163,92||Produtos: Max ;1, Granplus ;1, Ração Extrusada ;2
-Nome: dfsgr||Valor: 151,17||Produtos: Nutrilus ;1, Max ;1, Granplus ;1
-Nome: fgted||Valor: 205,82||Produtos: Nutrilus ;11, Max ;4, Granplus ;1, Ração Extrusada ;1
-Nome: sukod||Valor: 206,82||Produtos: Nutrilus ;1, Max ;1, Granplus ;1, Ração Extrusada ;1
-Nome: sukudmoe||Valor: 264,47||Produtos: Nutrilus ;1, Max ;1, Granplus ;1, Ração Extrusada ;1
-Nome: quarto||Valor: 264,47||Produtos: Nutrilus ;1, Max ;1, Granplus ;1, Ração Extrusada ;1
-Nome: fescd||Valor: 264,47||Produtos: Nutrilus ;1, Max ;1, Granplus ;1, Ração Extrusada ;3
-Nome: terceiro||Valor: 264,47||Produtos: Nutrilus ;1, Max ;2, Granplus ;1, Ração Extrusada ;2
-Nome: Nioko||Valor: 50,62||Produtos: Max ;1, Granplus ;1
-Nome: primeiro||Valor: 572,40||Produtos: Queranon ;6
-Nome: KokoDoko||Valor: 131,09||Produtos: Nutrilus ;1, Whiskas ;1
-Nome: dukokuko||Valor: 121,19||Produtos: Nutrilus ;1, Max ;2
-Nome: segundo||Valor: 498,32||Produtos: Milho ;2, Ampicilina ;2, Coleira ;2, Vermifugo ;2, Prediderm ;2
-Nome: sssssssss||Valor: 50,30||Produtos: Cheval ;1
-Nome: DAWDAWDAW||Valor: 80,84||Produtos: Whiskas ;1, Cheval ;1
-Nome: FERDSDDES||Valor: 533,29||Produtos: Nutrilus ;5, Whiskas ;1
 Nome: ddddddddd||;CPF: 899.899.899-89||Valor: 120,88||Produtos: Milho ;1
 Nome: dddwa||;CNPJ: 43.444.444/4444-44||Valor: 120,88||Produtos: Milho ;1
 Nome: fwaffawa||;CNPJ: 33.333.333/3333-33||Valor: 120,88||Produtos: Milho ;1
-Nome: 5||;CPF: 344.444.444-44||Valor: 30,54||Produtos: Whiskas ;1
-Nome: primeiro||Valor: 100,55||Produtos: Nutrilus ;1
-Nome: Abacaxi||;CPF: 333.333.333-33||Valor: 512,35||Produtos: Milho ;1, Granplus ;1, Cheval ;3, Granplus ;2, Ração Extrusada ;2
-Nome: Queijo||Valor: 10,32||Produtos: Max ;1
+Nome: cinco||;CPF: 344.444.444-44||Valor: 30,54||Produtos: Whiskas ;1
+Nome: Abacaxi||;CPF: 333.333.333-33||Valor: 774,52997||Produtos: Milho ;1, Granplus ;1, Cheval ;3, Granplus ;2, Ração Extrusada ;2, Whiskas ;1, Nutrilus ;1, Whiskas ;2
 Nome: Abacadabra||;CPF: 243.333.333-33||Valor: 80,6||Produtos: Granplus ;1
-Nome: Zanka||Valor: 6134,65||Produtos: Cheval ;1, Granplus ;9, Ração Extrusada ;101
+Nome: ZankaNelli||;CPF: 313.222.222-22||Valor: 352,57||Produtos: Whiskas ;1, Cheval ;1, Nutrilus ;1, Cheval ;1, Milho ;1
+Nome: Abacaxi||;CPF: 312.222.222-22||Valor: 30,54||Produtos: Whiskas ;1
+Nome: Abacaxi||;CPF: 312.322.222-22||Valor: 150,85||Produtos: Nutrilus ;1, Cheval ;1
+Nome: CLIENTE||Valor: 181,39||Produtos: Nutrilus ;1, Whiskas ;1, Cheval ;1
+Nome: CLIENTE2||Valor: 50,30||Produtos: Cheval ;1
+Nome: CLIENTE3||Valor: 30,54||Produtos: Whiskas ;1
+Nome: CLIENTE4||Valor: 50,30||Produtos: Cheval ;1
+Nome: CLIENTE5||Valor: 30,54||Produtos: Whiskas ;1
+Nome: CLIENTE6||Valor: 233,54||Produtos: Whiskas ;6, Cheval ;1
+Nome: CLIENTE7||Valor: 181,39||Produtos: Nutrilus ;1, Whiskas ;1, Cheval ;1
+Nome: CLIENTE8||Valor: 292,82||Produtos: Whiskas ;3, Cheval ;4

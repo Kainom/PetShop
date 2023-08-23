@@ -231,19 +231,19 @@ public class Usuario extends TelaInicial implements ActionListener {
         if (!(this.bntCnpj.isSelected() || this.bntCpf.isSelected() || this.bntNenhum.isSelected())) {
             teste++;
         }
-        
+
         return teste;
     }
 
     private void action(ActionEvent event) {
         Integer teste = new Integer(testarCampos());
         VendasHistorico venda = new VendasHistorico(this.txtNome.getText(), this.registro); // Instânciando o objeto para se testar a existência dos campos
-        Integer teste2 = venda.teste();
+        Integer teste2 = venda.teste(TIPO_ARMAZENA);
         if (event.getSource().equals(this.bntConfirm)) {
             //System.out.println(registro);
             if (teste == 0 && teste2 == 0) {
                 Usuario.this.dispose();
-                new Produtos(this.registro, this.txtNome.getText(),TIPO_ARMAZENA).setVisible(true);
+                new Produtos(this.registro, this.txtNome.getText(), TIPO_ARMAZENA).setVisible(true);
             }
         } else if (event.getSource().equals(this.bntVolta)) {
             new TelaInicial().setVisible(true);
@@ -255,11 +255,13 @@ public class Usuario extends TelaInicial implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         this.jpConfirma.setLayout(new FlowLayout(FlowLayout.LEFT, 100, 5));
         this.bntConfirm.setVisible(true);
-
+String bom;
         if (this.bntCnpj.isSelected()) {
             this.lblCnpj.setVisible(true);
             this.txtfCnpj.setVisible(true);
             this.txtfCpf.setText(""); // se o cnpj foi selecionado apagamos  cpf
+            this.txtNome.setText(bom = (this.txtNome.getText().equals("CLIENTE"))? "":this.txtNome.getText()); //Apaga a nomenclatura padrão do cliente avulso
+            this.txtNome.setEditable(true);
 
             this.lblCpf.setVisible(false);
             this.txtfCpf.setVisible(false);
@@ -267,6 +269,8 @@ public class Usuario extends TelaInicial implements ActionListener {
             this.lblCpf.setVisible(true);
             this.txtfCpf.setVisible(true);
             this.txtfCnpj.setText(""); // apagamos o cnpj
+            this.txtNome.setText(bom = (this.txtNome.getText().equals("CLIENTE"))? "":this.txtNome.getText());
+            this.txtNome.setEditable(true);
 
             this.lblCnpj.setVisible(false);
             this.txtfCnpj.setVisible(false);
@@ -277,7 +281,9 @@ public class Usuario extends TelaInicial implements ActionListener {
             this.txtfCpf.setVisible(false);
             this.lblCnpj.setVisible(false);
             this.txtfCnpj.setVisible(false);
-
+            this.txtNome.setText("CLIENTE");
+            this.txtNome.setEditable(false);
+            this.txtNome.setBackground(Color.white);
             this.jpConfirma.setLayout(new FlowLayout(FlowLayout.LEFT, 100, 60));
             this.registro = null;
 
