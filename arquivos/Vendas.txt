@@ -13,3 +13,4 @@ Nome: CLIENTE6||Valor: 233,54||Produtos: Whiskas ;6, Cheval ;1
 Nome: CLIENTE7||Valor: 30,54||Produtos: Whiskas ;1
 Nome: CLIENTE8||Valor: 80,84||Produtos: Whiskas ;1, Cheval ;1
 Nome: CLIENTE9||Valor: 50,30||Produtos: Cheval ;1
+Nome: CLIENTE10||Valor: 30,54||Produtos: Whiskas ;1
