@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +44,8 @@ import org.jfree.data.category.DefaultCategoryDataset;
  */
 public class Estoque {
 
-    private static List<Integer> produtos = new ArrayList<>();
+    private static List<Integer> produtos = new ArrayList<>(); // statico para ser utilizado em todo o programa sem a necessidade de instância 
     private static List<String> nomeProdutos = new ArrayList<>();
-    private PrintWriter pw;
-    private FileReader fr;
 
     public Estoque() {
 
@@ -62,6 +61,7 @@ public class Estoque {
 
     public static List<String> getNomeProdutos() {
         return nomeProdutos;
+        
     }
 
     public static void produtos() {
@@ -81,7 +81,7 @@ public class Estoque {
                 // System.out.println("Leia" + lendo[1]);
                 produtos.add(Integer.parseInt(lendo[1])); // adiciona a parte numerica ao produtos //
                 if (i == 11) {
-                    break;//o arquivo possui 12 linhas e as le assim ,por isso o break em 11 para não gerar exceção                
+                    break;//o arquivo possui 12 linhas e as le assim ,por isso o break em 11 para não gerar a exceção                
                 }
                 i++;
             }
@@ -94,7 +94,7 @@ public class Estoque {
 
     }
 
-    public class InsereProdutos extends TelaInicial {
+    public class InsereProdutos extends TelaInicial { // A escolha de uma classe interna foi apenas para tentar acoplar,tentando reduzir ao máximo o uso da classes.Talvez seja eneficiente,mas,foi apenas um desafio
 
         private DefaultCategoryDataset produtosGrafico;
         private JPanel jpQuantidade;
@@ -106,7 +106,7 @@ public class Estoque {
         private List<String> leitura;
         private ImageIcon iconShiba, iconVolta;
         private JButton bntConfirm, bntVolta;
-        private File arquivo = new File("C:/Users/User/Documents/NetBeansProjects/PetShop/src/arquivos/Estoque.txt");
+        private File arquivo = new File("arquivos/Estoque.txt");
         private PrintWriter pw;
         private FileReader fr;
         private BufferedReader br;
@@ -164,7 +164,6 @@ public class Estoque {
 
             this.jpQuantidade.add(Box.createVerticalStrut(30));
             for (JLabel produtos : this.lblProdutosEstoque) {
-                System.out.println(produtos.getText() + " produt");
                 this.jpQuantidade.add(produtos);
             }
 
@@ -172,7 +171,7 @@ public class Estoque {
             this.bntVolta.addActionListener(evento -> action(evento));
         }
 
-        private void configurarGrafico() {
+        private void configurarGrafico() { // grafico referente a quantidade de produtos presentes 
             produtosGrafico = new DefaultCategoryDataset();
 
             JFreeChart grafico = ChartFactory.createBarChart3D("Quantidade No Estoque", "PRODUTOS", "", produtosGrafico, PlotOrientation.HORIZONTAL, true, true, false);
@@ -195,6 +194,7 @@ public class Estoque {
             bntConfirm = new JButton(iconShiba);
             bntVolta = new JButton(iconVolta);
             lblProdutosEstoque = new ArrayList<>();
+            int k = 0;
 
             this.lblQuantidade.setFont(new Font("Arial Black", Font.BOLD, 14));
             this.lblQuantidade.setForeground(Color.CYAN);
@@ -236,25 +236,21 @@ public class Estoque {
                 lendo();
             } catch (IOException err) {
             }
-            int k = 0;
-
             for (String produto : leitura) {
-                System.out.println(k);
                 if (k == 12) {
                     break; // evita exceção;
                 }
                 JLabel lbl = new JLabel(produto);
                 String[] lendo = produto.split(":", 2);
                 String[] nome = produto.split(":");
-                if (Integer.parseInt(lendo[1]) <= 10) {
+                if (Integer.parseInt(lendo[1]) <= 10) { // se os produtos possuirem quantidade menor que 10,eles estarão em uma cor vermelha,significando  falta
                     lbl.setForeground(Color.red);
                 } else {
-                    lbl.setForeground(Color.green);
+                    lbl.setForeground(Color.green); // do contrário, a cor verde significa uma quantidade coerente 
                 }
                 this.produtosGrafico.setValue(Integer.parseInt(lendo[1]), nome[0], "");
                 lbl.setFont(new Font("Arial Black", Font.BOLD, 14));
                 this.lblProdutosEstoque.add(lbl);
-                System.out.println(lbl.getText());
                 k++;
             }
 
@@ -274,7 +270,7 @@ public class Estoque {
 
         }
 
-        private void inserir() throws IOException {
+        private void inserir() throws IOException { // metódo que insere a quantidade colocada pelo usuário 
             int quantidade = Integer.parseInt(this.spinner.getValue().toString());
             int position = jcTipo.getSelectedIndex();
             int c = 0;
@@ -307,11 +303,11 @@ public class Estoque {
 
             }
 
-            pw.close();
+            this.pw.close();
 
         }
 
-        public void inserir(List<Integer> position, List<Integer> quantidade) throws IOException {
+        public void inserir(List<Integer> position, List<Integer> quantidade) throws IOException { // método sobrecarregado que é utilizado para debitar a quantidade dos produtos comprados
             if (!this.arquivo.exists()) {
                 System.out.println("VAZIO");
                 this.arquivo.createNewFile();
@@ -320,16 +316,15 @@ public class Estoque {
             lendo();
             pw = new PrintWriter(new BufferedWriter(new FileWriter(this.arquivo)));
             int c = 0;
-            System.out.println("Quantidade" + quantidade.size());
             int k = 0;
             for (String linha : this.leitura) {
                 for (int f = 0; f < position.size(); f++) {
-                    if (c == position.get(f)) { // confere quando produto  foi selecionado para alterá-lo
+                    if (c == position.get(f)) { // confere qual  produto  foi selecionado para alterá-lo
                         System.out.print(f + " ");
                         String[] produto = linha.split(":"); //split que pega apenas o nome do produto 
                         String novoProduto = produto[0] + ":" + quantidade.get(f); // armazena o nome e a nova  quantidade
                         this.pw.println(novoProduto);
-                        k = 0;
+                        k = 0; // variável que utilizada para checar se deve escrever ou não.Utilizada para reescrever os que não serão alterados
                         break;
                     } else {
                         k = 1;
@@ -354,10 +349,10 @@ public class Estoque {
                         if (k == 12) {
                             break;  // a leitura por ler do arquivo acaba por possuir 12 index de elemento,desse modo,o break evita execption
                         }
-                        this.lblProdutosEstoque.get(k).setText(linha);
+                        this.lblProdutosEstoque.get(k).setText(linha); // mudanã do valor em tempo real(valor do lbl)
                         String[] grafico = linha.split(":");
                         String[] valor = linha.split(":", 2);
-                        if (Integer.parseInt(valor[1]) > 10) {
+                        if (Integer.parseInt(valor[1]) > 10) { // novamente o teste das cores,acionado pela ação do cliente.Isso permite a mudança em tempo real 
                             this.lblProdutosEstoque.get(k).setForeground(Color.green);
                         }
                         k++;

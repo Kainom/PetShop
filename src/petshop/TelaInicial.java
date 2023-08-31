@@ -49,8 +49,8 @@ public class TelaInicial extends JFrame {
 
     protected void configurarPanel() {
         jpShop = new JPanel();
-        jpConfirma = new JPanel();
-        jpVolta = new JPanel();
+        jpConfirma = new JPanel(); // será utilizado por suas subclasses
+        jpVolta = new JPanel(); // será utilizado por suas subclasses
 
         this.jpShop.setLayout(new FlowLayout(FlowLayout.LEFT, 100, 5));
         this.jpShop.setPreferredSize(new Dimension(490, 500));
@@ -128,8 +128,7 @@ public class TelaInicial extends JFrame {
         }
     }
 
-    protected class Fundo extends javax.swing.JPanel {
-
+    protected class Fundo extends javax.swing.JPanel {  // classe interna que defina uma imagem para o fundo do painel.Esse panel cobre todo o JFrame e todos os componenetes são realizados nele 
         @Override
         public void paintComponent(Graphics g) {
             super.paintComponent(g); // extendo de painel para utilizar o método paintComponet do mesmoo //

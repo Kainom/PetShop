@@ -40,7 +40,7 @@ public class Produtos extends Usuario {
     protected float ampicilina, coleira, dontral, granplus, prediderm, //
             racaoExtrusada, cheval, max, nutrilus, queranon, sacaMilho, whiskas;
 
-    {
+    {  // definição padrão do valor dos produtos realizada manualmente.Poderia ser utilizado uma lista,mas,preferi deixar visível os dados
 
         valores.add(nutrilus = 100.55f);
         valores.add(whiskas = 30.54f);
@@ -138,21 +138,21 @@ public class Produtos extends Usuario {
 
         this.jpAlerta.add(this.lblPerigo);
 
-        for (int i = 0; i < QUANTIDADE_PRODUTOS; i++) {
+        for (int i = 0; i < QUANTIDADE_PRODUTOS; i++) { // adiciona os produtos na "Estante"
             if (Estoque.getProdutos().get(i) > 0) { // se o produto for menor que 0 ele se encontra indisponivel //
                 this.jpShop.add(this.lblProdutos.get(i));
                 this.jpShop.add(this.checkProdutos.get(i));
                 this.checkProdutos.get(i).addActionListener(this);
 
             }
-            if (Estoque.getProdutos().get(i) <= 10) {
+            if (Estoque.getProdutos().get(i) <= 10) { // referente aos produtos que estão em baixa quantidade ou falta,sinalizando para o funcionário
                 this.jpAlerta.add(Box.createRigidArea(new Dimension(130, 10)));
                 this.jpAlerta.add(this.lblCopia.get(i));
                 teste++;
             }
 
         }
-        if (teste > 0) {
+        if (teste > 0) { // se não houver produtos em estado de falta o jpanel não aparece
             this.painel.add(this.jpEsquerda);
             this.painel.add(this.jsAlerta);
             this.painel.add(this.jpDireita);
@@ -209,7 +209,7 @@ public class Produtos extends Usuario {
 
         }
 
-        this.checkProdutos.get(0).setText("Ração Nutrilus");
+        this.checkProdutos.get(0).setText("Ração Nutrilus"); // os produtos precisam seguir essa ordem de colocação 
         this.checkProdutos.get(1).setText("Whiskas");
         this.checkProdutos.get(2).setText("Cheval");
         this.checkProdutos.get(3).setText("Saca de Milho 25kg");

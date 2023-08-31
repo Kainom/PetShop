@@ -57,17 +57,17 @@ public class Vendas extends Produtos {
     private JRadioButton bntSim, bntNao;
     private ButtonGroup grupo;
     private JPanel jpCarrinho, jpDados;
+    private boolean existeEndereco;
 
     public Vendas() {
-
     }
 
     public Vendas(List<Float> carrinho, List<Float> prec, String registro, String nome, int tipoArmazena) {
-        super(registro, nome, tipoArmazena);
+        super(registro, nome, tipoArmazena); // inicializa os campos da classe pais com os valores recebidos da mesma.Uma espécia de relação
         this.compras = carrinho; // valor dos produtos escolhidos  
         this.precos = prec; // valor de todos os produtos 
         this.tipoArmazena = tipoArmazena; // tipo de Armazenamento
-        System.out.println(registro + "c");
+        this.existeEndereco = new VendasHistorico(this.registro).teste(); // testa se o perfil cadastrado possui endereço
         super.configurarJanela();
         this.setTitle("VENDAS");
         super.configurarPanel();
@@ -112,9 +112,16 @@ public class Vendas extends Produtos {
         this.jpDados.add(this.bntSim);
         this.jpDados.add(this.bntNao);
         this.jpDados.add(this.bntConfirm);
-        if (this.tipoArmazena == 1 && this.nome.contains("CLIENTE") && !(this.escolha)) {
+
+        if (this.tipoArmazena == 1 && this.nome.contains("CLIENTE") && !(this.escolha)) { // não permite o cliente avulso a escolha de colocar seu endereço
             this.jpCarrinho.add(this.bntConfirm);
             this.jpDados.setVisible(false);
+        }
+
+        if (this.existeEndereco) { // esconde os campos caso o cliente ja tenha seu endereço cadastrado
+            this.jpCarrinho.add(this.bntConfirm);
+            this.jpDados.setVisible(false);
+            this.bntNao.setSelected(true);
         }
 
         this.jpVolta.removeAll();
@@ -124,7 +131,7 @@ public class Vendas extends Produtos {
         this.painel.add(this.jpCarrinho);
         this.painel.add(this.jpDados);
 
-        for (JLabel adiciona : this.lblCompras) {
+        for (JLabel adiciona : this.lblCompras) { // adiciona os spinners referente aos  produtos escolhidos anteriormente
             this.jpShop.add(adiciona);
             this.jpShop.add(this.spinner.get(k));
             k++;
@@ -138,17 +145,13 @@ public class Vendas extends Produtos {
                     int i = 0;
                     quantidadeReduzida.removeAll(quantidadeReduzida);
                     for (JSpinner soma : spinner) {
-                        cont = compras.get(i) * Float.parseFloat(soma.getValue().toString());
-                        total += cont;
-                        quantidadeReduzida.add((Estoque.getProdutos().get(position.get(i)) - Integer.parseInt(soma.getValue().toString())));
+                        cont = compras.get(i) * Float.parseFloat(soma.getValue().toString()); // multiplica a quantidade de produtos pelo preço do mesmo 
+                        total += cont; // adiciona ao demais produtos a soma 
+                        quantidadeReduzida.add((Estoque.getProdutos().get(position.get(i)) - Integer.parseInt(soma.getValue().toString()))); // quantidade dos produtos a ser reduzido do estoque
                         i++;
                     }
-                    System.out.println(total);
                     lblValor.setText(String.format("%.2f", total));
                     total = 0f;
-                    for (Integer tested : quantidadeReduzida) {
-                        System.out.print("reduz " + tested);
-                    }
 
                 }
 
@@ -237,7 +240,7 @@ public class Vendas extends Produtos {
         this.txtAdicional.setFont(new Font("Arial Black", Font.PLAIN, 12));
         this.txtAdicional.setText("OPCIONAL");
 
-        class Mouse extends MouseAdapter { // implementa evento do mouse 
+        class Mouse extends MouseAdapter { // implementa evento do mouse // Como eu ja havia extendido de outra classe,necessitei de uma classe interna a esse método
 
             public void adiconaEvent() {
                 txtAdicional.addMouseListener(this);
@@ -250,7 +253,6 @@ public class Vendas extends Produtos {
                 }
             }
         }
-
         new Mouse().adiconaEvent();
 
         this.txtfCep.setPreferredSize(new Dimension(100, 30));
@@ -259,15 +261,15 @@ public class Vendas extends Produtos {
         this.txtNum.setPreferredSize(new Dimension(50, 30));
         this.txtNum.setFont(new Font("Arial Black", Font.PLAIN, 12));
 
-        if (super.registro.length() == 14 && !super.registro.endsWith(" ")) { // referente ao cpf
-            escolha = true;
+        if (super.registro.length() == 14 && !super.registro.endsWith(" ")) { // referente ao cpf //  Analisa qual tipo de registro é para conceder a nomemclatura adequada
+            escolha = true; // referente a presença de um registro 
             this.lblRegistro.setText("CPF: " + super.registro);
             this.lblNome.setPreferredSize(new Dimension(500, 30));
         } else if (super.registro.length() > 14) { // referente ao cnpj 
             escolha = true;
             this.lblRegistro.setText("CNPJ: " + super.registro);
         } else {
-            escolha = false;
+            escolha = false; // referente a ausência  de um registro 
             this.lblRegistro.setVisible(false);
             this.lblNome.setPreferredSize(new Dimension(800, 30));
         }
@@ -295,10 +297,10 @@ public class Vendas extends Produtos {
 
             }
         }
-        Collections.sort(position); // reordena a position em ordem crescente afim de armazenar a nova quantidade de produtos de forma eficiente
+        Collections.sort(position); // reordena a position em ordem crescente afim de armazenar a nova quantidade de produtos de forma eficiente,pois os produtos possuem sua ordenação natural
         int m = 0;
 
-        for (JSpinner soma : spinner) { // passa para a lista redution a quantidade a ser reduzida dos respectivos produtos no estoque quando o usuario não utiliza o spinner // 
+        for (JSpinner soma : spinner) { // passa para a lista redution a quantidade a ser reduzida dos respectivos produtos no estoque quando o usuario não utiliza o spinner // "Redução padrão"
             quantidadeReduzida.add((Estoque.getProdutos().get(position.get(m)) - Integer.parseInt(soma.getValue().toString())));
             m++;
         }
@@ -320,9 +322,9 @@ public class Vendas extends Produtos {
         produtos = "Produtos: " + produtos;
 
         if (evento.getSource().equals(this.bntConfirm)) {
-            registro = (this.registro.length() == 14) ? ";CPF: " + this.registro : ";CNPJ: " + this.registro;
+            registro = (this.registro.length() == 14) ? ";CPF: " + this.registro : ";CNPJ: " + this.registro; // ternário que concende uma nomenclatura com um caracter de separação  para ser utilizado posteriormente
             if (this.bntSim.isSelected()) { // bnt que configura a vontade do cliente em oferecer seu enredereço
-                oferecer = true;
+                oferecer = true; // referente a vontade do usuário de oferecer seu endereço
                 teste += testarCampos(txtBairro.getText()); // usando esse método herdado de usuário para eliminar certos caracteres especiais
                 teste += testarCampos(txtRua.getText()); // usando esse método herdado de usuário para eliminar certos caracteres especiais
                 try {
@@ -334,19 +336,17 @@ public class Vendas extends Produtos {
                 oferecer = false;
                 teste = 0;
             }
-            if (this.tipoArmazena == 1 && !this.escolha) {
+            if (this.tipoArmazena == 1 && !this.escolha) { // armazenamento  de um cliente avulso genérico 
                 new VendasHistorico(this.nome, this.lblValor.getText(), produtos, this.tipoArmazena);
                 this.dispose();
                 new TelaInicial().setVisible(true);
             } else if (teste == 0 && this.bntSim.isSelected() || this.bntNao.isSelected()) {
                 try {
                     armazena.inserir(position, quantidadeReduzida); // passa para o estoque a nova quantidade de produtos e a posição equivalente de cada produtos
-                    if (oferecer && this.escolha) { // as quatro opções ao qual o cliente pode escolher no momento de sua compra
-                        new VendasHistorico(this.nome, registro, this.txtfCep.getText(), this.txtBairro.getText(), this.txtRua.getText(), this.txtNum.getText(), this.txtAdicional.getText(), this.lblValor.getText(), produtos, this.tipoArmazena);
-                    } else if (oferecer && !this.escolha) {
-                        new VendasHistorico(this.nome, this.txtfCep.getText(), this.txtBairro.getText(), this.txtRua.getText(), this.txtNum.getText(), this.txtAdicional.getText(), this.lblValor.getText(), produtos);
+                    if (oferecer && this.escolha) { // as duas opções ao qual o cliente pode escolher no momento de sua compra
+                        new VendasHistorico(this.nome, registro, this.txtfCep.getText(), this.txtBairro.getText(), this.txtRua.getText(), this.txtNum.getText(), this.txtAdicional.getText(), this.lblValor.getText(), produtos, this.tipoArmazena, this.existeEndereco);
                     } else if (!oferecer && this.escolha) {
-                        new VendasHistorico(this.nome, registro, this.lblValor.getText(), produtos, this.tipoArmazena);
+                        new VendasHistorico(this.nome, registro, this.lblValor.getText(), produtos, this.tipoArmazena, this.existeEndereco);
                     }
                     Vendas.this.dispose();
                     new TelaInicial().setVisible(true);

@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
  */
 public class Logon extends Usuario {
 
-    private static final int TIPO_ARMAZENA = 2;
+    private static final int TIPO_ARMAZENA = 2; // constante que sinaliza para a classe de armazenamento que estamos armazenando um usuário já cadastrado
 
     public Logon() {
         this.setTitle("LOGON");
@@ -35,17 +35,15 @@ public class Logon extends Usuario {
     }
 
     private void action(ActionEvent evento) {
-        testarCampos();
-        System.out.println((this.txtNome.getText() + " " + this.registro));
-        VendasHistorico venda = new VendasHistorico(this.txtNome.getText(), this.registro);
-        Integer teste = venda.teste(TIPO_ARMAZENA);
-        System.out.println(teste + " oka");
-        if (this.bntConfirm.equals(evento.getSource()) && teste == 1) {
+        testarCampos(); // método da classe pai que testa e atribui o registro escolhido 
+        VendasHistorico venda = new VendasHistorico(this.txtNome.getText(), this.registro); // instância da classe responsável por testar a existência do perfil
+        Integer teste = venda.teste(TIPO_ARMAZENA); // método da classe que testa.A constante tipo_armazena sinaliza para o método que o teste será feito para o login
+        if (this.bntConfirm.equals(evento.getSource()) && teste == 1) { // se o retorno do método for == 1 significa que o perfil existe //
             this.dispose();
             new Produtos(this.registro, this.txtNome.getText(), TIPO_ARMAZENA).setVisible(true);
-        } else if(this.bntVolta.equals(evento.getSource())){
+        } else if(this.bntVolta.equals(evento.getSource())){ // simples bnt de volta 
             this.dispose();
-            new TelaInicial().setVisible(true);
+            new Cliente().setVisible(true);
         }
 
     }

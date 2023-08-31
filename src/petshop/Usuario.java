@@ -38,8 +38,7 @@ public class Usuario extends TelaInicial implements ActionListener {
     protected JButton bntConfirm, bntVolta;
 
     public Usuario() {
-        // Atualiza o estoque 
-        Estoque.produtos();
+        Estoque.produtos(); // Método estático que preenche uma lista estática com todos os produtos.O método sendo estático permite a utilização por todas as classes
         super.configurarJanela();
         this.setTitle("USUARIO");
         configurarPanel();
@@ -48,7 +47,7 @@ public class Usuario extends TelaInicial implements ActionListener {
 
     protected void configurarPanel() {
         super.configurarPanel();
-        this.jpShop.removeAll();
+        this.jpShop.removeAll(); // remove os componetes ja existentes da classe mãe para reutilizar o panel 
 
         this.jpShop.setLayout(new FlowLayout(FlowLayout.LEFT, 50, 25));
 
@@ -105,8 +104,8 @@ public class Usuario extends TelaInicial implements ActionListener {
         bntVolta = new JButton(iconVolta);
 
         try {
-            cnpj = new MaskFormatter("##.###.###/####-##");  //04.128.563/0001-10
-            cpf = new MaskFormatter("###.###.###-##");
+            cnpj = new MaskFormatter("##.###.###/####-##");  // máscara do cnpj 
+            cpf = new MaskFormatter("###.###.###-##");     // máscara do cpf
         } catch (ParseException err) {
             System.out.println("Problema de formatação");
         }
@@ -177,16 +176,16 @@ public class Usuario extends TelaInicial implements ActionListener {
         Integer teste = new Integer(0);
         char palavras[] = texto.toCharArray();
         try {
-            Long soNumeros = Long.parseLong(texto);
+            Long soNumeros = Long.parseLong(texto); // se houver apenas números a exception não é acionada,configurando então em um erro no nome 
             return ++teste;
 
         } catch (NumberFormatException erroNumero) {
             teste = 0;
         }
 
-        if (texto.length() < 5) {
+        if (texto.length() < 5) { // nome precisa ao menos ter 5 caracteres 
             return ++teste;
-        } else if (palavras[0] >= 32 && palavras[0] <= 64 || palavras[1] >= 32 && palavras[1] <= 64 || palavras[2] >= 32 && palavras[2] <= 64) {
+        } else if (palavras[0] >= 32 && palavras[0] <= 64 || palavras[1] >= 32 && palavras[1] <= 64 || palavras[2] >= 32 && palavras[2] <= 64) { // precisa ter ausência desses caracteres 
             return ++teste;
         }
 
@@ -198,26 +197,14 @@ public class Usuario extends TelaInicial implements ActionListener {
             }
         }
 
-        if (bntCnpj.isSelected() && txtfCnpj.getText().equals("  .   .   /    -  ")) {
-            teste++;
-        } else if (bntCpf.isSelected() && txtfCpf.getText().equals("   .   .   -  ")) {
-            teste++;
-        } else {
-            if (txtfCnpj.getText().equals("  .   .   /    -  ")) {
-                registro = txtfCpf.getText();
-            } else {
-                registro = txtfCnpj.getText();
-            }
-        }
-
         return teste;
 
     }
 
-    protected int testarCampos() {
+    protected int testarCampos() {  // uma versão  sobrecarregada que permite testar o registro separadamente.O intuito e a modularização,contudo tudo pode ser realizado em um só método
         int teste = testarCampos(this.txtNome.getText());
 
-        if (bntCnpj.isSelected() && txtfCnpj.getText().equals("  .   .   /    -  ")) {
+        if (bntCnpj.isSelected() && txtfCnpj.getText().equals("  .   .   /    -  ")) { // botôes selecionados sem o devido preenchimento em seus respectivos campos
             teste++;
         } else if (bntCpf.isSelected() && txtfCpf.getText().equals("   .   .   -  ")) {
             teste++;
@@ -228,7 +215,7 @@ public class Usuario extends TelaInicial implements ActionListener {
                 registro = txtfCnpj.getText();                    // se o cpf estiver vazio  o cnpj recebe o valor 
             }
         }
-        if (!(this.bntCnpj.isSelected() || this.bntCpf.isSelected() || this.bntNenhum.isSelected())) {
+        if (!(this.bntCnpj.isSelected() || this.bntCpf.isSelected() || this.bntNenhum.isSelected())) { // concede erro caso nenhum botão seja selecionado
             teste++;
         }
 
@@ -238,29 +225,28 @@ public class Usuario extends TelaInicial implements ActionListener {
     private void action(ActionEvent event) {
         Integer teste = new Integer(testarCampos());
         VendasHistorico venda = new VendasHistorico(this.txtNome.getText(), this.registro); // Instânciando o objeto para se testar a existência dos campos
-        Integer teste2 = venda.teste(TIPO_ARMAZENA);
+        Integer teste2 = venda.teste(TIPO_ARMAZENA); // concede a constante TIPO_ARMAZENA referente ao teste para o cadastro
         if (event.getSource().equals(this.bntConfirm)) {
-            //System.out.println(registro);
-            if (teste == 0 && teste2 == 0) {
+            if (teste == 0 && teste2 == 0) {  // se os campos estiverem corretos e perfil não existir o mesmo permite o cadastro
                 Usuario.this.dispose();
                 new Produtos(this.registro, this.txtNome.getText(), TIPO_ARMAZENA).setVisible(true);
             }
         } else if (event.getSource().equals(this.bntVolta)) {
-            new TelaInicial().setVisible(true);
+            new Cliente().setVisible(true);
             this.dispose();
         }
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) { // utiliza para apagar campos e definir o campo padrâo para clientes genéricos
         this.jpConfirma.setLayout(new FlowLayout(FlowLayout.LEFT, 100, 5));
         this.bntConfirm.setVisible(true);
-String bom;
+        String bom;
         if (this.bntCnpj.isSelected()) {
             this.lblCnpj.setVisible(true);
             this.txtfCnpj.setVisible(true);
             this.txtfCpf.setText(""); // se o cnpj foi selecionado apagamos  cpf
-            this.txtNome.setText(bom = (this.txtNome.getText().equals("CLIENTE"))? "":this.txtNome.getText()); //Apaga a nomenclatura padrão do cliente avulso
+            this.txtNome.setText(bom = (this.txtNome.getText().equals("CLIENTE")) ? "" : this.txtNome.getText()); //Apaga a nomenclatura padrão do cliente avulso
             this.txtNome.setEditable(true);
 
             this.lblCpf.setVisible(false);
@@ -269,7 +255,7 @@ String bom;
             this.lblCpf.setVisible(true);
             this.txtfCpf.setVisible(true);
             this.txtfCnpj.setText(""); // apagamos o cnpj
-            this.txtNome.setText(bom = (this.txtNome.getText().equals("CLIENTE"))? "":this.txtNome.getText());
+            this.txtNome.setText(bom = (this.txtNome.getText().equals("CLIENTE")) ? "" : this.txtNome.getText());
             this.txtNome.setEditable(true);
 
             this.lblCnpj.setVisible(false);
