@@ -1,0 +1,12 @@
+Nome: Bonkoi||;CNPJ: 22.222.222/2222-22||Cep: 23132-131||Bairro: frfrrffrfrffr||Rua: dwddwdd||Num: 2221||Complemento: ccvvfvffv||Valor: 835,09||Produtos: Nutrilus ;1, Whiskas ;1, Cheval ;1, Nutrilus ;4, Cheval ;4, Cheval ;1
+Nome: CLIENTE||Valor: 80,84||Produtos: Whiskas ;1, Cheval ;1
+Nome: Donkis||;CPF: 132.938.069-02||Cep: 84030-060||Bairro: Uvaranas||Rua: Rua Felix Pacheco||Num: 675||Complemento: Perto a BRF||Valor: 860,36||Produtos: Whiskas ;1, Milho ;1, Max ;1, Coleira ;7, Vermifugo ;9, Prediderm ;1
+Nome: CLIENTE2||Valor: 1199,62||Produtos: Nutrilus ;3, Whiskas ;8, Cheval ;8
+Nome: Todos os Doces Mais belos do mundos||;CNPJ: 13.213.312/3121-23||Valor: 5192,93||Produtos: Nutrilus ;22, Whiskas ;22, Cheval ;20, Ração Extrusada ;23
+Nome: CLIENTE3||Valor: 34046,65||Produtos: Ração Extrusada ;601
+Nome: Lonkos||;CPF: 122.222.222-22||Valor: 30,54||Produtos: Whiskas ;1
+Nome: Amigos quentes||;CNPJ: 11.111.111/1111-11||Valor: 50,30||Produtos: Cheval ;1
+Nome: Boenas||;CPF: 211.111.111-11||Valor: 50,30||Produtos: Cheval ;1
+Nome: CLIENTE4||Valor: 50,30||Produtos: Cheval ;1
+Nome: CLIENTE5||Valor: 1187,44||Produtos: Whiskas ;1, Cheval ;23
+Nome: CLIENTE6||Valor: 233,54||Produtos: Whiskas ;6, Cheval ;1
