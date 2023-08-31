@@ -16,7 +16,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +64,7 @@ public class Estoque {
     }
 
     public static void produtos() {
-        File arquivo = new File("C:/Users/User/Documents/NetBeansProjects/PetShop/src/arquivos/Estoque.txt");
+        File arquivo = new File("./arquivos/Estoque.txt");
         List<String> linha = new ArrayList<>();
         int i = 0;
         produtos.clear();  // limpa a lista para o recebimento de uma nova armazenagem
@@ -106,7 +105,7 @@ public class Estoque {
         private List<String> leitura;
         private ImageIcon iconShiba, iconVolta;
         private JButton bntConfirm, bntVolta;
-        private File arquivo = new File("arquivos/Estoque.txt");
+        private File arquivo = new File("./arquivos/Estoque.txt");
         private PrintWriter pw;
         private FileReader fr;
         private BufferedReader br;

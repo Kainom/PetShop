@@ -51,10 +51,10 @@ public class VendasHistorico {
     private int tipoArmazena, contagem;
     private List<String> leitura, leituraRegistro;
     private String nome, registro, cep, bairro, rua, num, complemento, valor, cliente, produtos;
-    private File arquivo = new File("C:/Users/User/Documents/NetBeansProjects/PetShop/src/arquivos/Vendas.txt");
-    private File arquivoReserva = new File("C:/Users/User/Documents/NetBeansProjects/PetShop/src/arquivos/VendasReserva.txt");
-    private File arquivoRegistro = new File("C:/Users/User/Documents/NetBeansProjects/PetShop/src/arquivos/Registros.txt");
-    private File arquivoRegistroReserva = new File("C:/Users/User/Documents/NetBeansProjects/PetShop/src/arquivos/RegistrosReserva.txt");
+    private File arquivo = new File("./arquivos/Vendas.txt");
+    private File arquivoReserva = new File("./arquivos/VendasReserva.txt");
+    private File arquivoRegistro = new File("./arquivos/Registros.txt");
+    private File arquivoRegistroReserva = new File("./arquivos/RegistrosReserva.txt");
     private FileReader fr;
     private BufferedReader br;
     private PrintWriter pw;
